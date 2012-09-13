@@ -1,72 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Praxis f&uuml;r Physiotherapie Carmen Giese</title>
+    <head>
+        <title>Praxis f&uuml;r Physiotherapie Carmen Giese</title>
 
-		{% if DEBUG %}
-			<link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/lib/bootstrap.css" />
-		{% else %}
-			<link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/lib/bootstrap.min.css" />
-		{% endif %}
+        {% if DEBUG %}
+            <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/lib/bootstrap.css" />
+        {% else %}
+            <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/lib/bootstrap.min.css" />
+        {% endif %}
 
-		<link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/lib/font-awesome.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/lib/font-awesome.css" />
 
-		<link href='http://fonts.googleapis.com/css?family=Arvo:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/general.css" />
-		<link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/navigation.css" />
+        <link href='http://fonts.googleapis.com/css?family=Arvo:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/general.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/navigation.css" />
 
-		{% block style %}{% endblock %}
-	</head>
-	<body>
+        {% block style %}{% endblock %}
+    </head>
+    <body>
 
-		<nav class="navigation">
+        <nav class="navigation">
 
-			<div class="container">
-				<div class="row">
-					<a href="{% url add_patient %}">
-						<div class="span3">
-							<i class="icon icon-asterisk icon-large"></i>
-							Neuen Patienten eintragen
-						</div>
-					</a>
+            <div class="container">
+                <div class="row">
+                    <a href="{% url add_patient %}">
+                        <div class="span3">
+                            <i class="icon icon-asterisk icon-large"></i>
+                            Neuen Patienten eintragen
+                        </div>
+                    </a>
 
-					<a href="#">
-						<div class="span3">
-							<i class="icon icon-search icon-large"></i>
-							Patienten suchen
-						</div>
-					</a>
+                    <a href="#">
+                        <div class="span3">
+                            <i class="icon icon-search icon-large"></i>
+                            Patienten suchen
+                        </div>
+                    </a>
 
-					<a href="#">
-						<div class="span3">
-							<i class="icon icon-user-md icon-large"></i>
-							&Auml;rzteverzeichnis
-						</div>
-					</a>
+                    <a href="#">
+                        <div class="span3">
+                            <i class="icon icon-user-md icon-large"></i>
+                            &Auml;rzteverzeichnis
+                        </div>
+                    </a>
 
-					<a href="#">
-						<div class="span3">
-							<i class="icon icon-signout icon-large"></i>
-							Abmelden
-						</div>
-					</a>
-				</div>
-			</div>
+                    <a href="#">
+                        <div class="span3">
+                            <i class="icon icon-signout icon-large"></i>
+                            Abmelden
+                        </div>
+                    </a>
+                </div>
+            </div>
 
-		</nav>
+        </nav>
 
-		<div class="container page-content">
-			{% block content %}
-			{% endblock %}
-		</div>
+        <div class="container page-content">
+            {% block content %}
+            {% endblock %}
+        </div>
 
-		<script type="text/javascript" src="{{ STATIC_URL }}/js/lib/jquery-1.8.0.min.js"></script>
-		{% if DEBUG %}
-			<script type="text/javascript" src="{{ STATIC_URL }}/js/lib/bootstrap.js"></script>
-			<script type="text/javascript" src="{{ STATIC_URL }}/js/lib/jquery.transit.js"></script>
-		{% else %}
-			<script type="text/javascript" src="{{ STATIC_URL }}/js/lib/bootstrap.min.js"></script>
-			<script type="text/javascript" src="{{ STATIC_URL }}/js/lib/jquery.transit.min.js"></script>
-		{% endif %}
-	</body>
+        <script type="text/javascript" src="{{ STATIC_URL }}/js/lib/jquery-1.8.0.min.js"></script>
+        {% if DEBUG %}
+            <script type="text/javascript" src="{{ STATIC_URL }}/js/lib/bootstrap.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}/js/lib/jquery.transit.js"></script>
+        {% else %}
+            <script type="text/javascript" src="{{ STATIC_URL }}/js/lib/bootstrap.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}/js/lib/jquery.transit.min.js"></script>
+        {% endif %}
+    </body>
 </html>

@@ -1,120 +1,120 @@
 {% extends "add.html" %}
 
 {% block title %}
-	Neuen Patienten eintragen.
+    Neuen Patienten eintragen.
 {% endblock %}
 
 {% block steps %}
-	<div class="steps">
-		<p class="description active">
-			<i class="icon-check-empty"></i>
-			<strong>1. Schritt:</strong> Tragen Sie die pers&ouml;nlichen Informationen des Patienten ein.
-		</p>
+    <div class="steps">
+        <p class="description active">
+            <i class="icon-check-empty"></i>
+            <strong>1. Schritt:</strong> Tragen Sie die pers&ouml;nlichen Informationen des Patienten ein.
+        </p>
 
-		<p class="description">
-			<i class="icon-check-empty"></i>
-			<strong>2. Schritt:</strong> Erstes Rezept des Patienten eintragen. <emph>(optional)</emph>
-		</p>
+        <p class="description">
+            <i class="icon-check-empty"></i>
+            <strong>2. Schritt:</strong> Erstes Rezept des Patienten eintragen. <emph>(optional)</emph>
+        </p>
 
-		<p class="description">
-			<i class="icon-check-empty"></i>
-			<strong>3. Schritt:</strong> &Uuml;berpr&uuml;fen Sie die Daten noch einmal und speichern Sie den Patienten.
-		</p>
-	</div>
+        <p class="description">
+            <i class="icon-check-empty"></i>
+            <strong>3. Schritt:</strong> &Uuml;berpr&uuml;fen Sie die Daten noch einmal und speichern Sie den Patienten.
+        </p>
+    </div>
 {% endblock %}
 
 {% block form %}
-	<form action="/save/patient/" method="post" class="form-horizontal">
-		<div class="control-group">
-			<label class="control-label" for="title">Anrede</label>
-			<div class="controls">
-				<select name="title" class="input-small">
-					<option value="m">Herr</option>
-					<option value="w">Frau</option>
-				</select>
-			</div>
-		</div>
+    <form action="/save/patient/" method="post" class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="title">Anrede</label>
+            <div class="controls">
+                <select name="title" class="input-small">
+                    <option value="m">Herr</option>
+                    <option value="w">Frau</option>
+                </select>
+            </div>
+        </div>
 
-		<div class="control-group">
-			<label class="control-label" for="surname">Nachname</label>
-			<div class="controls">
-				<input type="text" name="surname" class="span4" />
-			</div>
-		</div>
+        <div class="control-group">
+            <label class="control-label" for="surname">Nachname</label>
+            <div class="controls">
+                <input type="text" name="surname" class="span4" />
+            </div>
+        </div>
 
-		<div class="control-group">
-			<label class="control-label" for="name">Name</label>
-			<div class="controls">
-				<input type="text" name="name" class="span4" />
-			</div>
-		</div>
+        <div class="control-group">
+            <label class="control-label" for="name">Name</label>
+            <div class="controls">
+                <input type="text" name="name" class="span4" />
+            </div>
+        </div>
 
-		<div class="control-group">
-			<label class="control-label" for="birthday">Geburtstag</label>
-			<div class="controls controls-row">
-				<input type="number" placeholder="Tag" name="day" class="input-mini" />
-				<input type="number" placeholder="Monat" name="month" class="input-mini" />
-				<input type="number" placeholder="Jahr" name="year" class="input-mini" />
-			</div>
-		</div>
+        <div class="control-group">
+            <label class="control-label" for="birthday">Geburtstag</label>
+            <div class="controls controls-row">
+                <input type="number" placeholder="Tag" name="day" class="input-mini" />
+                <input type="number" placeholder="Monat" name="month" class="input-mini" />
+                <input type="number" placeholder="Jahr" name="year" class="input-mini" />
+            </div>
+        </div>
 
-		<div class="control-group">
-			<label class="control-label" for="address">Adresse</label>
-			<div class="controls controls-row">
-				<input type="text" name="street" placeholder="Stra&szlig;e" class="span3" />
-				<input type="text" name="nr" placeholder="Nummer" class="span1" />
+        <div class="control-group">
+            <label class="control-label" for="address">Adresse</label>
+            <div class="controls controls-row">
+                <input type="text" name="street" placeholder="Stra&szlig;e" class="span3" />
+                <input type="text" name="nr" placeholder="Nummer" class="span1" />
 
-			</div>
-			<div class="controls controls-row medium-break">
-				<input type="number" name="code" placeholder="PLZ" class="span1" />
-				<input type="text" name="city" placeholder="Stadt" class="span3" />
-			</div>
-		</div>
+            </div>
+            <div class="controls controls-row medium-break">
+                <input type="number" name="code" placeholder="PLZ" class="span1" />
+                <input type="text" name="city" placeholder="Stadt" class="span3" />
+            </div>
+        </div>
 
-		<div class="control-group">
-			<label class="control-label" for="phone_private">Telefon (privat)</label>
-			<div class="controls controls-row">
-				<input type="text" name="city_private" class="span2" placeholder="Vorwahl" />
-				<input type="text" name="nr_private" class="span2" placeholder="Rufnummer" />
-			</div>
-		</div>
+        <div class="control-group">
+            <label class="control-label" for="phone_private">Telefon (privat)</label>
+            <div class="controls controls-row">
+                <input type="text" name="city_private" class="span2" placeholder="Vorwahl" />
+                <input type="text" name="nr_private" class="span2" placeholder="Rufnummer" />
+            </div>
+        </div>
 
-		<div class="control-group">
-			<label class="control-label" for="phone_office">Telefon (gesch&auml;ftlich)</label>
-			<div class="controls controls-row">
-				<input type="text" name="city_office" class="span2" placeholder="Vorwahl" />
-				<input type="text" name="nr_office" class="span2" placeholder="Rufnummer" />
-			</div>
-		</div>
+        <div class="control-group">
+            <label class="control-label" for="phone_office">Telefon (gesch&auml;ftlich)</label>
+            <div class="controls controls-row">
+                <input type="text" name="city_office" class="span2" placeholder="Vorwahl" />
+                <input type="text" name="nr_office" class="span2" placeholder="Rufnummer" />
+            </div>
+        </div>
 
-		<div class="control-group">
-			<div class="controls">
-				<label class="radio">
-					<input type="radio" name="private" value="yes" checked="checked" />
-					Privatpatient
-				</label>
-			</div>
+        <div class="control-group">
+            <div class="controls">
+                <label class="radio">
+                    <input type="radio" name="private" value="yes" checked="checked" />
+                    Privatpatient
+                </label>
+            </div>
 
-			<div class="controls">
-				<label class="radio">
-					<input type="radio" value="no" name="private" />
-					Kassenpatient
-				</label>
-			</div>
-		</div>
+            <div class="controls">
+                <label class="radio">
+                    <input type="radio" value="no" name="private" />
+                    Kassenpatient
+                </label>
+            </div>
+        </div>
 
-		<div class="control-group">
-			<label class="control-label" for="insurance">Kasse</label>
-			<div class="controls controls-row">
-				<input type="text" name="insurance_name" placeholder="Name" class="span1" disabled="disabled" />
-				<input type="text" name="insurance_nr" placeholder="Versicherungsnummer" class="span3" disabled="disabled" />
-			</div>
-		</div>
+        <div class="control-group">
+            <label class="control-label" for="insurance">Kasse</label>
+            <div class="controls controls-row">
+                <input type="text" name="insurance_name" placeholder="Name" class="span1" disabled="disabled" />
+                <input type="text" name="insurance_nr" placeholder="Versicherungsnummer" class="span3" disabled="disabled" />
+            </div>
+        </div>
 
-		<div class="form-actions">
-			<button type="submit" class="btn btn-success">Speichern und weiter...</button>
-			<button type="button" class="btn">Nur speichern</button>
-		</div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Speichern und weiter...</button>
+            <button type="button" class="btn">Nur speichern</button>
+        </div>
 
-	</form>
+    </form>
 {% endblock %}
