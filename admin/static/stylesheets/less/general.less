@@ -1,0 +1,55 @@
+@import "utils";
+@import "constants";
+
+html, body {
+	.margin();
+}
+
+h1, 
+h2, 
+h3,
+h4 {
+	font-family: @font-highlight;
+}
+
+h1 i, 
+h2 i, 
+h3 i, 
+h4 i {
+	margin-right: 20px;
+}
+
+.breadcrumb a,
+.breadcrumb a:visited,
+.breadcrumb a:active {
+	color: #7e6c55;
+}
+
+.breadcrumb a:hover {
+	color: #635647;
+	text-decoration: underline;
+}
+
+.form-actions {
+	background-color: #fff;
+}
+
+.steps .description {
+	color: rgba(51, 51, 51, .3);
+}
+
+.steps .description.active {
+	color: #333;
+}
+
+.steps .description.done i {
+	color: green;
+}
+
+.page-content {
+	margin-top: @nav-height + 20;
+}
+
+.medium-break {
+	margin-top: 10px;
+}

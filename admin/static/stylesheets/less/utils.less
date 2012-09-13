@@ -1,0 +1,37 @@
+.shadow(@size, @color, @top: 0px, @left: 0px) {
+    box-shadow: @left @top @size @color;
+    
+    -o-box-shadow: @left @top @size @color;
+    -webkit-box-shadow: @left @top @size @color;
+    -moz-box-shadow: @left @top @size @color;
+}
+
+.text-shadow(@size, @color: #000, @top: 0px, @left: 0px) {
+	text-shadow: @color @top @left @size;
+}
+
+.size(@width, @height) {
+	width: @width;
+	height: @height;
+}
+
+.margin(@top: 0px, @left: 0px, @bottom: 0px, @right: 0px) {
+	margin-top: @top;
+	margin-bottom: @bottom;
+	margin-right: @right;
+	margin-left: @left;
+}
+
+.padding(@top: 0px, @left: 0px, @bottom: 0px, @right: 0px) {
+	padding-top: @top;
+	padding-bottom: @bottom;
+	padding-right: @right;
+	padding-left: @left;
+}
+
+.page(@top: 0px, @left: 0px, @bottom: 0px, @right: 0px) {
+	top: @top;
+	bottom: @bottom;
+	right: @right;
+	left: @left;
+}

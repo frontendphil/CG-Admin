@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+	<ul class="breadcrumb">
+		<li><a href="{% url index %}">Startseite</a> <span class="divider">/</span></li>
+		<li class="active">{% block title %}{% endblock %}</li>
+	</ul>
+
+	<hr />
+
+	{% block steps %}{% endblock %}
+
+	<hr />
+
+	{% block form %}{% endblock %}
+
+{% endblock %}

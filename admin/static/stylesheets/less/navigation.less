@@ -1,0 +1,56 @@
+@import "utils";
+@import "constants";
+
+@nav-bg: #d9d0c4;
+
+@shadow-color: #7e6c55;
+
+.navigation {
+	position: fixed;
+
+	font-family: @font-highlight;
+
+	.size(100%, @nav-height);
+	.page();
+
+	background-color: @nav-bg;
+	background-image: url('/static/img/nav-bg.png');
+
+	.shadow(0px, rgba(126, 108, 85, 0.1), 4px);
+
+	z-index: 99;
+}
+
+.navigation a {
+	color: @font-color;
+	.text-shadow(0px, #e8e1d8, 2px, 2px);
+}
+
+.navigation div[class^="span"] {
+	padding-top: 20px;
+
+	height: @nav-height - 20;
+
+	text-align: center;
+}
+
+.navigation div[class^="span"]:hover {
+	background-color: rgba(126, 108, 85, 0.3);
+
+	color: #fff;
+	cursor: pointer;
+
+	.text-shadow(0px, @shadow-color, 2px, 2px);
+}
+
+.navigation .container {
+	background-image: url('/static/img/nav-highlight.png');
+	background-repeat: no-repeat;
+	background-position: -116px 0px;
+
+	height: @nav-height;
+}
+
+.icon {
+	padding-right: 10px;
+}
