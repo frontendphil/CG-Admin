@@ -2,13 +2,13 @@ from django.db import models
 
 class Patient(models.Model):
     GENDERS = (
-        ("Male", "m"),
-        ("Female", "f")
+        ("m", "Herr"),
+        ("f", "Frau")
     )
 
     STATES = (
-        ("Private", "p"),
-        ("Public", "k")
+        ("p", "Privatpatient"),
+        ("k", "Kassenpatient")
     )
 
     name = models.CharField(max_length=255)

@@ -1,5 +1,9 @@
 {% extends "add.html" %}
 
+{% block script %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/patient.js"></script>
+{% endblock %}
+
 {% block title %}
     Neuen Patienten eintragen.
 {% endblock %}
@@ -24,90 +28,84 @@
 {% endblock %}
 
 {% block form %}
-    <form action="/save/patient/" method="post" class="form-horizontal">
-        <div class="control-group">
-            <label class="control-label" for="title">Anrede</label>
+    <form action="" method="post" class="form-horizontal">
+        {% csrf_token %}
+
+        <div class="control-group {% if form.gender.errors %}error{% endif %}">
+            <label class="control-label" for="id_{{ form.gender.html_name }}">Anrede</label>
             <div class="controls">
-                <select name="title" class="input-small">
-                    <option value="m">Herr</option>
-                    <option value="w">Frau</option>
-                </select>
+                {{ form.gender }}
             </div>
         </div>
 
-        <div class="control-group">
-            <label class="control-label" for="surname">Nachname</label>
+        <div class="control-group {% if form.surname.errors %}error{% endif %}">
+            <label class="control-label" for="{{ form.surname.html_name }}">Nachname</label>
             <div class="controls">
-                <input type="text" name="surname" class="span4" />
+                <input type="text" name="{{ form.surname.html_name }}" class="span4" value="{{ form.surname.value|default:'' }}" />
             </div>
         </div>
 
-        <div class="control-group">
-            <label class="control-label" for="name">Name</label>
+        <div class="control-group {% if form.name.errors %}error{% endif %}">
+            <label class="control-label" for="{{ form.name.html_name }}">Name</label>
             <div class="controls">
-                <input type="text" name="name" class="span4" />
+                <input type="text" name="{{ form.name.html_name }}" class="span4" value="{{ form.name.value|default:'' }}" />
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="control-group {% if form.day.errors or form.month.errors or form.year.errors %}error{% endif %}">
             <label class="control-label" for="birthday">Geburtstag</label>
             <div class="controls controls-row">
-                <input type="number" placeholder="Tag" name="day" class="input-mini" />
-                <input type="number" placeholder="Monat" name="month" class="input-mini" />
-                <input type="number" placeholder="Jahr" name="year" class="input-mini" />
+                <input type="number" min="1" max="31" placeholder="Tag" name="{{ form.day.html_name }}" value="{{ form.day.value|default:'' }}" class="input-mini" />
+                <input type="number" min="1" max="12" placeholder="Monat" name="{{ form.month.html_name }}" value="{{ form.month.value|default:'' }}" class="input-mini" />
+                <input type="number" min="1900" placeholder="Jahr" name="{{ form.year.html_name }}" value="{{ form.year.value|default:'' }}" class="input-mini" />
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="control-group {% if form.street.errors or form.nr.errors or form.code.errors or form.city.errors %}error{% endif %}">
             <label class="control-label" for="address">Adresse</label>
             <div class="controls controls-row">
-                <input type="text" name="street" placeholder="Stra&szlig;e" class="span3" />
-                <input type="text" name="nr" placeholder="Nummer" class="span1" />
+                <input type="text" name="{{ form.street.html_name }}" value="{{ form.street.value|default:'' }}" placeholder="Stra&szlig;e" class="span3" />
+                <input type="text" name="{{ form.nr.html_name }}" value="{{ form.nr.value|default:'' }}" placeholder="Nummer" class="span1" />
 
             </div>
             <div class="controls controls-row medium-break">
-                <input type="number" name="code" placeholder="PLZ" class="span1" />
-                <input type="text" name="city" placeholder="Stadt" class="span3" />
+                <input type="number" name="{{ form.code.html_name }}" value="{{ form.code.value|default:'' }}" placeholder="PLZ" class="span1" />
+                <input type="text" name="{{ form.city.html_name }}" value="{{ form.city.value|default:'' }}" placeholder="Stadt" class="span3" />
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="control-group {% if form.phone_private_code.errors or form.phone_private_nr.errors %}error{% endif %}">
             <label class="control-label" for="phone_private">Telefon (privat)</label>
             <div class="controls controls-row">
-                <input type="text" name="city_private" class="span2" placeholder="Vorwahl" />
-                <input type="text" name="nr_private" class="span2" placeholder="Rufnummer" />
+                <input type="text" name="{{ form.phone_private_code.html_name }}" value="{{ form.phone_private_code.value|default:'' }}" class="span2" placeholder="Vorwahl" />
+                <input type="text" name="{{ form.phone_private_nr.html_name }}" value="{{ form.phone_private_nr.value|default:'' }}" class="span2" placeholder="Rufnummer" />
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="control-group {% if form.phone_office_code.errors or form.phone_office_nr.errors %}error{% endif %}">
             <label class="control-label" for="phone_office">Telefon (gesch&auml;ftlich)</label>
             <div class="controls controls-row">
-                <input type="text" name="city_office" class="span2" placeholder="Vorwahl" />
-                <input type="text" name="nr_office" class="span2" placeholder="Rufnummer" />
+                <input type="text" name="{{ form.phone_office_code.html_name }}" value="{{ form.phone_office_code.value|default:'' }}" class="span2" placeholder="Vorwahl" />
+                <input type="text" name="{{ form.phone_office_nr.html_name }}" value="{{ form.phone_office_nr.valeu|default:'' }}" class="span2" placeholder="Rufnummer" />
             </div>
         </div>
 
         <div class="control-group">
-            <div class="controls">
-                <label class="radio">
-                    <input type="radio" name="private" value="yes" checked="checked" />
-                    Privatpatient
-                </label>
-            </div>
-
-            <div class="controls">
-                <label class="radio">
-                    <input type="radio" value="no" name="private" />
-                    Kassenpatient
-                </label>
-            </div>
+            {% for radio in form.state %}
+                <div class="controls">
+                    <label class="radio">
+                        {{ radio.tag }}
+                        {{ radio.choice_label }}
+                    </label>
+                </div>
+            {% endfor %}
         </div>
 
-        <div class="control-group">
+        <div class="control-group insurance-group">
             <label class="control-label" for="insurance">Kasse</label>
             <div class="controls controls-row">
-                <input type="text" name="insurance_name" placeholder="Name" class="span1" disabled="disabled" />
-                <input type="text" name="insurance_nr" placeholder="Versicherungsnummer" class="span3" disabled="disabled" />
+                <input type="text" name="{{ form.insurance_name.html_name }}" value="{{ form.insurance_name.value|default:'' }}" placeholder="Name" class="span1" />
+                <input type="text" name="{{ form.insurance_nr.html_name }}" value="{{ form.insurance_nr.value|default:'' }}" placeholder="Versicherungsnummer" class="span3" />
             </div>
         </div>
 
