@@ -8,9 +8,7 @@ urlpatterns = patterns('admin.views',
 	url(r'^$', 'index', name='index'),
 	url(r'^add/patient/$', 'add_patient', name='add_patient'),
 	url(r'^add/prescription/$', 'add_prescription', name='add_prescription'),
-    # Examples:
-    # url(r'^$', 'cgadmin.views.home', name='home'),
-    # url(r'^cgadmin/', include('cgadmin.foo.urls')),
+    url(r'^verify/patient/$', 'verify_patient', name='verify_patient'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

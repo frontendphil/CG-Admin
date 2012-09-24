@@ -32,65 +32,65 @@
         {% csrf_token %}
 
         <div class="control-group {% if form.gender.errors %}error{% endif %}">
-            <label class="control-label" for="id_{{ form.gender.html_name }}">Anrede</label>
+            <label class="control-label" for="{{ form.gender.auto_id }}">Anrede</label>
             <div class="controls">
-                {{ form.gender }}
+                {{ form.gender }}}
             </div>
         </div>
 
         <div class="control-group {% if form.surname.errors %}error{% endif %}">
-            <label class="control-label" for="{{ form.surname.html_name }}">Nachname</label>
+            <label class="control-label" for="{{ form.surname.auto_id }}">Nachname</label>
             <div class="controls">
-                <input type="text" name="{{ form.surname.html_name }}" class="span4" value="{{ form.surname.value|default:'' }}" />
+                {{ form.surname }}  
             </div>
         </div>
 
         <div class="control-group {% if form.name.errors %}error{% endif %}">
-            <label class="control-label" for="{{ form.name.html_name }}">Name</label>
+            <label class="control-label" for="{{ form.name.auto_id }}">Name</label>
             <div class="controls">
-                <input type="text" name="{{ form.name.html_name }}" class="span4" value="{{ form.name.value|default:'' }}" />
+                {{ form.name }}
             </div>
         </div>
 
         <div class="control-group {% if form.day.errors or form.month.errors or form.year.errors %}error{% endif %}">
             <label class="control-label" for="birthday">Geburtstag</label>
             <div class="controls controls-row">
-                <input type="number" min="1" max="31" placeholder="Tag" name="{{ form.day.html_name }}" value="{{ form.day.value|default:'' }}" class="input-mini" />
-                <input type="number" min="1" max="12" placeholder="Monat" name="{{ form.month.html_name }}" value="{{ form.month.value|default:'' }}" class="input-mini" />
-                <input type="number" min="1900" placeholder="Jahr" name="{{ form.year.html_name }}" value="{{ form.year.value|default:'' }}" class="input-mini" />
+                {{ form.day }}
+                {{ form.month }}
+                {{ form.year }}
             </div>
         </div>
 
         <div class="control-group {% if form.street.errors or form.nr.errors or form.code.errors or form.city.errors %}error{% endif %}">
             <label class="control-label" for="address">Adresse</label>
             <div class="controls controls-row">
-                <input type="text" name="{{ form.street.html_name }}" value="{{ form.street.value|default:'' }}" placeholder="Stra&szlig;e" class="span3" />
-                <input type="text" name="{{ form.nr.html_name }}" value="{{ form.nr.value|default:'' }}" placeholder="Nummer" class="span1" />
+                {{ form.street }}
+                {{ form.nr }}
 
             </div>
             <div class="controls controls-row medium-break">
-                <input type="number" name="{{ form.code.html_name }}" value="{{ form.code.value|default:'' }}" placeholder="PLZ" class="span1" />
-                <input type="text" name="{{ form.city.html_name }}" value="{{ form.city.value|default:'' }}" placeholder="Stadt" class="span3" />
+                {{ form.code }}
+                {{ form.city }}
             </div>
         </div>
 
         <div class="control-group {% if form.phone_private_code.errors or form.phone_private_nr.errors %}error{% endif %}">
             <label class="control-label" for="phone_private">Telefon (privat)</label>
             <div class="controls controls-row">
-                <input type="text" name="{{ form.phone_private_code.html_name }}" value="{{ form.phone_private_code.value|default:'' }}" class="span2" placeholder="Vorwahl" />
-                <input type="text" name="{{ form.phone_private_nr.html_name }}" value="{{ form.phone_private_nr.value|default:'' }}" class="span2" placeholder="Rufnummer" />
+                {{ form.phone_private_code }}
+                {{ form.phone_private_nr}}
             </div>
         </div>
 
         <div class="control-group {% if form.phone_office_code.errors or form.phone_office_nr.errors %}error{% endif %}">
             <label class="control-label" for="phone_office">Telefon (gesch&auml;ftlich)</label>
             <div class="controls controls-row">
-                <input type="text" name="{{ form.phone_office_code.html_name }}" value="{{ form.phone_office_code.value|default:'' }}" class="span2" placeholder="Vorwahl" />
-                <input type="text" name="{{ form.phone_office_nr.html_name }}" value="{{ form.phone_office_nr.valeu|default:'' }}" class="span2" placeholder="Rufnummer" />
+                {{ form.phone_office_code }}
+                {{ form.phone_office_nr }}
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="control-group {% if form.state.errors %}error{% endif %}">
             {% for radio in form.state %}
                 <div class="controls">
                     <label class="radio">
@@ -101,11 +101,11 @@
             {% endfor %}
         </div>
 
-        <div class="control-group insurance-group">
+        <div class="control-group insurance-group {% if form.insurance_name.errors or form.insurance_nr.errors %}error{% endif %}">
             <label class="control-label" for="insurance">Kasse</label>
             <div class="controls controls-row">
-                <input type="text" name="{{ form.insurance_name.html_name }}" value="{{ form.insurance_name.value|default:'' }}" placeholder="Name" class="span1" />
-                <input type="text" name="{{ form.insurance_nr.html_name }}" value="{{ form.insurance_nr.value|default:'' }}" placeholder="Versicherungsnummer" class="span3" />
+                {{ form.insurance_name }}
+                {{ form.insurance_nr }}
             </div>
         </div>
 

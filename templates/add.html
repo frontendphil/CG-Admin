@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
+{% block style %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/form.css" />
+{% endblock %}
+
 {% block content %}
 	
 	<ul class="breadcrumb">
-		<li><a href="{% url index %}">Startseite</a> <span class="divider">/</span></li>
+		<li>
+            <i class="icon-home"></i>
+            <a href="{% url index %}">Startseite</a>
+
+            <span class="divider">/</span></li>
 		<li class="active">{% block title %}{% endblock %}</li>
 	</ul>
 

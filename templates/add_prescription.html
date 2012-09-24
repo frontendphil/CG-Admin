@@ -22,7 +22,96 @@
 {% endblock %}
 
 {% block form %}
-    <form class="form-horizontal">
+    <form class="form-horizontal" method="post">
+        {% csrf_token %}
+
+        <div class="control-group {% if form.day.errors or form.month.errors or form.year.errors %}error{% endif %}">
+            <label class="control-label" for="date">Datum</label>
+            <div class="controls">
+                {{ form.day }}
+                {{ form.month }}
+                {{ form.year }}
+            </div>
+        </div>
+
+        <div class="control-group {% if form.diagnosis.errors %}error{% endif %}">
+            <label class="control-label" for="{{ form.diagnosis.auto_id }}">Diagnose</label>
+            <div class="controls">
+                {{ form.diagnosis }}
+            </div>
+        </div>
+
+        <div class="control-group {% if form.cure.errors %}error{% endif %}">
+            <label class="control-label" for="{{ form.cure.auto_id }}">Heilmittel nach Ma&szlig;gabe des Katalogs</label>
+            <div class="controls">
+                {{ form.cure }}
+            </div>
+        </div>
+        <div class="control-group {% if form.kind.errors %}error{% endif %}">
+            {% for radio in form.kind %}
+                <div class="controls">
+                    <label class="radio">
+                        {{ radio.tag }}
+                        {{ radio.choice_label }}
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    {{ form.visit }}
+                    Hausbesuche
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    {{ form.report }}
+                    Therapiebericht
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group {% if form.amount.errors %}error{% endif %}">
+            <label class="control-label" for="{{ form.amount.auto_id }}">Verordnungsmenge</label>
+            <div class="controls">
+                {{ form.amount }}
+            </div>
+        </div>
+
+        <div class="control-group {% if form.count.errors %}error{% endif %}">
+            <label class="control-label" for="{{ form.count.auto_id }}">Anzahl pro Woche</label>
+            <div class="controls">
+                {{ form.count }}
+            </div>
+        </div>
+
+        <div class="control-group {% if form.indicator.errors %}error{% endif %}">
+            <label class="control-label" for="{{ form.indicator.auto_id }}">Indikationsschl&uuml;ssel</label>
+            <div class="controls">
+                {{ form.indicator }}
+            </div>
+        </div>
+
+        <div class="control-group {% if form.doctor.errors %}error{% endif %}">
+            <label class="control-label" for="{{ form.doctor.auto_id }}">Verschreibender Arzt</label>
+            <div class="controls">
+                {{ form.doctor }}
+            </div>
+        </div>       
+
+        <div class="control-group">
+            <label class="control-label" for="{{ form.appointsments.auto_id }}">Behandlungstermine</label>
+            <div class="controls">
+                {{ form.appointsments }}
+                <div class="info"><span class="label label-info">Info!</span> Trennen Sie mehrere Termine durch Komma</span>
+            </div>
+        </div>
+
         <div class="form-actions">
             <button type="submit" class="btn btn-success">Weiter...</button>
             <button type="button" class="btn">Überspringen</button>
