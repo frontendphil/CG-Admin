@@ -15,29 +15,28 @@
 
     <hr />
 
-    <form action="{% url search %}" method="post" class="form-search">
-        {% csrf_token %}
+    <form action="{% url docs %}" method="get" class="form-search">
         <div class="input-append centered">
-            <input type="text" name="query" class="input-xxlarge search-query" placeholder="Suchen Sie hier nach &Auml;rzten im Verzeichnis..." />
+            <input type="text" name="query" class="input-xxlarge search-query" value="{{ query|default:"" }}" placeholder="Suchen Sie hier nach &Auml;rzten im Verzeichnis..." />
             <button type="submit" class="btn">Suchen</button>
         </div>
     </form>
 
     <hr />
 
-    {% if paginator %}
+    {% if paginator.num_pages > 1 %}
         <div class="pagination pagination-centered">
             <ul>
                 <li {% if not docs.has_previous %}class="disabled"{% endif %}>
-                    <a href="?page={{ docs.previous_page_number }}">&laquo;</a>
+                    <a href="{{ request.get_full_path}}&page={{ docs.previous_page_number }}">&laquo;</a>
                 </li>
                 {% for i in paginator.num_pages|get_natural_range %}
                     <li {% if i == docs.number %}class="active"{% endif %}>
-                        <a href="?page={{ i }}">{{ i }}</a>
+                        <a href="{{ request.get_full_path}}&page={{ i }}">{{ i }}</a>
                     </li>
                 {% endfor %}
                 <li {% if not docs.has_next %}class="disabled"{% endif %}>
-                    <a href="?page={{ docs.next_page_number }}">&raquo;</a>
+                    <a href="{{ request.get_full_path}}&page={{ docs.next_page_number }}">&raquo;</a>
                 </li>
             </ul>
         </div>
@@ -76,19 +75,19 @@
         </tbody>
     </table>
 
-    {% if paginator %}
+    {% if paginator.num_pages > 1 %}
         <div class="pagination pagination-centered">
             <ul>
                 <li {% if not docs.has_previous %}class="disabled"{% endif %}>
-                    <a href="?page={{ docs.previous_page_number }}">&laquo;</a>
+                    <a href="{{ request.get_full_path}}&page={{ docs.previous_page_number }}">&laquo;</a>
                 </li>
                 {% for i in paginator.num_pages|get_natural_range %}
                     <li {% if i == docs.number %}class="active"{% endif %}>
-                        <a href="?page={{ i }}">{{ i }}</a>
+                        <a href="{{ request.get_full_path}}&page={{ i }}">{{ i }}</a>
                     </li>
                 {% endfor %}
                 <li {% if not docs.has_next %}class="disabled"{% endif %}>
-                    <a href="?page={{ docs.next_page_number }}">&raquo;</a>
+                    <a href="{{ request.get_full_path}}&page={{ docs.next_page_number }}">&raquo;</a>
                 </li>
             </ul>
         </div>

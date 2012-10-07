@@ -3,21 +3,22 @@ from datetime import date, timedelta
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-
 from django.views.decorators.http import require_POST
+from django.db.models import Q
 
 from cgadmin import settings
 
 from forms import PatientForm, PrescriptionForm
 from models import Patient, Doctor, Prescription, User
 from decorators import login_required, anonymous_only
+from templatetags.admin_extras import get_query
 
 @login_required
 def index(request):
     DEBUG = settings.DEBUG
 
     start = date.today()
-    end = start + timedelta(days=1)
+    end = start + timedelta(days=2)
 
     patients = Patient.objects.filter(birthday__range=[start, end])
 
@@ -148,16 +149,49 @@ def save_patient(request):
 
     return redirect("index")
 
+@login_required
+def edit_patient(request):
+    pass
+
+@login_required
 @require_POST
+def delete_patient(request):
+    pass
+
 @login_required
 def search(request):
-    return render_to_response("docs.html", 
+    query = request.GET.get("query")
+
+    if query:
+        q = get_query(query, ["name", "surname", "address__street", "address__city", "birthday"])
+
+        patients_list = Patient.objects.filter(q)
+        paginator = Paginator(patients_list, 25)
+
+        page = request.GET.get("page")
+
+        try:
+            patients = paginator.page(page)
+        except PageNotAnInteger:
+            patients = paginator.page(1)
+        except EmptyPage:
+            patients = paginator.page(paginator.num_pages)
+
+    return render_to_response("search.html", 
                               locals(),
                               context_instance=RequestContext(request))
 
 @login_required
 def docs(request):
-    docs_list = Doctor.objects.all()
+    query = request.GET.get("query")
+
+    if query:
+        q = get_query(query, ["name", "key", "address__street", "address__city"])
+
+        docs_list = Doctor.objects.filter(q)
+    else:
+        docs_list = Doctor.objects.all()
+
     paginator = Paginator(docs_list, 25)
 
     page = request.GET.get("page")

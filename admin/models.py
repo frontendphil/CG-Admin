@@ -28,33 +28,94 @@ def get_address(form):
     code = get(form, "code")
 
     try:
-        address = Address.objects.get(street=street, nr=nr, city_code=code)
+        return Address.objects.get(street__iexact=street, nr=nr, city_code=code)
     except Address.DoesNotExist:
+        return Address.objects.create(street=street,
+                                      nr=nr,
+                                      city_code=code,
+                                      city=get(form, "city"))
+
+def create_insurance(patient, insurance_name, insurance_nr):
+    if not insurance_name:
+        insurance = Insurance.get_blank_insurance()
+    else:
+        try:
+            insurance = Insurance.objects.get(name__iexact=insurance_name)
+        except Insurance.DoesNotExist:
+            insurance = Insurance.objects.create(name=insurance_name)
+
+    return Insured.objects.create(patient=patient,
+                                  insurance=insurance,
+                                  nr=insurance_nr)
+
+def get_insurance_from_form(form, patient):
+    return create_insurance(patient, get(form, "insurance_name"), get(form, "insurance_nr"))
+
+def parse_street(data):
+    if not data:
+        return None
+
+    data = data.replace(".", ". ")
+
+    parts = data.split(" ")
+
+    if len(parts) == 1:
+        return (parts[0], "")
+
+    street = " ".join(parts[0:-1])
+    nr = parts[::-1][0]
+
+    try:
+        int(nr)
+    except ValueError:
+        if "." in nr:
+            clean_nr = nr.split(".")
+
+            street += ".".join(clean_nr[0:-1])
+            nr = clean_nr[::-1][0]
+
+    return (street, nr)
+
+def get_or_create_address(data):
+    street = parse_street(data["address"]["street"])
+    address = None
+
+    if street:
+        try:
+            address = Address.objects.get(street=street[0], 
+                                          nr=street[1],
+                                          city_code=int(data["address"]["code"]))
+        except Address.DoesNotExist:
+            pass
+
+    if not address:
         address = Address()
-        address.street = street
-        address.nr = nr
-        address.city_code = code
-        address.city = get(form, "city")
+
+        if street:
+            address.street = street[0]
+            address.nr = street[1]
+
+        address.city_code = int(data["address"]["code"])
+
+        city = data["address"]["city"]
+
+        if not city:
+            connection = HTTPConnection("maps.google.com")
+            connection.request("GET", "http://maps.google.com/maps/geo?q=%d,Deutschland&output=json" % int(data["address"]["code"]))
+
+            response = connection.getresponse()
+            res_json = json.loads(response.read())
+            
+            try:
+                address.city = res_json["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["Locality"]["LocalityName"]
+            except KeyError:
+                pass
+        else:
+            address.city = data["address"]["city"]
+
         address.save()
 
     return address
-
-def get_insurance(form, patient):
-    try:
-        insurance = Insurance.objects.get(name=get(form, "insurance_name"))
-    except Insurance.DoesNotExist:
-        insurance = Insurance()
-        insurance.name = get(form, "insurance_name")
-        insurance.save()
-
-    insured = Insured()
-    insured.patient = patient
-    insured.insurance = insurance
-    insured.nr = get(form, "insurance_nr")
-
-    insured.save()
-
-    return insured
 
 class User(models.Model):
     username = models.CharField(max_length=255)
@@ -96,7 +157,7 @@ class Patient(models.Model):
     name = models.CharField(max_length=255)
     surname = models.CharField(max_length=255)
 
-    birthday = models.DateField()
+    birthday = models.DateField(null=True)
 
     gender = models.CharField(choices=GENDERS, max_length=1)
 
@@ -115,7 +176,30 @@ class Patient(models.Model):
         data = json.loads(f.read())
 
         for patient in data:
-            
+            result = cls()
+
+            result.name = patient["name"]
+            result.surname = patient["surname"]
+
+            if not "null" in patient["birthday"]:
+                result.birthday = strftime("%Y-%m-%d", strptime(patient["birthday"], "%d.%m.%Y"))
+
+            result.phone_private = patient["phone_private"]
+            result.phone_office = patient["phone_office"]
+
+            result.state = "p" if patient["private"] else "k"
+            result.gender = patient["gender"]
+            result.address = get_or_create_address(patient)
+
+            result.dirty = False
+
+            result.save()
+
+            if not patient["private"]:
+                create_insurance(result, patient["insurance"]["name"], patient["insurance"]["nr"])
+
+            for prescription in patient["prescriptions"]:
+                Prescription.load(prescription, result)
 
     @classmethod
     def from_form(cls, form):
@@ -139,11 +223,14 @@ class Patient(models.Model):
         if not patient.state == cls.STATE_PRIVATE:
             patient.save()
 
-            get_insurance(form, patient)
+            get_insurance_from_form(form, patient)
 
         patient.save()
 
         return patient
+
+    def get_birthday(self):
+        return self.birthday.strftime("%d.%m.%Y") if self.birthday else ""
 
     def __unicode__(self):
         return u"%s, %s" % (self.surname, self.name)
@@ -176,6 +263,14 @@ class Address(models.Model):
 
 class Insurance(models.Model):
     name = models.CharField(max_length=255)
+    is_blank = models.BooleanField(default=False)
+
+    @classmethod
+    def get_blank_insurance(cls):
+        try:
+            return cls.objects.get(is_blank=True)
+        except cls.DoesNotExist:
+            return Insurance.objects.create(is_blank=True, name="")
 
     def __unicode__(self):
         return u"%s" % self.name
@@ -215,7 +310,7 @@ class Prescription(models.Model):
 
         return prescription
 
-    date = models.DateField()
+    date = models.DateField(null=True)
 
     diagnosis = models.TextField()
     cure = models.CharField(max_length=255)
@@ -225,18 +320,56 @@ class Prescription(models.Model):
     visit = models.BooleanField(default=False)
     report = models.BooleanField(default=False)
 
-    amount = models.IntegerField()
+    amount = models.CharField(max_length=10)
     count = models.CharField(max_length=10)
 
     indicator = models.CharField(max_length=10)
 
-    doctor = models.ForeignKey("Doctor")
+    doctor = models.ForeignKey("Doctor", null=True)
 
     appointments = models.TextField()
 
     patient = models.ForeignKey(Patient)
 
     dirty = models.BooleanField(default=True)
+
+    @classmethod
+    def load(cls, json, patient):
+        p = cls()
+        p.diagnosis = json["diagnosis"]
+        p.cure = json["treatment"]
+        
+        if json["prescription"] == "1":
+            p.kind = "e"
+        elif json["prescription"] == "2":
+            p.kind = "f"
+        elif json["prescription"] == "3":
+            p.kind = "v"
+        else:
+            p.kind = ""
+
+        p.visit = json["visit"]
+        p.report = json["report"]
+        p.indicator = json["key"]
+        p.amount = json["amount"] or 0
+        p.count = json["count"] or 0
+
+        if json["doctor"]:
+            p.doctor = Doctor.objects.get(name__iexact=json["doctor"]["name"])
+        else:
+            p.doctor = None
+
+        p.appointments = json["appointments"]
+        
+        try:
+            p.date = strftime("%Y-%m-%d", strptime(json["date"], "%d.%m.%Y"))
+        except ValueError:
+            p.date = None
+
+        p.dirty = False
+        p.patient = patient
+
+        p.save()
 
     def get_kind(self):
         for key, value in self.KINDS:
@@ -260,32 +393,6 @@ class Doctor(models.Model):
         pass
 
     @classmethod
-    def parse_street(cls, data):
-        if not data:
-            return None
-
-        data = data.replace(".", ". ")
-
-        parts = data.split(" ")
-
-        if len(parts) == 1:
-            return (parts[0], "")
-
-        street = " ".join(parts[0:-1])
-        nr = parts[::-1][0]
-
-        try:
-            int(nr)
-        except ValueError:
-            if "." in nr:
-                clean_nr = nr.split(".")
-
-                street += ".".join(clean_nr[0:-1])
-                nr = clean_nr[::-1][0]
-
-        return (street, nr)
-
-    @classmethod
     def load(cls, filename):
         f = file(filename)
 
@@ -300,45 +407,7 @@ class Doctor(models.Model):
             result.phone = doc["phone"]
             result.key = doc["key"]
 
-            street = cls.parse_street(doc["address"]["street"])
-            address = None
-
-            if street:
-                try:
-                    address = Address.objects.get(street=street[0], 
-                                                  nr=street[1],
-                                                  city_code=int(doc["address"]["code"]))
-                except Address.DoesNotExist:
-                    pass
-
-            if not address:
-                address = Address()
-
-                if street:
-                    address.street = street[0]
-                    address.nr = street[1]
-
-                address.city_code = int(doc["address"]["code"])
-
-                city = doc["address"]["city"]
-
-                if not city:
-                    connection = HTTPConnection("maps.google.com")
-                    connection.request("GET", "http://maps.google.com/maps/geo?q=%d,Deutschland&output=json" % int(doc["address"]["code"]))
-
-                    response = connection.getresponse()
-                    res_json = json.loads(response.read())
-                    
-                    try:
-                        address.city = res_json["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["Locality"]["LocalityName"]
-                    except KeyError:
-                        pass
-                else:
-                    address.city = doc["address"]["city"]
-
-                address.save()
-
-            result.address = address
+            result.address = get_or_create_address(doc)
             result.dirty = False
 
             result.save()

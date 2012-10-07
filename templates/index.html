@@ -12,6 +12,10 @@
 
     <div class="birthdays">
         <p>Heute kann den folgenden Patienten zum Geburtstag graturliert werden</p>
+
+        {% for patient in patients %}
+            {{patient}}
+        {% endfor %}
     </div>
 
     <hr />

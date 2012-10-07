@@ -6,13 +6,16 @@ admin.autodiscover()
 
 urlpatterns = patterns('admin.views',
 	url(r'^$', 'index', name='index'),
-	url(r'^add/patient/$', 'add_patient', name='add_patient'),
-	url(r'^add/prescription/$', 'add_prescription', name='add_prescription'),
-    url(r'^verify/patient/$', 'verify', name='verify'),
-    url(r'^continue/patient/$', 'continue_patient', name='continue_patient'),
-    url(r'^save/patient/$', 'save_patient', name='save_all'),
 
-    url(r'^search/$', 'search', name='search'),
+    url(r'^patients/$', 'search', name='search'),
+	url(r'^patient/add/$', 'add_patient', name='add_patient'),
+    url(r'^patient/verify/$', 'verify', name='verify'),
+    url(r'^patient/continue/$', 'continue_patient', name='continue_patient'),
+    url(r'^patient/save/$', 'save_patient', name='save_all'),
+    url(r'^patient/edit/(?P<id>\d+)/$', 'edit_patient', name='edit_patient'),
+    url(r'^patient/delete/(?P<id>\d+)/$', 'delete_patient', name='delete_patient'),
+
+    url(r'^prescription/add/$', 'add_prescription', name='add_prescription'),
 
     url(r'^docs/$', 'docs', name='docs'),
     url(r'^docs/delete/(?P<id>\d+)/$', 'docs_delete', name='delete_doc'),
