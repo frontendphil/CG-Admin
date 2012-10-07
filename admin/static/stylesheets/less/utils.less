@@ -15,6 +15,10 @@
 	height: @height;
 }
 
+.rounded_corners(@radius) {
+    border-radius: @radius;
+}
+
 .margin(@top: 0px, @left: 0px, @bottom: 0px, @right: 0px) {
 	margin-top: @top;
 	margin-bottom: @bottom;
@@ -34,4 +38,52 @@
 	bottom: @bottom;
 	right: @right;
 	left: @left;
+}
+
+.note-background(@bg, @text, @gradient, @stop) {
+    background-color: @bg;
+
+    text-shadow: 0 1px 0 @text;
+
+    .gradient(@bg, @gradient, @stop);
+}
+
+.note-shadow(@rotation) {
+    width:95%;
+    height:20%;
+    
+    content:'';
+    
+    display:block;
+    position:absolute;
+    
+    right:10px;
+    bottom:3px;
+    
+    background-color:rgba(0,0,0,.5);
+    
+    .rotate(@rotation);
+    .shadow(10px, #000);
+    
+    opacity:1;
+    z-index:1;
+}
+
+.gradient(@from, @to, @stop) {
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@from), to(@to), color-stop(.6, @stop));
+}
+
+.rotate(@deg) {
+    transform: rotate(@deg);
+
+    -o-transform:rotate(@deg);
+    -webkit-transform:rotate(@deg);
+    -moz-transform:rotate(@deg);
+
+    -webkit-backface-visibility: hidden;
+}
+
+.font(@family, @serif: sans-serif, @size: 12px) {
+    font-family: @family, @serif;
+    font-size: @size;
 }

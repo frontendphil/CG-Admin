@@ -6,10 +6,13 @@
 
 {% block content %}
 
-    <h1><i class="icon-gift"></i>Herzlichen Gl&uuml;ckwunsch!</h1>
-    <p>Heute kann den folgenden Patienten zum Geburtstag graturliert werden</p>
+    <p class="ribbon">
+        <strong class="ribbon-content"><i class="icon-gift left"></i>Herzlichen Gl&uuml;ckwunsch!<i class="icon-gift right"></i></strong>
+    </p>    
 
-
+    <div class="birthdays">
+        <p>Heute kann den folgenden Patienten zum Geburtstag graturliert werden</p>
+    </div>
 
     <hr />
 
@@ -33,7 +36,7 @@
                     <h3>Patienten suchen</h3>
                     <p>Finden Sie schnell und einfach einen Patienten.</p>
                     <p>
-                        <a class="btn" href="#">
+                        <a class="btn" href="{% url search %}">
                             <i class="icon-search"></i>
                             Suchen
                         </a>
@@ -46,9 +49,9 @@
                 <i class="head icon-user-md"></i>
                 <div class="caption">
                     <h3>&Auml;rzteverzeichnis</h3>
-                    <p>Suchen und verwalten Sie die Liste aller &Auml;rzte Ihrer Patienten ein.</p>
+                    <p>Suchen und verwalten Sie die Liste aller &Auml;rzte Ihrer Patienten.</p>
                     <p>
-                        <a class="btn" href="#">&Auml;rzte verwalten</a>
+                        <a class="btn" href="{% url docs %}">&Auml;rzte verwalten</a>
                     </p>
                 </div>
             </div>

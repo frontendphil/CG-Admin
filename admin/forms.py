@@ -8,7 +8,11 @@ from models import Patient, Prescription, Doctor
 def xor(a, b):
     return (not not a) != (not not b)
 
-class PatientForm(forms.Form):
+class CGForm(forms.Form):
+    def get(self, field):
+        return self[field]
+
+class PatientForm(CGForm):
     gender = forms.ChoiceField(widget=forms.Select, choices=Patient.GENDERS)
     
     name = forms.CharField(widget=forms.TextInput(attrs={'class':'span4'}))
@@ -108,10 +112,7 @@ class PatientForm(forms.Form):
 
         return valid
 
-    def get(self, field):
-        return self[field]
-
-class PrescriptionForm(forms.Form):
+class PrescriptionForm(CGForm):
     day = forms.IntegerField(widget=forms.TextInput(attrs={
         'class':'input-mini',
         'placeholder': 'Tag'
@@ -138,27 +139,40 @@ class PrescriptionForm(forms.Form):
 
     kind = forms.ChoiceField(widget=forms.RadioSelect, choices=Prescription.KINDS)
 
-    visit = forms.ChoiceField(widget=forms.CheckboxInput)
+    visit = forms.BooleanField(required=False, initial=False)
 
-    report = forms.ChoiceField(widget=forms.CheckboxInput)
+    report = forms.BooleanField(required=False, initial=False)
 
     amount = forms.IntegerField(widget=forms.TextInput(attrs={
         'class':'span4'
     }))
 
-    count = forms.IntegerField(widget=forms.TextInput(attrs={
+    count = forms.CharField(widget=forms.TextInput(attrs={
         'class':'span4'
     }))
 
-    indicator = forms.ChoiceField(widget=forms.TextInput(attrs={
+    indicator = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'span4'
     }))
 
-    doctor = forms.ModelChoiceField(queryset=Doctor.objects.all(), widget=forms.Select(attrs={
+    doctor = forms.ModelChoiceField(required=False, queryset=Doctor.objects.all(), widget=forms.Select(attrs={
         'class':'span4'
     }))
 
-    appointsments = forms.CharField(required=False, widget=forms.Textarea(attrs={
+    appointments = forms.CharField(required=False, widget=forms.Textarea(attrs={
         'class':'span4',
         'rows':5
     }))
+
+    new_doc = forms.BooleanField(required=False, widget=forms.HiddenInput(attrs={
+        'class': 'add_new_doc'
+    }))
+
+    def is_valid(self):
+        valid = super(PrescriptionForm, self).is_valid()
+
+        if self["new_doc"].value() == "0":
+            if not self["doctor"].value():
+                return False
+
+        return valid

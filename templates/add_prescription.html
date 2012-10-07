@@ -2,6 +2,10 @@
 
 {% block title %}Rezept hinzuf&uuml;gen{% endblock %}
 
+{% block script %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/prescription.js"></script>
+{% endblock %}
+
 {% block steps %}
     <div class="steps">
         <p class="description active done">
@@ -100,7 +104,38 @@
         <div class="control-group {% if form.doctor.errors %}error{% endif %}">
             <label class="control-label" for="{{ form.doctor.auto_id }}">Verschreibender Arzt</label>
             <div class="controls">
-                {{ form.doctor }}
+                <div class="existing-doc">
+                    {{ form.doctor }} oder <i class="icon-plus"></i> <a href="#" class="add-doc">Neuen Arzt anlegen</a>
+                </div>
+
+                {{ form.new_doc }}
+
+                <div class="new-doctor inline-form">
+                    <div class="info">
+                        <span class="label label-info">Info</span> Tragen Sie hier die Daten des neuen Arztes ein
+                    </div>
+                    <div class="controls-row">
+                        <input type="text" name="doc_name" placeholder="Name" class="span4" />
+                    </div>
+                    <div class="controls-row">
+                        <input type="text" name="key" placeholder="Vertragsschl&uuml;ssel" class="span4" />
+                    </div>
+                    <div class="controls-row">
+                        <input type="text" name="code" placeholder="Vorwahl" class="span2" />
+                        <input type="text" name="phone_nr" placeholder="Rufnummer" class="span2" />
+                    </div>
+                    <div class="controls-row">
+                        <input type="text" name="street" placeholder="Stra&szlig;e" class="span3" />
+                        <input type="text" name="nr" placeholder="Nummer" class="span1" />
+                    </div>
+                    <div class="controls-row">
+                        <input type="text" name="city_code" placeholder="PLZ" class="span1" />
+                        <input type="text" name="city" placeholder="Stadt" class="span3" />
+                    </div>
+                    <div class="controls-row">
+                        <button class="btn btn-danger btn-small offset2 span2 abort">Abbrechen</button>
+                    </div>                    
+                </div>
             </div>
         </div>       
 
@@ -114,6 +149,7 @@
 
         <div class="form-actions">
             <button type="submit" class="btn btn-success">Weiter...</button>
-            <button type="button" class="btn">Überspringen</button>
+            <button type="button" class="btn skip">Überspringen</button>
+        </div>
     </form>
 {% endblock %}

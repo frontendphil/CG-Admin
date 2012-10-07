@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% load admin_extras %}
+
+{% block content %}
+
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home"></i>
+            <a href="{% url index %}">Startseite</a>
+
+            <span class="divider">/</span></li>
+        <li class="active">&Auml;rzteverzeichnis</li>
+    </ul>
+
+    <hr />
+
+    <form action="{% url search %}" method="post" class="form-search">
+        {% csrf_token %}
+        <div class="input-append centered">
+            <input type="text" name="query" class="input-xxlarge search-query" placeholder="Suchen Sie hier nach &Auml;rzten im Verzeichnis..." />
+            <button type="submit" class="btn">Suchen</button>
+        </div>
+    </form>
+
+    <hr />
+
+    {% if paginator %}
+        <div class="pagination pagination-centered">
+            <ul>
+                <li {% if not docs.has_previous %}class="disabled"{% endif %}>
+                    <a href="?page={{ docs.previous_page_number }}">&laquo;</a>
+                </li>
+                {% for i in paginator.num_pages|get_natural_range %}
+                    <li {% if i == docs.number %}class="active"{% endif %}>
+                        <a href="?page={{ i }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+                <li {% if not docs.has_next %}class="disabled"{% endif %}>
+                    <a href="?page={{ docs.next_page_number }}">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Vertragsschl&uuml;ssel</th>
+                <th>Telefon</th>
+                <th>Anschrift</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc in docs %}
+                <tr {% if doc.is_incomplete %}class="warning"{% endif %}>
+                    <td>
+                        <i class="icon-edit"></i>
+                        <a href="{% url edit_doc doc.id %}">
+                            {{ doc.name }}
+                        </a>
+                    </td>
+                    <td>{{ doc.key }}</td>
+                    <td>{{ doc.phone }}</td>
+                    <td>{{ doc.address }}</td>
+                    <td>
+                        <a href="{% url delete_doc doc.id %}">
+                            <i class="icon-remove"></i>
+                            L&ouml;schen
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if paginator %}
+        <div class="pagination pagination-centered">
+            <ul>
+                <li {% if not docs.has_previous %}class="disabled"{% endif %}>
+                    <a href="?page={{ docs.previous_page_number }}">&laquo;</a>
+                </li>
+                {% for i in paginator.num_pages|get_natural_range %}
+                    <li {% if i == docs.number %}class="active"{% endif %}>
+                        <a href="?page={{ i }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+                <li {% if not docs.has_next %}class="disabled"{% endif %}>
+                    <a href="?page={{ docs.next_page_number }}">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+
+{% endblock %}

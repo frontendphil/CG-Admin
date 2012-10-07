@@ -1,0 +1,18 @@
+{% extends "add_patient.html" %}
+
+{% block form %}
+
+    <div class="span7 offset2 alert alert-wanring">
+        <h3>Patient fortsetzen</h3>
+
+        <p>Der letzte Patient wurde noch nicht vollst&auml;ndig eingetragen. M&ouml;chten Sie diesen Patienten zun&auml;chst vervollst&auml;ndigen oder verwerfen?</p>
+
+        <hr />
+
+        <div class="centered">
+            <a href="?continue=1" class="btn btn-success btn-large">Vervollst&auml;ndigen</a>
+            <a href="?continue=0" class="btn btn-error btn-large">Verwerfen</a>
+        </div>
+    </div>
+
+{% endblock %}

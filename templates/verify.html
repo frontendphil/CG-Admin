@@ -1,0 +1,131 @@
+{% extends "add.html" %}
+
+{% block title %}Daten &Uuml;berpr&uuml;fen{% endblock %}
+
+{% block steps %}
+    <div class="steps">
+        <p class="description active done">
+            <i class="icon-check"></i>
+            <strong>1. Schritt:</strong> Tragen Sie die pers&ouml;nlichen Informationen des Patienten ein.
+        </p>
+
+        <p class="description active done">
+            <i class="icon-check"></i>
+            <strong>2. Schritt:</strong> Erstes Rezept des Patienten eintragen. <emph>(optional)</emph>
+        </p>
+
+        <p class="description active">
+            <i class="icon-check-empty"></i>
+            <strong>3. Schritt:</strong> &Uuml;berpr&uuml;fen Sie die Daten noch einmal und speichern Sie den Patienten.
+        </p>
+    </div>
+{% endblock %}
+
+{% block form %}
+    <h3>Patientendaten</h3>
+
+    <table class="table table-striped verify">
+        <tbody>
+            <tr>
+                <td>Anrede:</td>
+                <td>{% if patient.gender == "m" %}Herr{% else %}Frau{% endif %}</td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td>{{ patient.surname }}</td>
+            </tr>
+            <tr>
+                <td>Vorname:</td>
+                <td>{{ patient.name }}</td>
+            </tr>
+            <tr>
+                <td>Geburtstag:</td>
+                <!-- Datum formatieren -->
+                <td>{{ patient.birthday }}</td>
+            </tr>
+            <tr>
+                <td>Anschrift</td>
+                <td>{{ patient.address }}</td>
+            </tr>
+            <tr>
+                <td>Telefon (privat):</td>
+                <td>{{ patient.phone_private }}</td>
+            </tr>
+            <tr>
+                <td>Telefon (gesch&auml;ftlich):</td>
+                <td>{{ patient.phone_office }}</td>
+            </tr>
+            <tr>
+                <td>Privatpatient:</td>
+                <td><i class="{% if patient.state == 'p' %}icon-check{% else %}icon-check-empty{% endif %}"></i></td>
+            </tr>
+            {% if patient.state == "k" %}
+                <tr>
+                    <td>Kasse:</td>
+                    <!-- Show insurance correctly -->
+                    <td>{{ patient.insurance }}</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    {% if prescription %}
+        <h3>Rezeptdaten</h3>
+
+        <table class="table table-striped verify">
+            <tbody>
+                <tr>
+                    <td>Datum:</td>
+                    <td>{{ prescription.date }}</td>
+                </tr>
+                <tr>
+                    <td>Diagnose:</td>
+                    <td>{{ prescription.diagnosis }}</td>
+                </tr>
+                <tr>
+                    <td>Behandlung:</td>
+                    <td>{{ prescription.cure }}</td>
+                </tr>
+                <tr>
+                    <td>Art:</td>
+                    <td>{{ prescription.get_kind }}</td>
+                </tr>
+                <tr>
+                    <td>Hausbesuche:</td>
+                    <td><i class="icon-check{% if not patient.visit %}-empty{% endif %}"></i></td>
+                </tr>
+                <tr>
+                    <td>Therapiebericht:</td>
+                    <td><i class="icon-check{% if not patient.report %}-empty{% endif %}"></i></td>
+                </tr>
+                <tr>
+                    <td>Verordnungsmenge:</td>
+                    <td>{{ prescription.amount }}</td>
+                </tr>
+                <tr>
+                    <td>Anzahl pro Woche:</td>
+                    <td>{{ prescription.count }}</td>
+                </tr>
+                <tr>
+                    <td>Indikationsschl&uuml;ssel:</td>
+                    <td>{{ prescription.indicator }}</td>
+                </tr>
+                <tr>
+                    <td>Verschreibender Arzt:</td>
+                    <td>{{ prescription.doctor }}</td>
+                </tr>
+                <tr>
+                    <td>Termine:</td>
+                    <td>{{ prescription.appointments }}</td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+
+    <hr />
+
+    <form action="{% url save_all %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success btn-large">Speichern</button>
+    </form>
+{% endblock %}

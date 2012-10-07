@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block navigation %}{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/stylesheets/css/login.css" />
+    <link href='http://fonts.googleapis.com/css?family=Reenie+Beanie' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block content %}
+
+    <form action="" method="post" class="login form-inline">
+        {% csrf_token %}
+
+        <div class="form-content">
+            <h1>Patientenverwaltung</h1>
+
+            <input type="text" placeholder="Benutzername" class="input-large" value="Carmen Giese" disabled="disabled" />
+            <input type="hidden" name="username" value="Carmen Giese" />
+            <input type="password" name="password" placeholder="Passwort" />
+            
+            <button type="submit" class="btn">Anmelden</button>
+        </div>
+    </form>
+
+{% endblock %}
