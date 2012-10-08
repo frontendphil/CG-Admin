@@ -58,6 +58,19 @@
         {% endblock %}
 
         <div class="container page-content">
+            {% block breadcrump %}
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home"></i>
+                        <a href="{% url index %}">Startseite</a>
+
+                        <span class="divider">/</span></li>
+                    <li class="active">{% block breadcrump_title %}{% endblock %}</li>
+                </ul>
+
+                <hr />
+            {% endblock %}
+
             {% block content %}
             {% endblock %}
         </div>

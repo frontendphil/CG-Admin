@@ -242,7 +242,7 @@ class Insured(models.Model):
     nr = models.CharField(max_length=255)
 
     def __unicode__(self):
-        return "%s - %s (%s)" % (self.patient, self.insurance, self.nr)
+        return "%s (%s)" % (self.insurance, self.nr)
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
@@ -370,6 +370,9 @@ class Prescription(models.Model):
         p.patient = patient
 
         p.save()
+
+    def get_date(self):
+        return self.date.strftime("%d.%m.%Y")
 
     def get_kind(self):
         for key, value in self.KINDS:

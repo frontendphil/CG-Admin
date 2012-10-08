@@ -8,6 +8,7 @@ urlpatterns = patterns('admin.views',
 	url(r'^$', 'index', name='index'),
 
     url(r'^patients/$', 'search', name='search'),
+    url(r'^patient/(?P<id>\d+)/$', 'show_patient', name='show_patient'),
 	url(r'^patient/add/$', 'add_patient', name='add_patient'),
     url(r'^patient/verify/$', 'verify', name='verify'),
     url(r'^patient/continue/$', 'continue_patient', name='continue_patient'),
@@ -18,6 +19,7 @@ urlpatterns = patterns('admin.views',
     url(r'^prescription/add/$', 'add_prescription', name='add_prescription'),
 
     url(r'^docs/$', 'docs', name='docs'),
+    url(r'^docs/(?P<id>\d+)/$','show_doc', name='show_doc'),
     url(r'^docs/delete/(?P<id>\d+)/$', 'docs_delete', name='delete_doc'),
     url(r'^docs/edit/(?P<id>\d+)/$', 'docs_edit', name='edit_doc'),
 

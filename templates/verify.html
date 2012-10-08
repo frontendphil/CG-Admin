@@ -1,6 +1,6 @@
 {% extends "add.html" %}
 
-{% block title %}Daten &Uuml;berpr&uuml;fen{% endblock %}
+{% block breadcrump_title %}Daten &Uuml;berpr&uuml;fen{% endblock %}
 
 {% block steps %}
     <div class="steps">
@@ -40,8 +40,7 @@
             </tr>
             <tr>
                 <td>Geburtstag:</td>
-                <!-- Datum formatieren -->
-                <td>{{ patient.birthday }}</td>
+                <td>{{ patient.get_birthday }}</td>
             </tr>
             <tr>
                 <td>Anschrift</td>

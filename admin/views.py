@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
 from django.db.models import Q
@@ -148,6 +148,19 @@ def save_patient(request):
     return redirect("index")
 
 @login_required
+def show_patient(request, id):
+    patient = get_object_or_404(Patient, pk=id)
+
+    if patient.state == "k":
+        insurance = patient.insured_set.all()[0]
+
+    prescriptions = patient.prescription_set.all().order_by("-date")
+
+    return render_to_response("show_patient.html",
+                              locals(),
+                              context_instance=RequestContext(request))
+
+@login_required
 def edit_patient(request):
     pass
 
@@ -204,6 +217,10 @@ def docs(request):
     return render_to_response("docs.html",
                               locals(),
                               context_instance=RequestContext(request))
+
+@login_required
+def show_doc(request, id):
+    pass
 
 @login_required
 def docs_delete(request, id):

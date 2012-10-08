@@ -2,18 +2,9 @@
 
 {% load admin_extras %}
 
+{% block breadcrump_title %}&Auml;rzteverzeichnis{% endblock %}
+
 {% block content %}
-
-    <ul class="breadcrumb">
-        <li>
-            <i class="icon-home"></i>
-            <a href="{% url index %}">Startseite</a>
-
-            <span class="divider">/</span></li>
-        <li class="active">&Auml;rzteverzeichnis</li>
-    </ul>
-
-    <hr />
 
     <form action="{% url docs %}" method="get" class="form-search">
         <div class="input-append centered">

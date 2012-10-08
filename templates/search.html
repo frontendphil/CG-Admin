@@ -2,18 +2,9 @@
 
 {% load admin_extras %}
 
+{% block breadcrump_title %}Patientenverzeichnis{% endblock %}
+
 {% block content %}
-
-    <ul class="breadcrumb">
-        <li>
-            <i class="icon-home"></i>
-            <a href="{% url index %}">Startseite</a>
-
-            <span class="divider">/</span></li>
-        <li class="active">Patientenverzeichnis</li>
-    </ul>
-
-    <hr />
 
     <form action="{% url search %}" method="get" class="form-search">
         <div class="input-append centered">
@@ -65,8 +56,7 @@
                 {% for patient in patients %}
                     <tr {% if patient.is_incomplete %}class="warning"{% endif %}>
                         <td>
-                            <i class="icon-edit"></i>
-                            <a href="{% url edit_patient patient.id %}">
+                            <a href="{% url show_patient patient.id %}">
                                 {{ patient }}
                             </a>
                         </td>
