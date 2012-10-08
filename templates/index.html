@@ -1,24 +1,12 @@
 {% extends "base.html" %}
 
 {% block style %}
+    <link href='http://fonts.googleapis.com/css?family=Petit+Formal+Script' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Raleway+Dots' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/landing.css" />
 {% endblock %}
 
 {% block content %}
-
-    <p class="ribbon">
-        <strong class="ribbon-content"><i class="icon-gift left"></i>Herzlichen Gl&uuml;ckwunsch!<i class="icon-gift right"></i></strong>
-    </p>    
-
-    <div class="birthdays">
-        <p>Heute kann den folgenden Patienten zum Geburtstag graturliert werden</p>
-
-        {% for patient in patients %}
-            {{patient}}
-        {% endfor %}
-    </div>
-
-    <hr />
 
     <ul class="thumbnails">
         <li class="span4">
@@ -61,5 +49,23 @@
             </div>
         </li>
     </ul>
+
+    <hr />
+
+    <div class="birthdays">
+        <div class="logo">
+            <div class="typo">Happy Birthday</div>
+            <div class="content">
+                <p class="heading">Wir gratulieren</p>
+
+                <hr />
+                <div class="patients">
+                    {% for patient in patients %}
+                        <p class="patient">{{ patient }} <small>({{ patient.get_birthday }})</smalL></p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

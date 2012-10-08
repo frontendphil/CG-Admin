@@ -17,10 +17,8 @@ from templatetags.admin_extras import get_query
 def index(request):
     DEBUG = settings.DEBUG
 
-    start = date.today()
-    end = start + timedelta(days=2)
-
-    patients = Patient.objects.filter(birthday__range=[start, end])
+    now = date.today()
+    patients = Patient.objects.filter(birthday__day=now.day, birthday__month=now.month)
 
     return render_to_response("index.html", 
                               locals(), 

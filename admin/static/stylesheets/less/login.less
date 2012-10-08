@@ -7,6 +7,7 @@ html, body {
 
 body {
     background-image: -webkit-radial-gradient(center, farthest-side, rgba(0,0,0,0), rgba(0,0,0,.5)), url(../../img/linen.png);
+    background-image: -moz-radial-gradient(center, farthest-side, rgba(0,0,0,0), rgba(0,0,0,.5)), url(../../img/linen.png);
 }
 
 form {
@@ -47,9 +48,10 @@ form h1 {
     padding-bottom: 70px;
 
     background-image: -webkit-radial-gradient(center, farthest-corner, rgba(255, 255, 255, .5), rgba(255, 255, 255, .2));
+    background-image: -moz-radial-gradient(center, farthest-corner, rgba(255, 255, 255, .5), rgba(255, 255, 255, .2));
     border: 1px solid rgba(255, 255, 255, .2);
 
-    .shadow(100px, rgba(0, 0, 0, .5));
+    .shadow(150px, rgba(0, 0, 0, .7));
     .text-shadow(1px, rgba(0,0,0,.5), 2px, 2px);
     .rounded_corners(10px);
 }
@@ -66,4 +68,8 @@ form h1 {
 
 .form-content button {
     height: 40px;
+}
+
+.page-content {
+    margin-top: 0px;
 }

@@ -23,11 +23,11 @@
         });
 
         $("form button[type=submit]").on("click", function(e) {
-            $("form").attr("action", "/add/patient/?next=add_prescription");
+            $("form").attr("action", "/patient/add/?next=add_prescription");
         })
 
         $("form button[type=button]").on("click", function() {
-            $("form").attr("action", "/add/patient/");
+            $("form").attr("action", "/patient/add/");
 
             $("form").submit();
         })
