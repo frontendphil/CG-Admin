@@ -10,10 +10,10 @@ from cgadmin import settings
 
 from forms import PatientForm, PrescriptionForm
 from models import Patient, Doctor, Prescription, User
-from decorators import login_required, anonymous_only
+from decorators import require_login, anonymous_only
 from templatetags.admin_extras import get_query
 
-@login_required
+@require_login
 def index(request):
     DEBUG = settings.DEBUG
 
@@ -24,7 +24,7 @@ def index(request):
                               locals(), 
                               context_instance=RequestContext(request))
 
-@login_required
+@require_login
 def add_patient(request):
     if request.method == "POST":
         form = PatientForm(request.POST)
@@ -56,7 +56,7 @@ def add_patient(request):
                                locals(),
                                context_instance=RequestContext(request))    
 
-@login_required
+@require_login
 def continue_patient(request):
     if "continue" in request.GET:
         patient = Patient.objects.get(dirty=True)
@@ -76,7 +76,7 @@ def continue_patient(request):
                               locals(),
                               context_instance=RequestContext(request))
 
-@login_required
+@require_login
 def add_prescription(request):
     try:
         patient = Patient.objects.get(pk=request.session.get("patient_id"))
@@ -109,7 +109,7 @@ def add_prescription(request):
                               locals(),
                               context_instance=RequestContext(request))
 
-@login_required
+@require_login
 def verify(request):
     try:
         patient = Patient.objects.get(pk=request.session.get("patient_id"))
@@ -126,7 +126,7 @@ def verify(request):
                               context_instance=RequestContext(request))
 
 @require_POST
-@login_required
+@require_login
 def save_patient(request):
     patient = Patient.objects.get(pk=request.session.get("patient_id"))
     patient.dirty = False
@@ -147,7 +147,7 @@ def save_patient(request):
 
     return redirect("index")
 
-@login_required
+@require_login
 def show_patient(request, id):
     patient = get_object_or_404(Patient, pk=id)
 
@@ -160,16 +160,16 @@ def show_patient(request, id):
                               locals(),
                               context_instance=RequestContext(request))
 
-@login_required
+@require_login
 def edit_patient(request):
     pass
 
-@login_required
+@require_login
 @require_POST
 def delete_patient(request):
     pass
 
-@login_required
+@require_login
 def search(request):
     query = request.GET.get("query")
 
@@ -192,7 +192,7 @@ def search(request):
                               locals(),
                               context_instance=RequestContext(request))
 
-@login_required
+@require_login
 def docs(request):
     query = request.GET.get("query")
 
@@ -218,15 +218,15 @@ def docs(request):
                               locals(),
                               context_instance=RequestContext(request))
 
-@login_required
+@require_login
 def show_doc(request, id):
     pass
 
-@login_required
+@require_login
 def docs_delete(request, id):
     pass
 
-@login_required
+@require_login
 def docs_edit(request, id):
     return render_to_response("doc_edit.html",
                               locals(),
@@ -249,7 +249,7 @@ def login(request):
                               locals(),
                               context_instance=RequestContext(request))
 
-@login_required
+@require_login
 def logout(request):
     request.session.pop("user")
 

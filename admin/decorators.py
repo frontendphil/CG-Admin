@@ -5,7 +5,7 @@ from functools import wraps
 
 from models import User
 
-def login_required(fn):
+def require_login(fn):
 
     def decorator(request, *args, **kwargs):
         user_id = request.session.get("user")
