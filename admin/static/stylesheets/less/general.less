@@ -3,39 +3,62 @@
 
 html, body {
     .margin();
+
+    font-size: 13px;
 }
 
-h1, 
-h2, 
+h1,
+h2,
 h3,
 h4 {
     font-family: @font-highlight;
+
+    i {
+        margin-right: 20px;
+    }
 }
 
-h1 i, 
-h2 i, 
-h3 i, 
-h4 i {
-    margin-right: 20px;
+header {
+    position: relative;
+
+    margin-bottom: 40px;
+
+    div.btn-group {
+        position: absolute;
+
+        top: 0px;
+        right: 0px;
+    }
 }
 
-a.btn {
-    color: #333 !important;
+a {
+    &, &:visited, &:active {
+        color: #5e5342;
+    }
+
+    &:hover {
+        color: #958670;
+        text-decoration: underline;
+    }
+
+    &.btn {
+        color: #333 !important;
+
+        &.btn-success {
+            color: white !important;
+        }
+    }
 }
 
-a.btn.btn-success {
-    color: white !important;
-}
+form {
+    margin: 0px;
 
-a,
-a:visited,
-a:active {
-    color: #5e5342;
-}
-
-a:hover {
-    color: #958670;
-    text-decoration: underline;
+    button {
+        &.btn-link {
+            margin: 0px;
+            padding: 0px;
+        }
+    }
 }
 
 .form-actions {
@@ -80,7 +103,7 @@ a:hover {
     color: rgba(255, 255, 255, .5);
     font-size: 18px;
 
-    .text-shadow(1px, rgba(0,0,0, .4), -2px, -2px);
+    .text-shadow(1px, rgba(0,0,0, .4), -1px, -1px);
 }
 
 .tabbable.tabs-left ul.nav.nav-tabs {

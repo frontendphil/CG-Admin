@@ -6,7 +6,7 @@
 
 {% block content %}
 
-    <form action="{% url search %}" method="get" class="form-search">
+    <form action="{% url search_patient %}" method="get" class="form-search">
         <div class="input-append centered">
             <input type="text" name="query" value="{{ query|default:"" }}" class="input-xxlarge search-query" placeholder="Suchen Sie hier nach Patienten..." />
             <button type="submit" class="btn">Suchen</button>
@@ -71,10 +71,13 @@
                         </td>
                         <td>{{ patient.address }}</td>
                         <td>
-                            <a href="{% url delete_patient patient.id %}">
-                                <i class="icon-remove"></i>
-                                L&ouml;schen
-                            </a>
+                            <form action="{% url delete_patient id=patient.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" warning="Soll der Patient {{ patient }} wirklich gelöscht werden?" class="btn btn-link">
+                                    <i class="icon-remove"></i>
+                                    L&ouml;schen
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}

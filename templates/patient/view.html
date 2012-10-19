@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block breadcrump_title %}Patienten anzeigen{% endblock %}
+
+{% load admin_extras %}
+
+{% block script %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/prescription.js"></script>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/form.css" />
+{% endblock %}
+
+{% block content %}
+    
+    <header>
+        <h1>{{ patient }}</h1>
+        
+        <form action="{% url delete_patient id=patient.id %}" method="post">
+            {% csrf_token %}
+
+            <div class="btn-group">
+                <button target="" class="btn">
+                    <i class="icon-print"></i>
+                    Drucken
+                </button>
+                <button target="{% url edit_patient patient.id %}" class="btn">
+                    <i class="icon-edit"></i>
+                    Bearbeiten
+                </button>
+                <button type="submit" warning="Soll der Patient {{ patient }} wirklich gelöscht werden?" class="btn btn-danger">
+                    <i class="icon-remove"></i>
+                    L&ouml;schen
+                </button>
+            </div>
+        </form>
+    </header>
+
+    <table class="table highlight-first table-bordered table-striped table-hover">
+        <tbody>
+            <tr>
+                <td>Geburtstag:</td>
+                <td>{{ patient.get_birthday }}</td>
+            </tr>
+            <tr>
+                <td>Anschrift:</td>
+                <td>{{ patient.address }}</td>
+            </tr>
+            <tr>
+                <td>Telefon (privat):</td>
+                <td>{{ patient.phone_private }}</td>
+            </tr>
+            <tr>
+                <td>Telefon (gesch&auml;ftlich):</td>
+                <td>{{ patient.phone_office }}</td>
+            </tr>
+            <tr>
+                <td>Privatpatient:</td>
+                <td><i class="{% if patient.state == 'p' %}icon-check{% else %}icon-check-empty{% endif %}"></i></td>
+            </tr>
+            {% if patient.state == "k" %}
+                <tr>
+                    <td>Kasse:</td>
+                    <td>{{ insurance }}</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <hr />
+
+    {% if patient.prescription_set.all|length > 0 %}
+        <h3>Rezepte</h3>
+
+        <div class="tabbable tabs-left">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#new-prescription" data-toggle="tab">Neues Rezept</a>
+                </li>
+
+                {% for prescription in patient.prescription_set.all|chronologic %}
+                    <li>
+                        <a href="#p{{ prescription.id }}" data-toggle="tab">{{ prescription.get_date }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="new-prescription">
+                    <form action="{% url add_prescription patient.id %}" method="post" class="form-horizontal">
+                        {% include "prescription/form.html" %}
+
+                        <div class="form-actions">
+                            <input type="submit" class="btn btn-success" value="Rezept eintragen" />
+                        </div>
+                    </form>
+                </div>
+
+                {% for prescription in patient.prescription_set.all|chronologic %}
+                    <div class="tab-pane" id="p{{ prescription.id }}">
+                        {% include "prescription/view.html" %}
+
+                        <hr />
+
+                        <form action="{% url delete_prescription patient=patient.id prescription=prescription.id %}" method="post">
+                            {% csrf_token %}
+
+                            <div class="btn-group pull-right">
+                                <button target="" class="btn">
+                                    <i class="icon-file"></i>
+                                    Als Vorlage verwenden
+                                </button>
+                                <button target="" class="btn">
+                                    <i class="icon-print"></i>
+                                    Drucken
+                                </button>
+                                <button target="" class="btn">
+                                    <i class="icon-edit"></i>
+                                    Bearbeiten
+                                </button>
+                                <button type="submit" warning="Soll das Rezept wirklich gelöscht werden?" class="btn btn-danger">
+                                    <i class="icon-remove"></i>
+                                    L&ouml;schen
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

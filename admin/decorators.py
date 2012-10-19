@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 
 from functools import wraps
 
-from models import User
+from admin.models import User
 
 def require_login(fn):
 

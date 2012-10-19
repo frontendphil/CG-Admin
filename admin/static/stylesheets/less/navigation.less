@@ -19,38 +19,40 @@
     .shadow(0px, rgba(126, 108, 85, 0.1), 4px);
 
     z-index: 99;
-}
 
-.navigation a {
-    color: @font-color;
-    .text-shadow(0px, #e8e1d8, 2px, 2px);
-}
+    a {
+        color: @font-color;
+        .text-shadow(0px, #e8e1d8, 1px, 1px);
+    }
 
-.navigation div[class^="span"] {
-    padding-top: 20px;
+    div {
+        &[class^="span"] {
+            padding-top: 20px;
 
-    height: @nav-height - 20;
+            height: @nav-height - 20;
 
-    text-align: center;
-}
+            text-align: center;
 
-.navigation div[class^="span"]:hover {
-    background-color: rgba(126, 108, 85, 0.3);
+            &:hover {
+                background-color: rgba(126, 108, 85, 0.3);
 
-    color: #fff;
-    cursor: pointer;
+                color: #fff;
+                cursor: pointer;
 
-    .text-shadow(0px, @shadow-color, 2px, 2px);
-}
+                .text-shadow(0px, @shadow-color, 1px, 1px);
+            }
+        }
 
-.navigation .container {
-    background-image: url('/static/img/nav-highlight.png');
-    background-repeat: no-repeat;
-    background-position: -116px 0px;
+        .icon {
+            padding-right: 10px;
+        }
+    }
 
-    height: @nav-height;
-}
+    .container {
+        background-image: url('/static/img/nav-highlight.png');
+        background-repeat: no-repeat;
+        background-position: -116px 0px;
 
-.icon {
-    padding-right: 10px;
+        height: @nav-height;
+    }
 }

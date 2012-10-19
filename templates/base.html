@@ -31,14 +31,14 @@
                             </div>
                         </a>
 
-                        <a href="{% url search %}">
+                        <a href="{% url search_patient %}">
                             <div class="span3">
                                 <i class="icon icon-search icon-large"></i>
                                 Patienten suchen
                             </div>
                         </a>
 
-                        <a href="{% url docs %}">
+                        <a href="{% url search_docs %}">
                             <div class="span3">
                                 <i class="icon icon-user-md icon-large"></i>
                                 &Auml;rzteverzeichnis
@@ -80,9 +80,11 @@
         {% if DEBUG %}
             <script type="text/javascript" src="{{ STATIC_URL }}/js/lib/bootstrap.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}/js/lib/jquery.transit.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}/js/general.js"></script>
         {% else %}
             <script type="text/javascript" src="{{ STATIC_URL }}/js/lib/bootstrap.min.js"></script>
             <script type="text/javascript" src="{{ STATIC_URL }}/js/lib/jquery.transit.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}/js/general.js"></script>
         {% endif %}
 
         {% block script %}{% endblock %}

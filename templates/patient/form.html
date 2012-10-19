@@ -1,0 +1,79 @@
+{% csrf_token %}
+
+<div class="control-group {% if form.gender.errors %}error{% endif %}">
+    <label class="control-label" for="{{ form.gender.auto_id }}">Anrede</label>
+    <div class="controls">
+        {{ form.gender }}
+    </div>
+</div>
+
+<div class="control-group {% if form.surname.errors %}error{% endif %}">
+    <label class="control-label" for="{{ form.surname.auto_id }}">Nachname</label>
+    <div class="controls">
+        {{ form.surname }}  
+    </div>
+</div>
+
+<div class="control-group {% if form.name.errors %}error{% endif %}">
+    <label class="control-label" for="{{ form.name.auto_id }}">Name</label>
+    <div class="controls">
+        {{ form.name }}
+    </div>
+</div>
+
+<div class="control-group {% if form.day.errors or form.month.errors or form.year.errors %}error{% endif %}">
+    <label class="control-label" for="birthday">Geburtstag</label>
+    <div class="controls controls-row">
+        {{ form.day }}
+        {{ form.month }}
+        {{ form.year }}
+    </div>
+</div>
+
+<div class="control-group {% if form.street.errors or form.nr.errors or form.code.errors or form.city.errors %}error{% endif %}">
+    <label class="control-label" for="address">Adresse</label>
+    <div class="controls controls-row">
+        {{ form.street }}
+        {{ form.nr }}
+
+    </div>
+    <div class="controls controls-row medium-break">
+        {{ form.code }}
+        {{ form.city }}
+    </div>
+</div>
+
+<div class="control-group {% if form.phone_private_code.errors or form.phone_private_nr.errors %}error{% endif %}">
+    <label class="control-label" for="phone_private">Telefon (privat)</label>
+    <div class="controls controls-row">
+        {{ form.phone_private_code }}
+        {{ form.phone_private_nr}}
+    </div>
+</div>
+
+<div class="control-group {% if form.phone_office_code.errors or form.phone_office_nr.errors %}error{% endif %}">
+    <label class="control-label" for="phone_office">Telefon (gesch&auml;ftlich)</label>
+    <div class="controls controls-row">
+        {{ form.phone_office_code }}
+        {{ form.phone_office_nr }}
+    </div>
+</div>
+
+<div class="control-group {% if form.state.errors %}error{% endif %}">
+    {% for radio in form.state %}
+        <div class="controls">
+            <label class="radio">
+                {{ radio.tag }}
+                {{ radio.choice_label }}
+            </label>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="control-group insurance-group {% if form.insurance_name.errors or form.insurance_nr.errors %}error{% endif %}">
+    <label class="control-label" for="insurance">Kasse</label>
+    <div class="controls controls-row">
+        {{ form.insurance_name }}
+        {{ form.insurance_nr }}
+    </div>
+</div>

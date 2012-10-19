@@ -165,7 +165,8 @@ class PrescriptionForm(CGForm):
     }))
 
     new_doc = forms.BooleanField(required=False, widget=forms.HiddenInput(attrs={
-        'class': 'add_new_doc'
+        'class': 'add_new_doc',
+        'value': '0'
     }))
 
     def is_valid(self):

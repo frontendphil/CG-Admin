@@ -13,6 +13,10 @@ def get_range(value):
 def get_natural_range(value):
     return [i + 1 for i in range(value)]
 
+@register.filter
+def chronologic(query_set):
+    return query_set.order_by("-date")
+
 def normalize_query(query_string,
                     findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
                     normspace=re.compile(r'\s{2,}').sub):

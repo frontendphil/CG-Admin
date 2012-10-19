@@ -1,0 +1,48 @@
+<table class="table highlight-first table-striped table-bordered table-hover">
+    <tbody>
+        <tr>
+            <td>Diagnose:</td>
+            <td>{{ prescription.diagnosis }}</td>
+        </tr>
+        <tr>
+            <td>Behandlung:</td>
+            <td>{{ prescription.cure }}</td>
+        </tr>
+        <tr>
+            <td>Art:</td>
+            <td>{{ prescription.get_kind }}</td>
+        </tr>
+        <tr>
+            <td>Hausbesuche:</td>
+            <td><i class="icon-check{% if not patient.visit %}-empty{% endif %}"></i></td>
+        </tr>
+        <tr>
+            <td>Therapiebericht:</td>
+            <td><i class="icon-check{% if not patient.report %}-empty{% endif %}"></i></td>
+        </tr>
+        <tr>
+            <td>Verordnungsmenge:</td>
+            <td>{{ prescription.amount }}</td>
+        </tr>
+        <tr>
+            <td>Anzahl pro Woche:</td>
+            <td>{{ prescription.count }}</td>
+        </tr>
+        <tr>
+            <td>Indikationsschl&uuml;ssel:</td>
+            <td>{{ prescription.indicator }}</td>
+        </tr>
+        <tr>
+            <td>Verschreibender Arzt:</td>
+            <td>
+                {% if prescription.doctor %}
+                    <a href="{% url show_doc prescription.doctor.id %}">{{ prescription.doctor }}</a>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Termine:</td>
+            <td>{{ prescription.appointments }}</td>
+        </tr>
+    </tbody>
+</table>

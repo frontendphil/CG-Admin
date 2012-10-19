@@ -1,4 +1,4 @@
-(function() {
+(function($) {
 
     $(document).ready(function() {
         if($(".add_new_doc").val() !== "1") {
@@ -30,4 +30,4 @@
         });
     });
 
-}());
+}(window.jQuery));

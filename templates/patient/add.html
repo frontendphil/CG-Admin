@@ -1,0 +1,40 @@
+{% extends "add.html" %}
+
+{% block script %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/patient.js"></script>
+{% endblock %}
+
+{% block breadcrump_title %}
+    Neuen Patienten eintragen.
+{% endblock %}
+
+{% block steps %}
+    <div class="steps">
+        <p class="description active">
+            <i class="icon-check-empty"></i>
+            <strong>1. Schritt:</strong> Tragen Sie die pers&ouml;nlichen Informationen des Patienten ein.
+        </p>
+
+        <p class="description">
+            <i class="icon-check-empty"></i>
+            <strong>2. Schritt:</strong> Erstes Rezept des Patienten eintragen. <emph>(optional)</emph>
+        </p>
+
+        <p class="description">
+            <i class="icon-check-empty"></i>
+            <strong>3. Schritt:</strong> &Uuml;berpr&uuml;fen Sie die Daten noch einmal und speichern Sie den Patienten.
+        </p>
+    </div>
+{% endblock %}
+
+{% block form %}
+    <form action="" method="post" class="form-horizontal">
+        {% include "patient/form.html" %}
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Speichern und weiter...</button>
+            <button type="button" class="btn">Nur speichern</button>
+        </div>
+
+    </form>
+{% endblock %}
