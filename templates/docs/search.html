@@ -6,7 +6,7 @@
 
 {% block content %}
 
-    <form action="{% url docs %}" method="get" class="form-search">
+    <form action="{% url search_docs %}" method="get" class="form-search">
         <div class="input-append centered">
             <input type="text" name="query" class="input-xxlarge search-query" value="{{ query|default:"" }}" placeholder="Suchen Sie hier nach &Auml;rzten im Verzeichnis..." />
             <button type="submit" class="btn">Suchen</button>
@@ -19,15 +19,15 @@
         <div class="pagination pagination-centered">
             <ul>
                 <li {% if not docs.has_previous %}class="disabled"{% endif %}>
-                    <a href="{{ request.get_full_path}}&page={{ docs.previous_page_number }}">&laquo;</a>
+                    <a href="{% url list_docs query=query page=docs.previous_page_number %}">&laquo;</a>
                 </li>
                 {% for i in paginator.num_pages|get_natural_range %}
                     <li {% if i == docs.number %}class="active"{% endif %}>
-                        <a href="{{ request.get_full_path}}&page={{ i }}">{{ i }}</a>
+                        <a href="{% url list_docs query=query page=i %}">{{ i }}</a>
                     </li>
                 {% endfor %}
                 <li {% if not docs.has_next %}class="disabled"{% endif %}>
-                    <a href="{{ request.get_full_path}}&page={{ docs.next_page_number }}">&raquo;</a>
+                    <a href="{% url list_docs query=query page=docs.next_page_number %}">&raquo;</a>
                 </li>
             </ul>
         </div>
@@ -70,15 +70,15 @@
         <div class="pagination pagination-centered">
             <ul>
                 <li {% if not docs.has_previous %}class="disabled"{% endif %}>
-                    <a href="{{ request.get_full_path}}&page={{ docs.previous_page_number }}">&laquo;</a>
+                    <a href="{% url list_docs query=query page=docs.previous_page_number %}">&laquo;</a>
                 </li>
                 {% for i in paginator.num_pages|get_natural_range %}
                     <li {% if i == docs.number %}class="active"{% endif %}>
-                        <a href="{{ request.get_full_path}}&page={{ i }}">{{ i }}</a>
+                        <a href="{% url list_docs query=query page=i %}">{{ i }}</a>
                     </li>
                 {% endfor %}
                 <li {% if not docs.has_next %}class="disabled"{% endif %}>
-                    <a href="{{ request.get_full_path}}&page={{ docs.next_page_number }}">&raquo;</a>
+                    <a href="{% url list_docs query=query page=docs.next_page_number %}">&raquo;</a>
                 </li>
             </ul>
         </div>

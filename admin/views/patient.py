@@ -101,7 +101,7 @@ def show(request, id, prescription=None):
                               context_instance=RequestContext(request))
 
 @require_login
-def edit(request):
+def edit(request, id):
     pass
 
 @require_login

@@ -7,7 +7,7 @@ from admin.forms import PrescriptionForm
 from admin.decorators import require_login
 
 @require_login
-def add(request, patient):
+def add(request, patient, template=None):
     try:
         patient = Patient.objects.get(pk=patient)
     except Patient.DoesNotExist:
@@ -25,6 +25,9 @@ def add(request, patient):
 
             if patient.dirty:
                 return redirect('verify')
+        elif not patient.dirty and template:
+            # patient exists and an existing prescription is used as template
+            return redirect("prescription_template", id=patient.id, prescription=template)
 
         # set new prescription active
         

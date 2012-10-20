@@ -1,13 +1,23 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
+from django.template import RequestContext
 
 from admin.models import Doctor
 from admin.decorators import require_login
 from admin.templatetags.admin_extras import get_query
 
-@require_login
 def search(request):
     query = request.GET.get("query")
+
+    if query:
+        return redirect("list_docs", query=query, page=1)
+
+    return redirect("list_docs_page", page=1)
+
+@require_login
+def list(request, query=None, page=1):
+    if query and query == "None":
+        return redirect("list_docs_page", page=page)
 
     if query:
         q = get_query(query, ["name", "key", "address__street", "address__city"])
@@ -17,9 +27,7 @@ def search(request):
         docs_list = Doctor.objects.all()
 
     paginator = Paginator(docs_list, 25)
-
-    page = request.GET.get("page")
-
+    
     try:
         docs = paginator.page(page)
     except PageNotAnInteger:

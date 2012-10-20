@@ -25,7 +25,7 @@
                     <i class="icon-print"></i>
                     Drucken
                 </button>
-                <button target="{% url edit_patient patient.id %}" class="btn">
+                <button target="{% url edit_patient id=patient.id %}" class="btn">
                     <i class="icon-edit"></i>
                     Bearbeiten
                 </button>
@@ -88,7 +88,12 @@
 
             <div class="tab-content">
                 <div class="tab-pane active" id="new-prescription">
-                    <form action="{% url add_prescription patient.id %}" method="post" class="form-horizontal">
+                    {% if prescription %}
+                        <form action="{% url add_prescription_template patient=patient.id template=prescription.id %}" method="post" class="form-horizontal">
+                    {% else %}
+                        <form action="{% url add_prescription patient=patient.id %}" method="post" class="form-horizontal">
+                    {% endif %}
+
                         {% include "prescription/form.html" %}
 
                         <div class="form-actions">
