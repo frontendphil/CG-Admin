@@ -107,7 +107,7 @@
                             {% csrf_token %}
 
                             <div class="btn-group pull-right">
-                                <button target="" class="btn">
+                                <button target="{% url prescription_template id=patient.id prescription=prescription.id %}" class="btn">
                                     <i class="icon-file"></i>
                                     Als Vorlage verwenden
                                 </button>

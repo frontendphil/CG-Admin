@@ -371,6 +371,19 @@ class Prescription(models.Model):
 
         p.save()
 
+    def get_form_data(self):
+        return {
+            "diagnosis": self.diagnosis,
+            "cure": self.cure,
+            "kind": self.kind,
+            "visit": self.visit,
+            "report": "1" if self.report else "",
+            "amount": self.amount,
+            "count": self.count,
+            "indicator": self.indicator,
+            "doctor": self.doctor
+        }
+
     def get_date(self):
         return self.date.strftime("%d.%m.%Y")
 

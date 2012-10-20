@@ -29,9 +29,7 @@ def add(request, patient):
         # set new prescription active
         
         if not patient.dirty:
-            return render_to_response("patient/view.html",
-                                      locals(),
-                                      context_instance=RequestContext(request))
+            return redirect("show_patient", id=patient.id)
 
     else:
         try: 

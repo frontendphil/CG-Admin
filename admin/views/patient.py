@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.views.decorators.http import require_POST
 
 from admin.decorators import require_login
-from admin.models import Patient
+from admin.models import Patient, Prescription
 from admin.forms import PatientForm, PrescriptionForm
 from admin.templatetags.admin_extras import get_query
 
@@ -83,15 +83,18 @@ def save(request):
     return redirect("index")
 
 @require_login
-def show(request, id):
+def show(request, id, prescription=None):
     patient = get_object_or_404(Patient, pk=id)
 
     if patient.state == "k":
         insurance = patient.insured_set.all()[0]
 
-    # prescriptions = patient.prescription_set.all().order_by("-date")
+    if prescription:
+        prescription = Prescription.objects.get(pk=prescription)
 
-    form = PrescriptionForm()
+        form = PrescriptionForm.from_prescription(prescription)
+    else:
+        form = PrescriptionForm()
 
     return render_to_response("patient/view.html",
                               locals(),

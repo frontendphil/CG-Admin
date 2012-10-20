@@ -7,8 +7,12 @@
             var target = btn.attr("target");
 
             if(target) {
-                btn.click(function() {
+                btn.click(function(e) {
+                    e.preventDefault()
+
                     window.location.href = target;
+
+                    return false;
                 });
 
                 return;

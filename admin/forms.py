@@ -169,6 +169,10 @@ class PrescriptionForm(CGForm):
         'value': '0'
     }))
 
+    @classmethod
+    def from_prescription(cls, prescription):
+        return cls(prescription.get_form_data())
+
     def is_valid(self):
         valid = super(PrescriptionForm, self).is_valid()
 
