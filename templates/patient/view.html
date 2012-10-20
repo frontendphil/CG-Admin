@@ -89,9 +89,9 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="new-prescription">
                     {% if prescription %}
-                        <form action="{% url add_prescription_template patient=patient.id template=prescription.id %}" method="post" class="form-horizontal">
+                        <form action="{% url add_prescription_template id=patient.id pid=prescription.id %}" method="post" class="form-horizontal">
                     {% else %}
-                        <form action="{% url add_prescription patient=patient.id %}" method="post" class="form-horizontal">
+                        <form action="{% url add_prescription id=patient.id %}" method="post" class="form-horizontal">
                     {% endif %}
 
                         {% include "prescription/form.html" %}
@@ -104,15 +104,17 @@
 
                 {% for prescription in patient.prescription_set.all|chronologic %}
                     <div class="tab-pane" id="p{{ prescription.id }}">
+                        <h3 class="pull-right">{{ prescription.get_date }}</h3>
+
                         {% include "prescription/view.html" %}
 
                         <hr />
 
-                        <form action="{% url delete_prescription patient=patient.id prescription=prescription.id %}" method="post">
+                        <form action="{% url delete_prescription id=patient.id pid=prescription.id %}" method="post">
                             {% csrf_token %}
 
                             <div class="btn-group pull-right">
-                                <button target="{% url prescription_template id=patient.id prescription=prescription.id %}" class="btn">
+                                <button target="{% url prescription_template id=patient.id pid=prescription.id %}" class="btn">
                                     <i class="icon-file"></i>
                                     Als Vorlage verwenden
                                 </button>

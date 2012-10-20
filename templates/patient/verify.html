@@ -62,7 +62,7 @@
                 <tr>
                     <td>Kasse:</td>
                     <!-- Show insurance correctly -->
-                    <td>{{ patient.insurance }}</td>
+                    <td>{{ patient.get_insurance }}</td>
                 </tr>
             {% endif %}
         </tbody>
@@ -91,11 +91,11 @@
                 </tr>
                 <tr>
                     <td>Hausbesuche:</td>
-                    <td><i class="icon-check{% if not patient.visit %}-empty{% endif %}"></i></td>
+                    <td><i class="icon-check{% if not prescription.visit %}-empty{% endif %}"></i></td>
                 </tr>
                 <tr>
                     <td>Therapiebericht:</td>
-                    <td><i class="icon-check{% if not patient.report %}-empty{% endif %}"></i></td>
+                    <td><i class="icon-check{% if not prescription.report %}-empty{% endif %}"></i></td>
                 </tr>
                 <tr>
                     <td>Verordnungsmenge:</td>
@@ -123,7 +123,12 @@
 
     <hr />
 
-    <form action="{% url save_all %}" method="post">
+    {% if prescription %}
+        <form action="{% url save_all id=patient.id pid=prescription.id %}" method="post">
+    {% else %}
+        <form action="{% url save_all id=patient.id %}" method="post">
+    {% endif %}
+    
         {% csrf_token %}
         <button type="submit" class="btn btn-success btn-large">Speichern</button>
     </form>

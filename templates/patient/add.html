@@ -28,12 +28,12 @@
 {% endblock %}
 
 {% block form %}
-    <form action="" method="post" class="form-horizontal">
+    <form action="" method="post" class="add-patient form-horizontal">
         {% include "patient/form.html" %}
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-success">Speichern und weiter...</button>
-            <button type="button" class="btn">Nur speichern</button>
+            <input type="submit" target="{% url add_patient_next_step %}" class="btn btn-success" value="Speichern und weiter..." />
+            <input type="button" target="{% url add_patient %}" class="btn" value="Nur speichern" />
         </div>
 
     </form>

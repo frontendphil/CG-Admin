@@ -29,7 +29,7 @@ def verify(request, patient, prescription=0):
     except Prescription.DoesNotExist:
         prescription = None
 
-    return render_to_response("verify.html",
+    return render_to_response("patient/verify.html",
                               locals(),
                               context_instance=RequestContext(request))
 

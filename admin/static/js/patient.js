@@ -22,15 +22,18 @@
             }
         });
 
-        $("form button[type=submit]").on("click", function(e) {
-            $("form").attr("action", "/patient/add/?next=add_prescription");
-        })
+        var form = $("form.add-patient");
 
-        $("form button[type=button]").on("click", function() {
-            $("form").attr("action", "/patient/add/");
+        form.find(".form-actions input").each(function(i) {
+            $(this).on("click", function(e) {
+                e.preventDefault();
 
-            $("form").submit();
-        })
+                var target = $(this).attr("target");
+
+                form.attr("action", target);
+                form.submit();
+            });
+        });
     });
 
 }(window.jQuery));

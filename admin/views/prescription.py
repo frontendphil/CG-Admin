@@ -7,9 +7,9 @@ from admin.forms import PrescriptionForm
 from admin.decorators import require_login
 
 @require_login
-def add(request, patient, template=None):
+def add(request, id, pid=None):
     try:
-        patient = Patient.objects.get(pk=patient)
+        patient = Patient.objects.get(pk=id)
     except Patient.DoesNotExist:
         return redirect("add_patient")
 
@@ -18,16 +18,14 @@ def add(request, patient, template=None):
 
         if form.is_valid():
             prescription = Prescription.from_form(form, patient)
-
             prescription.save()
 
-            request.session["prescription_id"] = prescription.id
-
             if patient.dirty:
-                return redirect('verify')
-        elif not patient.dirty and template:
+                return redirect('verify', patient=patient.id, prescription=prescription.id)
+
+        elif not patient.dirty and pid:
             # patient exists and an existing prescription is used as template
-            return redirect("prescription_template", id=patient.id, prescription=template)
+            return redirect("prescription_template", id=patient.id, prescription=pid)
 
         # set new prescription active
         
@@ -51,8 +49,8 @@ def add(request, patient, template=None):
 
 @require_login
 @require_POST
-def delete(request, patient, prescription):
-    prescription = get_object_or_404(Prescription, pk=prescription)
+def delete(request, id, pid):
+    prescription = get_object_or_404(Prescription, pk=pid)
     prescription.delete()
 
-    return redirect("show_patient", id=patient)
+    return redirect("show_patient", id=id)

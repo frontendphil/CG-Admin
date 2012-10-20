@@ -229,6 +229,12 @@ class Patient(models.Model):
 
         return patient
 
+    def get_insurance(self):
+        if self.state == self.STATE_PRIVATE:
+            return None
+
+        return self.insured_set.all()[0]
+
     def get_birthday(self):
         return self.birthday.strftime("%d.%m.%Y") if self.birthday else ""
 

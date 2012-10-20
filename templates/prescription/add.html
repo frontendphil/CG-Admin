@@ -27,15 +27,7 @@
 
 {% block form %}
     <form class="form-horizontal" method="post">
-        {% include "prescription/form.html" %}       
-
-        <div class="control-group">
-            <label class="control-label" for="{{ form.appointsments.auto_id }}">Behandlungstermine</label>
-            <div class="controls">
-                {{ form.appointsments }}
-                <div class="info"><span class="label label-info">Info!</span> Trennen Sie mehrere Termine durch Komma</span>
-            </div>
-        </div>
+        {% include "prescription/form.html" %}
 
         <div class="form-actions">
             <button type="submit" class="btn btn-success">Weiter...</button>

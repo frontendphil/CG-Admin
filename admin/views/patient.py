@@ -9,17 +9,15 @@ from admin.forms import PatientForm, PrescriptionForm
 from admin.templatetags.admin_extras import get_query
 
 @require_login
-def add(request):
+def add(request, cont=False):
     if request.method == "POST":
         form = PatientForm(request.POST)
 
         if form.is_valid():
             patient = Patient.from_form(form)
 
-            if "next" in request.GET:
-                request.session["patient_id"] = patient.id
-
-                return redirect(request.GET["next"])
+            if cont:
+                return redirect("add_prescription", id=patient.id)
 
             patient.dirty = False
             patient.save()
@@ -32,7 +30,7 @@ def add(request):
             patient = None
 
         if patient:
-            return redirect("continue_patient")
+            return redirect("continue_patient", id=patient.id)
 
         form = PatientForm()
 
@@ -41,20 +39,8 @@ def add(request):
                                context_instance=RequestContext(request))  
 
 @require_login
-def finish(request):
-    if "continue" in request.GET:
-        patient = Patient.objects.get(dirty=True)
-
-        if request.GET.get("continue") == "1":
-            request.session["patient_id"] = patient.id
-
-            return redirect("add_prescription")
-        else:
-            request.session.pop("patient_id")
-
-            patient.delete()
-
-            return redirect("add_patient")
+def finish(request, id):
+    patient = Patient.objects.get(pk=id)
 
     return render_to_response("patient/continue.html",
                               locals(),
@@ -62,35 +48,27 @@ def finish(request):
 
 @require_POST
 @require_login
-def save(request):
-    patient = Patient.objects.get(pk=request.session.get("patient_id"))
+def save(request, id, pid=None):
+    patient = Patient.objects.get(pk=id)
     patient.dirty = False
     patient.save()
 
-    request.session.pop("patient_id")
-
-    try:
-        prescription = Prescription.objects.get(pk=request.session.get("prescription_id"))
-    except Prescription.DoesNotExist:
-        prescription = None
-
-    if prescription:
+    if pid:
+        prescription = Prescription.objects.get(pk=pid)
         prescription.dirty = False
         prescription.save()
-
-        request.session.pop("prescription_id")
 
     return redirect("index")
 
 @require_login
-def show(request, id, prescription=None):
+def show(request, id, pid=None):
     patient = get_object_or_404(Patient, pk=id)
 
     if patient.state == "k":
         insurance = patient.insured_set.all()[0]
 
-    if prescription:
-        prescription = Prescription.objects.get(pk=prescription)
+    if pid:
+        prescription = Prescription.objects.get(pk=pid)
 
         form = PrescriptionForm.from_prescription(prescription)
     else:
@@ -106,9 +84,12 @@ def edit(request, id):
 
 @require_login
 @require_POST
-def delete(request, id):
+def delete(request, id, after=None):
     patient = get_object_or_404(Patient, pk=id)
     patient.delete()
+
+    if after:
+        return redirect(after)
 
     return redirect("search_patient")
 
