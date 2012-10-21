@@ -26,17 +26,17 @@
             <div class="pagination pagination-centered">
                 <ul>
                     <li {% if not patients.has_previous %}class="disabled"{% endif %}>
-                        <a href="{{ request.get_full_path }}&page={{ patients.previous_page_number }}">&laquo;</a>
+                        <a href="{% url list_patients query=query page=patients.previous_page_number %}">&laquo;</a>
                     </li>
                         
                     {% for i in paginator.page_range %}
                         <li {% if i == patients.number %}class="active"{% endif %}>
-                            <a href="{{ request.get_full_path }}&page={{ i }}">{{ i }}</a>
+                            <a href="{% url list_patients query=query page=i %}">{{ i }}</a>
                         </li>
                     {% endfor %}
 
                     <li {% if not patients.has_next %}class="disabled"{% endif %}>
-                        <a href="{{ request.get_full_path}}&page={{ patients.next_page_number }}">&raquo;</a>
+                        <a href="{% url list_patients query=query page=patients.next_page_number }">&raquo;</a>
                     </li>
                 </ul>
             </div>
@@ -88,15 +88,17 @@
             <div class="pagination pagination-centered">
                 <ul>
                     <li {% if not patients.has_previous %}class="disabled"{% endif %}>
-                        <a href="{{ request.get_full_path }}&page={{ patients.previous_page_number }}">&laquo;</a>
+                        <a href="{% url list_patients query=query page=patients.previous_page_number %}">&laquo;</a>
                     </li>
-                    {% for i in paginator.num_pages|get_natural_range %}
+                        
+                    {% for i in paginator.page_range %}
                         <li {% if i == patients.number %}class="active"{% endif %}>
-                            <a href="{{ request.get_full_path }}&page={{ i }}">{{ i }}</a>
+                            <a href="{% url list_patients query=query page=i %}">{{ i }}</a>
                         </li>
                     {% endfor %}
+
                     <li {% if not patients.has_next %}class="disabled"{% endif %}>
-                        <a href="{{ request.get_full_path }}&page={{ patients.next_page_number }}">&raquo;</a>
+                        <a href="{% url list_patients query=query page=patients.next_page_number }">&raquo;</a>
                     </li>
                 </ul>
             </div>

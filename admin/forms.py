@@ -85,6 +85,10 @@ class PatientForm(CGForm):
         'placeholder': 'Versicherungsnummer'
     }))
 
+    @classmethod
+    def from_patient(cls, patient):
+        return cls(patient.get_form_data())
+
     def is_valid(self):
         valid = True
 

@@ -80,7 +80,16 @@ def show(request, id, pid=None):
 
 @require_login
 def edit(request, id):
-    pass
+    patient = Patient.objects.get(pk=id);
+
+    if request.method == "POST":
+        pass
+
+    form = PatientForm.from_patient(patient)
+
+    return render_to_response("patient/edit.html",
+                              locals(),
+                              context_instance=RequestContext(request))
 
 @require_login
 @require_POST
@@ -94,16 +103,15 @@ def delete(request, id, after=None):
     return redirect("search_patient")
 
 @require_login
-def search(request):
-    query = request.GET.get("query")
+def list(request, query=None, page=1):
+    if query and query == "None":
+        return redirect("list_patients_page", page=page)
 
     if query:
         q = get_query(query, ["name", "surname", "address__street", "address__city", "birthday"])
 
         patients_list = Patient.objects.filter(q)
         paginator = Paginator(patients_list, 25)
-
-        page = request.GET.get("page")
 
         try:
             patients = paginator.page(page)
@@ -115,3 +123,12 @@ def search(request):
     return render_to_response("patient/search.html", 
                               locals(),
                               context_instance=RequestContext(request))
+
+@require_login
+def search(request):
+    query = request.GET.get("query")
+
+    if query:
+        return redirect("list_patients", query=query, page=1)
+
+    return redirect("list_patients_page", page=1)

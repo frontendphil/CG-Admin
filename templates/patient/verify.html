@@ -61,7 +61,6 @@
             {% if patient.state == "k" %}
                 <tr>
                     <td>Kasse:</td>
-                    <!-- Show insurance correctly -->
                     <td>{{ patient.get_insurance }}</td>
                 </tr>
             {% endif %}
@@ -71,54 +70,7 @@
     {% if prescription %}
         <h3>Rezeptdaten</h3>
 
-        <table class="table table-striped verify">
-            <tbody>
-                <tr>
-                    <td>Datum:</td>
-                    <td>{{ prescription.date }}</td>
-                </tr>
-                <tr>
-                    <td>Diagnose:</td>
-                    <td>{{ prescription.diagnosis }}</td>
-                </tr>
-                <tr>
-                    <td>Behandlung:</td>
-                    <td>{{ prescription.cure }}</td>
-                </tr>
-                <tr>
-                    <td>Art:</td>
-                    <td>{{ prescription.get_kind }}</td>
-                </tr>
-                <tr>
-                    <td>Hausbesuche:</td>
-                    <td><i class="icon-check{% if not prescription.visit %}-empty{% endif %}"></i></td>
-                </tr>
-                <tr>
-                    <td>Therapiebericht:</td>
-                    <td><i class="icon-check{% if not prescription.report %}-empty{% endif %}"></i></td>
-                </tr>
-                <tr>
-                    <td>Verordnungsmenge:</td>
-                    <td>{{ prescription.amount }}</td>
-                </tr>
-                <tr>
-                    <td>Anzahl pro Woche:</td>
-                    <td>{{ prescription.count }}</td>
-                </tr>
-                <tr>
-                    <td>Indikationsschl&uuml;ssel:</td>
-                    <td>{{ prescription.indicator }}</td>
-                </tr>
-                <tr>
-                    <td>Verschreibender Arzt:</td>
-                    <td>{{ prescription.doctor }}</td>
-                </tr>
-                <tr>
-                    <td>Termine:</td>
-                    <td>{{ prescription.appointments }}</td>
-                </tr>
-            </tbody>
-        </table>
+       {% include "prescription/view.html" %}
     {% endif %}
 
     <hr />

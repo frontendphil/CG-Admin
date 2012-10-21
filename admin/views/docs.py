@@ -6,6 +6,7 @@ from admin.models import Doctor
 from admin.decorators import require_login
 from admin.templatetags.admin_extras import get_query
 
+@require_login
 def search(request):
     query = request.GET.get("query")
 

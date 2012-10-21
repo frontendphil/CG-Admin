@@ -229,6 +229,31 @@ class Patient(models.Model):
 
         return patient
 
+    def get_form_data(self):
+        result = {
+            "gender": self.gender,
+            "name": self.name,
+            "surname": self.surname,
+            "day": self.birthday.day,
+            "month": self.birthday.month,
+            "year": self.birthday.year,
+            "street": self.address.street,
+            "nr": self.address.nr,
+            "code": self.address.city_code,
+            "city": self.address.city,
+            "state": self.state
+        }
+
+        # add phone number
+
+        if not self.state == self.STATE_PRIVATE:
+            insured = self.insured_set.all()[0]
+
+            result["insurance_name"] = insured.insurance.name
+            result["insurance_nr"] = insured.nr
+
+        return result
+
     def get_insurance(self):
         if self.state == self.STATE_PRIVATE:
             return None
