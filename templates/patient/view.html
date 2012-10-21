@@ -15,24 +15,36 @@
 {% block content %}
     
     <header>
-        <h1>{{ patient }}</h1>
+        <h1><small>{{ patient.get_gender }}</small>{{ patient }}</h1>
         
         <form action="{% url delete_patient id=patient.id %}" method="post">
             {% csrf_token %}
 
-            <div class="btn-group">
-                <button target="" class="btn">
-                    <i class="icon-print"></i>
-                    Drucken
-                </button>
-                <button target="{% url edit_patient id=patient.id %}" class="btn">
-                    <i class="icon-edit"></i>
-                    Bearbeiten
-                </button>
-                <button type="submit" warning="Soll der Patient {{ patient }} wirklich gelöscht werden?" class="btn btn-danger">
-                    <i class="icon-remove"></i>
-                    L&ouml;schen
-                </button>
+            <div class="controls">
+                <div class="btn-group">
+                    <button target="" class="btn">
+                        <i class="icon-print"></i>
+                        Drucken
+                    </button>
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="">Inoffizielle Termine ausblenden</a>
+                        </li>
+                    </ul>
+                </div class="btn-group">
+                <div class="btn-group">
+                    <button target="{% url edit_patient id=patient.id %}" class="btn">
+                        <i class="icon-edit"></i>
+                        Bearbeiten
+                    </button>
+                    <button type="submit" warning="Soll der Patient {{ patient }} wirklich gelöscht werden?" class="btn btn-danger">
+                        <i class="icon-remove"></i>
+                        L&ouml;schen
+                    </button>
+                </div>
             </div>
         </form>
     </header>
@@ -70,7 +82,7 @@
 
     <hr />
 
-    {% if patient.prescription_set.all|length > 0 %}
+    {% if patient.prescription_set|count > 0 %}
         <h3>Rezepte</h3>
 
         <div class="tabbable tabs-left">
@@ -79,11 +91,27 @@
                     <a href="#new-prescription" data-toggle="tab">Neues Rezept</a>
                 </li>
 
-                {% for prescription in patient.prescription_set.all|chronologic %}
-                    <li>
-                        <a href="#p{{ prescription.id }}" data-toggle="tab">{{ prescription.get_date }}</a>
-                    </li>
-                {% endfor %}
+                {% if complete %}
+                    {% for prescription in patient.prescription_set.all|chronologic %}
+                        <li>
+                            <a href="#p{{ prescription.id }}" data-toggle="tab">{{ prescription.get_date }}</a>
+                        </li>
+                    {% endfor %}
+                        <li>
+                            <a href="{% url show_patient id=patient.id %}">Weniger&hellip;</a>
+                        </li>
+                {% else %}
+                    {% for prescription in patient.prescription_set|chronologic|first5 %}
+                        <li>
+                            <a href="#p{{ prescription.id }}" data-toggle="tab">{{ prescription.get_date }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if patient.prescription_set|count > 5 %}
+                        <li>
+                            <a href="{% url show_patient_complete id=patient.id %}">Mehr&hellip;</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
             </ul>
 
             <div class="tab-content">
@@ -123,7 +151,7 @@
                                     <i class="icon-print"></i>
                                     Drucken
                                 </button>
-                                <button target="" class="btn">
+                                <button target="{% url edit_prescription id=patient.id pid=prescription.id %}" class="btn">
                                     <i class="icon-edit"></i>
                                     Bearbeiten
                                 </button>

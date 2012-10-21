@@ -14,6 +14,14 @@ def get_natural_range(value):
     return [i + 1 for i in range(value)]
 
 @register.filter
+def first5(query_set):
+    return query_set[0:5]
+
+@register.filter
+def count(query_set):
+    return query_set.count()
+
+@register.filter
 def chronologic(query_set):
     return query_set.order_by("-date")
 

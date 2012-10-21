@@ -39,11 +39,15 @@
                 return;
             }
 
-            btn.click(function(e) {
-                e.preventDefault();
+            var dataToggle = btn.attr("data-toggle");
 
-                return false;
-            });
+            if(!dataToggle) {
+                btn.click(function(e) {
+                    e.preventDefault();
+
+                    return false;
+                });
+            }
         });
     });
 

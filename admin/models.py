@@ -76,14 +76,19 @@ def parse_street(data):
 
     return (street, nr)
 
-def get_or_create_address(data):
-    street = parse_street(data["address"]["street"])
+def get_or_create_address(data, clean=False):
+    if not clean:
+        street, nr = parse_street(data["address"]["street"])
+    else: 
+        street = data["address"]["street"]
+        nr = data["address"]["nr"]
+
     address = None
 
     if street:
         try:
-            address = Address.objects.get(street=street[0], 
-                                          nr=street[1],
+            address = Address.objects.get(street=street, 
+                                          nr=nr,
                                           city_code=int(data["address"]["code"]))
         except Address.DoesNotExist:
             pass
@@ -92,8 +97,8 @@ def get_or_create_address(data):
         address = Address()
 
         if street:
-            address.street = street[0]
-            address.nr = street[1]
+            address.street = street
+            address.nr = nr
 
         address.city_code = int(data["address"]["code"])
 
@@ -189,7 +194,7 @@ class Patient(models.Model):
 
             result.state = "p" if patient["private"] else "k"
             result.gender = patient["gender"]
-            result.address = get_or_create_address(patient)
+            result.address = get_or_create_address(patient, clean=True)
 
             result.dirty = False
 
@@ -202,11 +207,11 @@ class Patient(models.Model):
                 Prescription.load(prescription, result)
 
     @classmethod
-    def from_form(cls, form):
+    def from_form(cls, form, patient=None):
         if not form.is_valid():
             return None
 
-        patient = Patient()
+        patient = cls() if not patient else patient
         patient.name = get(form, "name")
         patient.surname = get(form, "surname")
         patient.gender = get(form, "gender")
@@ -229,6 +234,14 @@ class Patient(models.Model):
 
         return patient
 
+    def prepare_phone(self, number):
+        phone = number.split("/") if number else ("", "")
+
+        if len(phone) > 2:
+            phone = ("", "/".join(phone))
+
+        return phone
+
     def get_form_data(self):
         result = {
             "gender": self.gender,
@@ -244,7 +257,8 @@ class Patient(models.Model):
             "state": self.state
         }
 
-        # add phone number
+        result["phone_private_code"], result["phone_private_nr"] = self.prepare_phone(self.phone_private)
+        result["phone_office_code"], result["phone_office_nr"] = self.prepare_phone(self.phone_office)
 
         if not self.state == self.STATE_PRIVATE:
             insured = self.insured_set.all()[0]
@@ -262,6 +276,9 @@ class Patient(models.Model):
 
     def get_birthday(self):
         return self.birthday.strftime("%d.%m.%Y") if self.birthday else ""
+
+    def get_gender(self):
+        return "Frau" if self.gender == "f" else "Herr"
 
     def __unicode__(self):
         return u"%s, %s" % (self.surname, self.name)
@@ -314,11 +331,11 @@ class Prescription(models.Model):
     )
 
     @classmethod
-    def from_form(cls, form, patient=None):
+    def from_form(cls, form, patient=None, prescription=None):
         if not patient or not form.is_valid():
             return None
 
-        prescription = cls()
+        prescription = cls() if not prescription else prescription
         prescription.date = strftime("%Y-%m-%d", strptime(get_date_string(form), "%d.%m.%Y"))
         prescription.diagnosis = get(form, "diagnosis")
         prescription.cure = get(form, "cure")
@@ -402,8 +419,8 @@ class Prescription(models.Model):
 
         p.save()
 
-    def get_form_data(self):
-        return {
+    def get_form_data(self, full):
+        result = {
             "diagnosis": self.diagnosis,
             "cure": self.cure,
             "kind": self.kind,
@@ -414,6 +431,14 @@ class Prescription(models.Model):
             "indicator": self.indicator,
             "doctor": self.doctor
         }
+
+        if full:
+            result["appointments"] = self.appointments
+            result["day"] = self.date.day
+            result["month"] = self.date.month
+            result["year"] = self.date.year
+
+        return result
 
     def get_date(self):
         return self.date.strftime("%d.%m.%Y")

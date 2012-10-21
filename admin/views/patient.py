@@ -61,7 +61,7 @@ def save(request, id, pid=None):
     return redirect("index")
 
 @require_login
-def show(request, id, pid=None):
+def show(request, id, pid=None, complete=False):
     patient = get_object_or_404(Patient, pk=id)
 
     if patient.state == "k":
@@ -80,12 +80,18 @@ def show(request, id, pid=None):
 
 @require_login
 def edit(request, id):
-    patient = Patient.objects.get(pk=id);
+    patient = get_object_or_404(Patient, pk=id)
 
     if request.method == "POST":
-        pass
+        form = PatientForm(request.POST)
 
-    form = PatientForm.from_patient(patient)
+        if form.is_valid():
+            patient = Patient.from_form(form, patient=patient)
+            patient.save()
+
+            return redirect("show_patient", id=id)
+    else:
+        form = PatientForm.from_patient(patient)
 
     return render_to_response("patient/edit.html",
                               locals(),

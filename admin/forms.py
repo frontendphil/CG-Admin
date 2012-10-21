@@ -174,8 +174,8 @@ class PrescriptionForm(CGForm):
     }))
 
     @classmethod
-    def from_prescription(cls, prescription):
-        return cls(prescription.get_form_data())
+    def from_prescription(cls, prescription, full=False):
+        return cls(prescription.get_form_data(full))
 
     def is_valid(self):
         valid = super(PrescriptionForm, self).is_valid()

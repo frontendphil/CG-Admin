@@ -54,3 +54,24 @@ def delete(request, id, pid):
     prescription.delete()
 
     return redirect("show_patient", id=id)
+
+@require_login
+def edit(request, id, pid):
+    prescription = get_object_or_404(Prescription, pk=pid)
+    patient = get_object_or_404(Patient, pk=id)
+
+    if request.method == "POST":
+        form = PrescriptionForm(request.POST)
+
+        if form.is_valid():
+            prescription = Prescription.from_form(form, patient=patient, prescription=prescription)
+
+            prescription.save()
+
+            return redirect("show_patient", id=id)
+    else:        
+        form = PrescriptionForm.from_prescription(prescription, True)
+
+    return render_to_response("prescription/edit.html",
+                              locals(),
+                              context_instance=RequestContext(request))
