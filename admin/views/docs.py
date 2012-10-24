@@ -1,10 +1,11 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 
 from admin.models import Doctor
 from admin.decorators import require_login
 from admin.templatetags.admin_extras import get_query
+from admin.forms import DoctorForm
 
 @require_login
 def search(request):
@@ -50,6 +51,13 @@ def delete(request, id):
 
 @require_login
 def edit(request, id):
+    doc = get_object_or_404(Doctor, pk=id)
+
+    if request.method == "POST":
+        pass
+    else:
+        form = DoctorForm.from_doctor(doc)
+
     return render_to_response("docs/edit.html",
                               locals(),
                               context_instance=RequestContext(request))

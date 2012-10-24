@@ -484,6 +484,38 @@ class Doctor(models.Model):
 
             result.save()
 
+    def prepare_phone(self, number):
+        phone = number.split("/") if number else ("", "")
+
+        if len(phone) > 2:
+            phone = ("", "/".join(phone))
+
+        return phone
+
+    def get_form_data(self):
+        result = {
+            "name": self.name,
+            "key": self.key
+        }
+
+        if self.address:
+            result.update({
+                "street": self.address.street,
+                "nr": self.address.nr,
+                "code": self.address.city_code,
+                "city": self.address.city
+            })
+
+        if self.phone:
+            code, nr = self.prepare_phone(self.phone)
+
+            result.update({
+                "phone_code": code,
+                "phone_nr": nr
+            })
+
+        return result
+
     def is_incomplete(self):
         return not self.name or not self.key or len(self.phone) < 2 or self.address.is_incomplete()
 

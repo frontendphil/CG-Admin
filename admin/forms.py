@@ -14,7 +14,7 @@ class CGForm(forms.Form):
 
 class PatientForm(CGForm):
     gender = forms.ChoiceField(widget=forms.Select, choices=Patient.GENDERS)
-    
+
     name = forms.CharField(widget=forms.TextInput(attrs={'class':'span4'}))
     surname = forms.CharField(widget=forms.TextInput(attrs={'class':'span4'}))
 
@@ -185,3 +185,41 @@ class PrescriptionForm(CGForm):
                 return False
 
         return valid
+
+class DoctorForm(CGForm):
+    name = forms.CharField()
+    key = forms.CharField()
+
+    street = forms.CharField(widget=forms.TextInput(attrs={
+        'class':'span3',
+        'placeholder':'Straße'
+    }))
+
+    nr = forms.CharField(max_length=5, widget=forms.TextInput(attrs={
+        'class':'span1',
+        'placeholder':'Nr'
+    }))
+
+    code = forms.IntegerField(widget=forms.TextInput(attrs={
+        'class':'span1',
+        'placeholder':'PLZ'
+    }))
+
+    city = forms.CharField(widget=forms.TextInput(attrs={
+        'class':'span3',
+        'placeholder':'Stadt'
+    }))
+
+    phone_code = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'class': 'span2',
+        'placeholder': 'Vorwahl'
+    }))
+
+    phone_nr = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'class': 'span2',
+        'placeholder': 'Rufnummer'
+    }))
+
+    @classmethod
+    def from_doctor(cls, doctor):
+        return cls(doctor.get_form_data())

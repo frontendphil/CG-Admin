@@ -1,0 +1,36 @@
+{% csrf_token %}
+
+<div class="control-group {% if form.name.errors %}error{% endif %}">
+    <label class="control-label" for="{{ form.name.auto_id }}">Name</label>
+    <div class="controls">
+        {{ form.name }}  
+    </div>
+</div>
+
+<div class="control-group {% if form.key.errors %}error{% endif %}">
+    <label class="control-label" for="{{ form.key.auto_id }}">Vertragsschl&uuml;ssel</label>
+    <div class="controls">
+        {{ form.key }}
+    </div>
+</div>
+
+<div class="control-group {% if form.street.errors or form.nr.errors or form.code.errors or form.city.errors %}error{% endif %}">
+    <label class="control-label" for="address">Adresse</label>
+    <div class="controls controls-row">
+        {{ form.street }}
+        {{ form.nr }}
+
+    </div>
+    <div class="controls controls-row medium-break">
+        {{ form.code }}
+        {{ form.city }}
+    </div>
+</div>
+
+<div class="control-group {% if form.phone_code.errors or form.phone_nr.errors %}error{% endif %}">
+    <label class="control-label" for="phone">Telefon</label>
+    <div class="controls controls-row">
+        {{ form.phone_code }}
+        {{ form.phone_nr}}
+    </div>
+</div>

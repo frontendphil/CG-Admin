@@ -1,1 +1,20 @@
 {% extends "base.html" %}
+
+{% block breadcrump_title %}Arzt bearbeiten{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/form.css" />
+{% endblock %}
+
+{% block content %}
+
+    <form action="{% url edit_doc id=doc.id %}" method="post" class="form-horizontal">
+        {% include "docs/form.html" %}
+
+        <div class="form-actions">
+            <input type="submit" value="Speichern" class="btn btn-success" />
+            <a href="{% url search_docs %}" class="btn">Abbrechen</a>
+        </div>
+    </form>
+
+{% endblock %}
