@@ -27,7 +27,8 @@
     .logo {
         position: relative;
 
-        background-color: #ecb9b6;
+        .rounded-corners(10px);
+        .radial-gradient-with-image(rgba(236, 185, 182, 0.5), rgba(236, 185, 182, 0.8), url(../../img/paper.png));
 
         .typo {
             position: absolute;
@@ -57,7 +58,10 @@
 
             text-align: center;
 
-            background-color: white;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+
+            .radial-gradient-with-image(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8), url(../../img/paper.png));
 
             p {
                 &.heading {
