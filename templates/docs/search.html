@@ -60,7 +60,7 @@
                     <td>{{ doc.phone }}</td>
                     <td>{{ doc.address }}</td>
                     <td>
-                        <a href="{% url delete_doc doc.id %}">
+                        <a rel="delete" after="{% url list_docs query=query page=page %}" href="{% url delete_doc doc.id %}">
                             <i class="icon-remove"></i>
                             L&ouml;schen
                         </a>

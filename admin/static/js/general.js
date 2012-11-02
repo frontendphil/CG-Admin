@@ -25,6 +25,21 @@
             updateTarget($(btn), "target");
         });
 
+        $("a[rel=delete]").each(function(index, a) {
+            a = $(a);
+
+            var after = a.attr("after");
+            var target = a.attr("href");
+
+            if(!target) {
+                target = "";
+            }
+
+            if(after) {
+                a.attr("href", target + "?redirect=" + after);
+            }
+        });
+
         $("button").each(function(index, btn) {
             btn = $(btn);
 

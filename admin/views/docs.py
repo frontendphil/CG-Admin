@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
+from django.views.decorators.http import require_POST
 
 from admin.models import Doctor
 from admin.decorators import require_login
@@ -46,8 +47,17 @@ def show(request, id):
     pass
 
 @require_login
+@require_POST
 def delete(request, id):
-    pass
+    doctor = get_object_or_404(Doctor, pk=id)
+    doctor.delete()
+
+    follow = request.GET.get("redirect", None)
+
+    # TODO: check that!
+    if follow:
+        return redirect(follow)
+
 
 @require_login
 def edit(request, id):
