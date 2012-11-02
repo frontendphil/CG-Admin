@@ -64,8 +64,9 @@
                         <i class="icon-home"></i>
                         <a href="{% url index %}">Startseite</a>
 
-                        <span class="divider">/</span></li>
-                    <li class="active">{% block breadcrump_title %}{% endblock %}</li>
+                        <span class="divider">/</span>
+                    </li>
+                    {% block breadcrump_title %}{% endblock %}
                 </ul>
 
                 <hr />

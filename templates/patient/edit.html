@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 
-{% block breadcrump_title %}Patienten bearbeiten{% endblock %}
+{% block breadcrump_title %}
+    <li>
+        <i class="icon-search"></i>
+        <a rel="abort" href="">Patienten suchen</a>
+        <span class="divider">/</span>
+    </li>
+    <li>
+        <i class="icon-edit"></i>
+        <a rel="forward" href="{% url show_patient id=patient.id %}">Patienten anzeigen</a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">
+        Patienten bearbeiten
+    </li>
+{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/form.css" />
@@ -18,7 +32,7 @@
 
         <div class="form-actions">
             <input type="submit" class="btn btn-success" value="Speichern" />
-            <a href="{% url show_patient id=patient.id %}" class="btn">Abbrechen</a>
+            <a rel="abort" href="{% url show_patient id=patient.id %}" class="btn">Abbrechen</a>
         </div>
 
     </form>

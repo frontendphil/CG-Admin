@@ -1,6 +1,10 @@
 {% extends "add.html" %}
 
-{% block breadcrump_title %}Rezept hinzuf&uuml;gen{% endblock %}
+{% block breadcrump_title %}
+    <li class="active">
+        Rezept hinzuf&uuml;gen
+    </li>
+{% endblock %}
 
 {% block script %}
     <script type="text/javascript" src="{{ STATIC_URL }}/js/prescription.js"></script>

@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
-{% block breadcrump_title %}Arzt bearbeiten{% endblock %}
+{% block breadcrump_title %}
+    <li>
+        <i class="icon-user-md"></i>
+        <a rel="abort" href="">&Auml;rzteverzeichnis</a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">
+        Arzt bearbeiten
+    </li>
+{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/form.css" />
@@ -13,7 +22,7 @@
 
         <div class="form-actions">
             <input type="submit" value="Speichern" class="btn btn-success" />
-            <a href="{% url search_docs %}" class="btn">Abbrechen</a>
+            <a rel="abort" class="btn">Abbrechen</a>
         </div>
     </form>
 

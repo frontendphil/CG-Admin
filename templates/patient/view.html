@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
-{% block breadcrump_title %}Patienten anzeigen{% endblock %}
+{% block breadcrump_title %}
+    <li>
+        <i class="icon-search"></i>
+        <a rel="abort" href="">Patienten suchen</a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">
+        Patienten anzeigen
+    </li>
+{% endblock %}
 
 {% load admin_extras %}
 
@@ -21,6 +30,10 @@
             {% csrf_token %}
 
             <div class="controls">
+                <a rel="abort" class="btn">
+                    <!-- Add icon -->
+                    Zur&uuml;ck
+                </a>
                 <div class="btn-group">
                     <button target="" class="btn">
                         <i class="icon-print"></i>
@@ -36,7 +49,7 @@
                     </ul>
                 </div class="btn-group">
                 <div class="btn-group">
-                    <button target="{% url edit_patient id=patient.id %}" class="btn">
+                    <button rel="forward" target="{% url edit_patient id=patient.id %}" class="btn">
                         <i class="icon-edit"></i>
                         Bearbeiten
                     </button>

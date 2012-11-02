@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
-{% block breadcrump_title %}Rezept bearbeiten{% endblock %}
+{% block breadcrump_title %}
+    <li class="active">
+        Rezept bearbeiten
+    </li>
+{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/form.css" />
