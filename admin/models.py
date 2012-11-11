@@ -53,7 +53,7 @@ def get_insurance_from_form(form, patient):
 
 def parse_street(data):
     if not data:
-        return None
+        return None, None
 
     data = data.replace(".", ". ")
 
@@ -79,7 +79,7 @@ def parse_street(data):
 def get_or_create_address(data, clean=False):
     if not clean:
         street, nr = parse_street(data["address"]["street"])
-    else: 
+    else:
         street = data["address"]["street"]
         nr = data["address"]["nr"]
 
@@ -87,7 +87,7 @@ def get_or_create_address(data, clean=False):
 
     if street:
         try:
-            address = Address.objects.get(street=street, 
+            address = Address.objects.get(street=street,
                                           nr=nr,
                                           city_code=int(data["address"]["code"]))
         except Address.DoesNotExist:
@@ -110,7 +110,7 @@ def get_or_create_address(data, clean=False):
 
             response = connection.getresponse()
             res_json = json.loads(response.read())
-            
+
             try:
                 address.city = res_json["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["Locality"]["LocalityName"]
             except KeyError:
@@ -386,7 +386,7 @@ class Prescription(models.Model):
         p = cls()
         p.diagnosis = json["diagnosis"]
         p.cure = json["treatment"]
-        
+
         if json["prescription"] == "1":
             p.kind = "e"
         elif json["prescription"] == "2":
@@ -408,7 +408,7 @@ class Prescription(models.Model):
             p.doctor = None
 
         p.appointments = json["appointments"]
-        
+
         try:
             p.date = strftime("%Y-%m-%d", strptime(json["date"], "%d.%m.%Y"))
         except ValueError:
