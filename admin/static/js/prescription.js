@@ -25,9 +25,6 @@
             return false;
         });
 
-        $("button.skip").click(function() {
-            window.location.href = CG.ADD_PATIENT + "/confirm";
-        });
     });
 
 }(window.jQuery));

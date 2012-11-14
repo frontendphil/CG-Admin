@@ -28,18 +28,21 @@ def add(request, id, pid=None):
             return redirect("prescription_template", id=patient.id, prescription=pid)
 
         # set new prescription active
-        
+
         if not patient.dirty:
+            prescription.dirty = False
+            prescription.save()
+
             return redirect("show_patient", id=patient.id)
 
     else:
-        try: 
+        try:
             prescription = Prescription.objects.get(dirty=True)
         except Prescription.DoesNotExist:
             prescription = None
 
         if prescription:
-            return redirect("verify")
+            return redirect("verify", patient=patient.id, prescription=prescription.id)
 
         form = PrescriptionForm()
 
@@ -69,7 +72,7 @@ def edit(request, id, pid):
             prescription.save()
 
             return redirect("show_patient", id=id)
-    else:        
+    else:
         form = PrescriptionForm.from_prescription(prescription, True)
 
     return render_to_response("prescription/edit.html",

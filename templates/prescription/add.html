@@ -35,7 +35,7 @@
 
         <div class="form-actions">
             <button type="submit" class="btn btn-success">Weiter...</button>
-            <button type="button" class="btn skip">Überspringen</button>
+            <button type="button" target="{% url verify_only_patient patient=patient.id %}" class="btn skip">Überspringen</button>
         </div>
     </form>
 {% endblock %}

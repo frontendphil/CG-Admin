@@ -36,7 +36,7 @@ def add(request, cont=False):
 
     return render_to_response("patient/add.html",
                                locals(),
-                               context_instance=RequestContext(request))  
+                               context_instance=RequestContext(request))
 
 @require_login
 def finish(request, id):
@@ -126,7 +126,7 @@ def list(request, query=None, page=1):
         except EmptyPage:
             patients = paginator.page(paginator.num_pages)
 
-    return render_to_response("patient/search.html", 
+    return render_to_response("patient/search.html",
                               locals(),
                               context_instance=RequestContext(request))
 
