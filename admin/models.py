@@ -331,7 +331,7 @@ class Prescription(models.Model):
     )
 
     @classmethod
-    def from_form(cls, form, patient=None, prescription=None):
+    def from_form(cls, form, patient=None, prescription=None, doctor=None):
         if not patient or not form.is_valid():
             return None
 
@@ -347,7 +347,7 @@ class Prescription(models.Model):
         prescription.indicator = get(form, "indicator")
 
         if get(form, "new_doc") == "1":
-            doctor = Doctor.from_form(form)
+            doctor = Doctor.from_form(doctor)
         else:
             doctor = Doctor.objects.get(pk=get(form, "doctor"))
 
@@ -461,8 +461,17 @@ class Doctor(models.Model):
         ordering = ["name"]
 
     @classmethod
-    def from_form(cls, form):
-        pass
+    def from_form(cls, form, doctor=None):
+        doctor = cls() if not doctor else doctor
+
+        doctor.name = get(form, "name")
+        doctor.key = get(form, "key")
+        doctor.address = get_address(form)
+        doctor.phone = "%s/%s" % (get(form, "phone_code"), get(form, "phone_nr"))
+
+        doctor.save()
+
+        return doctor
 
     @classmethod
     def load(cls, filename):

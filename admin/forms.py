@@ -26,7 +26,7 @@ class PatientForm(CGForm):
     month = forms.IntegerField(widget=forms.TextInput(attrs={
         'class':'input-mini',
         'placeholder': 'Monat'
-    })) 
+    }))
 
     year = forms.IntegerField(widget=forms.TextInput(attrs={
         'class':'input-mini',
@@ -187,8 +187,15 @@ class PrescriptionForm(CGForm):
         return valid
 
 class DoctorForm(CGForm):
-    name = forms.CharField()
-    key = forms.CharField()
+    name = forms.CharField(widget=forms.TextInput(attrs={
+        "class": "span4",
+        "placeholder": "Name"
+    }))
+
+    key = forms.CharField(widget=forms.TextInput(attrs={
+        "class": "span4",
+        "placeholder": "Vertragsschlüssel"
+    }))
 
     street = forms.CharField(widget=forms.TextInput(attrs={
         'class':'span3',

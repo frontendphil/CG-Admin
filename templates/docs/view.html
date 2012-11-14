@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <header>
+        <h1>{{ doctor.name }}</h1>
+    </header>
+
+    <table class="table table-bordered table-striped table-hover highlight-first">
+        <tr>
+            <td>Vertragsschl&uuml;ssel:</td>
+            <td>{{ doctor.key }}</td>
+        </tr>
+        <tr>
+            <td>Anschrift:</td>
+            <td>{{ doctor.address }}</td>
+        </tr>
+        <tr>
+            <td>Telefon:</td>
+            <td>{{ doctor.phone }}</td>
+        </tr>
+    </table>
+
+{% endblock %}

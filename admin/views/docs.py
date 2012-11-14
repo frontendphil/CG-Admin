@@ -30,7 +30,7 @@ def list(request, query=None, page=1):
         docs_list = Doctor.objects.all()
 
     paginator = Paginator(docs_list, 25)
-    
+
     try:
         docs = paginator.page(page)
     except PageNotAnInteger:
@@ -44,7 +44,11 @@ def list(request, query=None, page=1):
 
 @require_login
 def show(request, id):
-    pass
+    doctor = get_object_or_404(Doctor, pk=id)
+
+    return render_to_response("docs/view.html",
+                              locals(),
+                              context_instance=RequestContext(request))
 
 @require_login
 @require_POST

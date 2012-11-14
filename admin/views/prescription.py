@@ -3,8 +3,9 @@ from django.template import RequestContext
 from django.views.decorators.http import require_POST
 
 from admin.models import Prescription, Patient
-from admin.forms import PrescriptionForm
+from admin.forms import PrescriptionForm, DoctorForm
 from admin.decorators import require_login
+
 
 @require_login
 def add(request, id, pid=None):
@@ -15,25 +16,24 @@ def add(request, id, pid=None):
 
     if request.method == "POST":
         form = PrescriptionForm(request.POST)
+        doc = DoctorForm(request.POST)
 
-        if form.is_valid():
-            prescription = Prescription.from_form(form, patient)
+        if form.is_valid() and (form.get("new_doc").value() == "0" or doc.is_valid()):
+            prescription = Prescription.from_form(form, patient=patient, doctor=doc)
             prescription.save()
 
             if patient.dirty:
                 return redirect('verify', patient=patient.id, prescription=prescription.id)
+            else:
+                prescription.dirty = False
+                prescription.save()
 
-        elif not patient.dirty and pid:
-            # patient exists and an existing prescription is used as template
-            return redirect("prescription_template", id=patient.id, prescription=pid)
-
-        # set new prescription active
-
-        if not patient.dirty:
-            prescription.dirty = False
-            prescription.save()
-
-            return redirect("show_patient", id=patient.id)
+                return redirect("show_patient", id=patient.id)
+        else:
+            if not patient.dirty:
+                return render_to_response("patient/view.html",
+                                          locals(),
+                                          context_instance=RequestContext(request))
 
     else:
         try:
@@ -50,6 +50,7 @@ def add(request, id, pid=None):
                               locals(),
                               context_instance=RequestContext(request))
 
+
 @require_login
 @require_POST
 def delete(request, id, pid):
@@ -57,6 +58,7 @@ def delete(request, id, pid):
     prescription.delete()
 
     return redirect("show_patient", id=id)
+
 
 @require_login
 def edit(request, id, pid):

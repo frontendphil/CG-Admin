@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-urlpatterns = patterns("admin.views", 
+urlpatterns = patterns("admin.views",
     url(r'^patient/$', "patient.search", name="search_patient"),
     url(r'^patient/page/(?P<page>\d+)/$', 'patient.list', name='list_patients_page'),
     url(r'^patient/query/(?P<query>(\w+|\s)+)/page/(?P<page>\d+)/$', 'patient.list', name='list_patients'),

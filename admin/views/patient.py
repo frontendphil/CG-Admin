@@ -5,8 +5,9 @@ from django.views.decorators.http import require_POST
 
 from admin.decorators import require_login
 from admin.models import Patient, Prescription
-from admin.forms import PatientForm, PrescriptionForm
+from admin.forms import PatientForm, PrescriptionForm, DoctorForm
 from admin.templatetags.admin_extras import get_query
+
 
 @require_login
 def add(request, cont=False):
@@ -25,7 +26,7 @@ def add(request, cont=False):
             return redirect('index')
     else:
         try:
-            patient = Patient.objects.get(dirty = True)
+            patient = Patient.objects.get(dirty=True)
         except Patient.DoesNotExist:
             patient = None
 
@@ -38,6 +39,7 @@ def add(request, cont=False):
                                locals(),
                                context_instance=RequestContext(request))
 
+
 @require_login
 def finish(request, id):
     patient = Patient.objects.get(pk=id)
@@ -45,6 +47,7 @@ def finish(request, id):
     return render_to_response("patient/continue.html",
                               locals(),
                               context_instance=RequestContext(request))
+
 
 @require_POST
 @require_login
@@ -60,6 +63,7 @@ def save(request, id, pid=None):
 
     return redirect("index")
 
+
 @require_login
 def show(request, id, pid=None, complete=False):
     patient = get_object_or_404(Patient, pk=id)
@@ -74,9 +78,12 @@ def show(request, id, pid=None, complete=False):
     else:
         form = PrescriptionForm()
 
+    doc = DoctorForm()
+
     return render_to_response("patient/view.html",
                               locals(),
                               context_instance=RequestContext(request))
+
 
 @require_login
 def edit(request, id):
@@ -97,6 +104,7 @@ def edit(request, id):
                               locals(),
                               context_instance=RequestContext(request))
 
+
 @require_login
 @require_POST
 def delete(request, id, after=None):
@@ -107,6 +115,7 @@ def delete(request, id, after=None):
         return redirect(after)
 
     return redirect("search_patient")
+
 
 @require_login
 def list(request, query=None, page=1):
@@ -129,6 +138,7 @@ def list(request, query=None, page=1):
     return render_to_response("patient/search.html",
                               locals(),
                               context_instance=RequestContext(request))
+
 
 @require_login
 def search(request):
