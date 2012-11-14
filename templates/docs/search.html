@@ -8,6 +8,10 @@
     </li>
 {% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}/stylesheets/css/form.css" />
+{% endblock %}
+
 {% block content %}
 
     <form action="{% url search_docs %}" method="get" class="form-search">
@@ -60,10 +64,13 @@
                     <td>{{ doc.phone }}</td>
                     <td>{{ doc.address }}</td>
                     <td>
-                        <a rel="delete" after="{% url list_docs query=query page=page %}" href="{% url delete_doc doc.id %}">
-                            <i class="icon-remove"></i>
-                            L&ouml;schen
-                        </a>
+                        <form action="{% url delete_doc id=doc.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" warning="Soll der Arzt {{ doctor }} wirklich gelöscht werden?" class="btn btn-link">
+                                <i class="icon-remove"></i>
+                                L&ouml;schen
+                            </button>
+                        </form>
                     </td>
                 </tr>
             {% endfor %}

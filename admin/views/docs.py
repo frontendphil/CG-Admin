@@ -56,11 +56,7 @@ def delete(request, id):
     doctor = get_object_or_404(Doctor, pk=id)
     doctor.delete()
 
-    follow = request.GET.get("redirect", None)
-
-    # TODO: check that!
-    if follow:
-        return redirect(follow)
+    return redirect("search_docs")
 
 
 @require_login
