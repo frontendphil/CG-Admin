@@ -54,6 +54,14 @@ table.verify td:first-child {
     font-weight: bold;
 }
 
+h3 {
+    &.pull-right {
+        & + table {
+            clear: both;
+        }
+    }
+}
+
 .controls-row.error > label,
 .controls-row.error .help-block,
 .controls-row.error .help-inline {
