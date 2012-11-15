@@ -76,12 +76,12 @@ class PatientForm(CGForm):
     state = forms.ChoiceField(widget=forms.RadioSelect, choices=Patient.STATES)
 
     insurance_name = forms.CharField(required=False,widget=forms.TextInput(attrs={
-        'class': 'span1',
+        'class': 'span2',
         'placeholder': 'Name'
     }))
 
     insurance_nr = forms.CharField(required=False, widget=forms.TextInput(attrs={
-        'class': 'span3',
+        'class': 'span2',
         'placeholder': 'Versicherungsnummer'
     }))
 
