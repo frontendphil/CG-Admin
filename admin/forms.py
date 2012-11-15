@@ -97,12 +97,12 @@ class PatientForm(CGForm):
 
         if not self["state"].value() == Patient.STATE_PRIVATE[0]:
             if self["insurance_name"].value() == "":
-                self._errors["insurance_name"] = ErrorList(u"Kassenname fehtl")
+                self._errors["insurance_name"] = ErrorList(u"Kassenname fehlt")
 
             if self["insurance_nr"].value() == "":
                 self._errors["insurance_nr"] = ErrorList(u"Versicherungsnummer fehlt")
 
-            valie = valid and not (self["insurance_name"].value() == "" or self["insurance_nr"].value() == "")
+            valid = valid and not (self["insurance_name"].value() == "" or self["insurance_nr"].value() == "")
 
         if xor(self["phone_private_code"].value(), self["phone_private_nr"].value()):
             self._errors["phone_private_code"] = ErrorList(u"Nummer unvollständig")

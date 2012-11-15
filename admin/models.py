@@ -290,7 +290,7 @@ class Insured(models.Model):
     nr = models.CharField(max_length=255)
 
     def __unicode__(self):
-        return "%s (%s)" % (self.insurance, self.nr)
+        return u"%s (%s)" % (self.insurance, self.nr)
 
 class Address(models.Model):
     street = models.CharField(max_length=255)

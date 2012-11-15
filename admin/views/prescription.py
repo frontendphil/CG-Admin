@@ -67,8 +67,9 @@ def edit(request, id, pid):
 
     if request.method == "POST":
         form = PrescriptionForm(request.POST)
+        doc = DoctorForm(request.POST)
 
-        if form.is_valid():
+        if form.is_valid() and (form.get("new_doc") == "0" or doc.is_valid()):
             prescription = Prescription.from_form(form, patient=patient, prescription=prescription)
 
             prescription.save()
@@ -76,6 +77,7 @@ def edit(request, id, pid):
             return redirect("show_patient", id=id)
     else:
         form = PrescriptionForm.from_prescription(prescription, True)
+        doc = DoctorForm()
 
     return render_to_response("prescription/edit.html",
                               locals(),
