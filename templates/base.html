@@ -88,6 +88,12 @@
             <script type="text/javascript" src="{{ STATIC_URL }}/js/general.js"></script>
         {% endif %}
 
+        {% if url_attachment %}
+            <script type="text/javascript">
+                var URL_ATTACHMENT = "{{ url_attachment }}";
+            </script>
+        {% endif %}
+
         {% block script %}{% endblock %}
     </body>
 </html>

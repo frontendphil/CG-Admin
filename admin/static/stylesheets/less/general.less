@@ -22,7 +22,7 @@ h4 {
     }
 }
 
-header {
+header, footer {
     position: relative;
 
     margin-bottom: 40px;
@@ -35,6 +35,11 @@ header {
 
         .btn-group {
             display: inline-block;
+        }
+
+        &.left {
+            left: 0px;
+            right: auto;
         }
     }
 
@@ -61,6 +66,12 @@ a {
         &.btn-success {
             color: white !important;
         }
+    }
+}
+
+.tabbable {
+    .tab-content {
+        min-height: 600px;
     }
 }
 

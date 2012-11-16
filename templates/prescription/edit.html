@@ -1,7 +1,18 @@
 {% extends "base.html" %}
 
 {% block breadcrump_title %}
+    <li>
+        <i class="icon-search"></i>
+        <a rel="abort">Patienten suchen</a>
+        <span class="divider">/</span>
+    </li>
+    <li>
+        <i class="icon-user"></i>
+        <a rel="forward" href="{% url show_patient id=patient.id%}">{{ patient }}</a>
+        <span class="divider">/</span>
+    </li>
     <li class="active">
+        <i class="icon-edit"></i>
         Rezept bearbeiten
     </li>
 {% endblock %}
@@ -16,13 +27,13 @@
 
 {% block content %}
 
-    <form action="{% url edit_prescription id=patient.id pid=prescription.id %}" method="post" class="form-horizontal">
+    <form action="{% url edit_prescription id=patient.id pid=prescription.id %}" rel="forward" method="post" class="form-horizontal">
 
         {% include "prescription/form.html" %}
 
         <div class="form-actions">
             <input type="submit" class="btn btn-success" value="Speichern" />
-            <a href="{% url show_patient id=patient.id %}" class="btn">Abbrechen</a>
+            <a href="{% url show_patient id=patient.id %}" rel="forward" class="btn">Abbrechen</a>
         </div>
 
     </form>

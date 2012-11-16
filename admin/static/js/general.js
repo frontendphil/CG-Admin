@@ -1,11 +1,18 @@
 (function($) {
 
     $(document).ready(function() {
-        var updateTarget = function(link, attr) {
+        var getAttachment = function() {
+            if(window.URL_ATTACHMENT) {
+                return [window.URL_ATTACHMENT];
+            }
+
             var url = window.location.href;
             var parts = url.split("#");
 
-            var remainder = parts.slice(1);
+            return parts.slice(1);
+        };
+
+        var updateTarget = function(link, attr) {
             var target = link.attr(attr);
 
             if(target) {
@@ -14,11 +21,19 @@
                 target = "";
             }
 
-            link.attr(attr, target + remainder.join("#"));
+            link.attr(attr, target + getAttachment().join("#"));
         };
 
         $("a[rel=abort], a[rel=forward]").each(function(index, a) {
             updateTarget($(a), "href");
+        });
+
+        $("form[rel=forward]").each(function(index, form) {
+            form = $(form);
+
+            var action = form.attr("action");
+
+            form.attr("action", action + "?forward=" + getAttachment().join("#"));
         });
 
         $("button[rel=forward], button[rel=abort]").each(function(index, btn){
@@ -47,7 +62,7 @@
 
             if(target) {
                 btn.click(function(e) {
-                    e.preventDefault()
+                    e.preventDefault();
 
                     window.location.href = target;
 
@@ -59,13 +74,13 @@
 
             var type = btn.attr("type");
 
-            if(type && type == "submit") {
+            if(type && type === "submit") {
                 var form = btn.parents("form");
                 var warn = btn.attr("warning");
 
                 if(form) {
                     btn.click(function() {
-                        if(warn && !confirm(warn)) {
+                        if(warn && !window.confirm(warn)) {
                             return false;
                         }
 

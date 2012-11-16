@@ -7,6 +7,7 @@
         <span class="divider">/</span>
     </li>
     <li class="active">
+        <i class="icon-edit"></i>
         Arzt bearbeiten
     </li>
 {% endblock %}
@@ -17,7 +18,7 @@
 
 {% block content %}
 
-    <form action="{% url edit_doc id=doc.id %}" method="post" class="form-horizontal">
+    <form action="{% url edit_doc id=doc.id %}" rel="forward" method="post" class="form-horizontal">
         {% include "docs/form.html" %}
 
         <div class="form-actions">

@@ -7,12 +7,13 @@
         <span class="divider">/</span>
     </li>
     <li>
-        <i class="icon-edit"></i>
-        <a rel="forward" href="{% url show_patient id=patient.id %}">Patienten anzeigen</a>
+        <i class="icon-user"></i>
+        <a rel="forward" href="{% url show_patient id=patient.id %}">{{ patient }}</a>
         <span class="divider">/</span>
     </li>
     <li class="active">
-        Patienten bearbeiten
+        <i class="icon-edit"></i>
+        Stammdaten bearbeiten
     </li>
 {% endblock %}
 
@@ -26,7 +27,7 @@
 
 {% block content %}
 
-    <form action="{% url edit_patient id=patient.id %}" method="post" class="form-horizontal">
+    <form action="{% url edit_patient id=patient.id %}" rel="forward" method="post" class="form-horizontal">
 
         {% include "patient/form.html" %}
 

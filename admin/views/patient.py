@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
@@ -96,9 +97,11 @@ def edit(request, id):
             patient = Patient.from_form(form, patient=patient)
             patient.save()
 
-            return redirect("show_patient", id=id)
+            return redirect("%s#%s" % (reverse("show_patient", args=(id,)), request.GET.get("forward", "")))
     else:
         form = PatientForm.from_patient(patient)
+
+    url_attachment = request.GET.get("forward", None)
 
     return render_to_response("patient/edit.html",
                               locals(),
@@ -107,14 +110,11 @@ def edit(request, id):
 
 @require_login
 @require_POST
-def delete(request, id, after=None):
+def delete(request, id):
     patient = get_object_or_404(Patient, pk=id)
     patient.delete()
 
-    if after:
-        return redirect(after)
-
-    return redirect("search_patient")
+    return redirect(request.GET.get("forward", reverse("search_patient")))
 
 
 @require_login

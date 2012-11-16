@@ -9,7 +9,7 @@
 {% block content %}
 
     {% block breadcrump %}{% endblock %}
-    
+
     <ul class="thumbnails">
         <li class="span4">
             <div class="thumbnail">
@@ -63,7 +63,7 @@
                 <hr />
                 <div class="patients">
                     {% for patient in patients %}
-                        <p class="patient"><a href="{% url show_patient id=patient.id %}">{{ patient }}</a> <small>({{ patient.get_birthday }})</smalL></p>
+                        <p class="patient"><a href="{% url show_patient id=patient.id %}#{% url index %}">{{ patient }}</a> <small>({{ patient.get_birthday }})</smalL></p>
                     {% endfor %}
                 </div>
             </div>

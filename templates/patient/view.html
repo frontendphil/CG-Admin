@@ -7,6 +7,7 @@
         <span class="divider">/</span>
     </li>
     <li class="active">
+        <i class="icon-user"></i>
         Patienten anzeigen
     </li>
 {% endblock %}
@@ -26,7 +27,7 @@
     <header>
         <h1><small>{{ patient.get_gender }}</small>{{ patient }}</h1>
 
-        <form action="{% url delete_patient id=patient.id %}" method="post">
+        <form action="{% url delete_patient id=patient.id %}" rel="forward" method="post">
             {% csrf_token %}
 
             <div class="controls">
@@ -39,16 +40,6 @@
                         <i class="icon-print"></i>
                         Drucken
                     </button>
-                    <button class="btn dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="">Inoffizielle Termine ausblenden</a>
-                        </li>
-                    </ul>
-                </div class="btn-group">
-                <div class="btn-group">
                     <button rel="forward" target="{% url edit_patient id=patient.id %}" class="btn">
                         <i class="icon-edit"></i>
                         Bearbeiten
@@ -110,7 +101,7 @@
                     </li>
                 {% endfor %}
                     <li>
-                        <a href="{% url show_patient id=patient.id %}">Weniger&hellip;</a>
+                        <a href="{% url show_patient id=patient.id %}" rel="forward">Weniger&hellip;</a>
                     </li>
             {% else %}
                 {% for prescription in patient.prescription_set|chronologic|first5 %}
@@ -120,7 +111,7 @@
                 {% endfor %}
                 {% if patient.prescription_set|count > 5 %}
                     <li>
-                        <a href="{% url show_patient_complete id=patient.id %}">Mehr&hellip;</a>
+                        <a href="{% url show_patient_complete id=patient.id %}" rel="forward">Mehr&hellip;</a>
                     </li>
                 {% endif %}
             {% endif %}
@@ -129,9 +120,9 @@
         <div class="tab-content">
             <div class="tab-pane active" id="new-prescription">
                 {% if prescription %}
-                    <form action="{% url add_prescription_template id=patient.id pid=prescription.id %}" method="post" class="form-horizontal">
+                    <form action="{% url add_prescription_template id=patient.id pid=prescription.id %}" rel="forward" method="post" class="form-horizontal">
                 {% else %}
-                    <form action="{% url add_prescription id=patient.id %}" method="post" class="form-horizontal">
+                    <form action="{% url add_prescription id=patient.id %}" rel="forward" method="post" class="form-horizontal">
                 {% endif %}
 
                     {% include "prescription/form.html" %}
@@ -151,29 +142,44 @@
 
                     <hr />
 
-                    <form action="{% url delete_prescription id=patient.id pid=prescription.id %}" method="post">
-                        {% csrf_token %}
+                    <footer>
+                        <form action="{% url delete_prescription id=patient.id pid=prescription.id %}" rel="forward" method="post">
+                            {% csrf_token %}
 
-                        <div class="btn-group pull-right">
-                            <button target="{% url prescription_template id=patient.id pid=prescription.id %}" class="btn">
-                                <i class="icon-file"></i>
-                                Als Vorlage verwenden
-                            </button>
-                            <button target="" class="btn">
-                                <i class="icon-print"></i>
-                                Drucken
-                            </button>
-                            <button target="{% url edit_prescription id=patient.id pid=prescription.id %}" class="btn">
-                                <i class="icon-edit"></i>
-                                Bearbeiten
-                            </button>
-                            <button type="submit" warning="Soll das Rezept wirklich gelöscht werden?" class="btn btn-danger">
-                                <i class="icon-remove"></i>
-                                L&ouml;schen
-                            </button>
-                        </div>
-                    </form>
+                            <div class="controls">
+                                <div class="btn-group">
+                                    <button target="" class="btn">
+                                        <i class="icon-print"></i>
+                                        Drucken
+                                    </button>
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="">Inoffizielle Termine ausblenden</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="btn-group">
+                                    <button target="{% url prescription_template id=patient.id pid=prescription.id %}" rel="abort" class="btn">
+                                        <i class="icon-file"></i>
+                                        Als Vorlage verwenden
+                                    </button>
+                                    <button target="{% url edit_prescription id=patient.id pid=prescription.id %}" rel="forward" class="btn">
+                                        <i class="icon-edit"></i>
+                                        Bearbeiten
+                                    </button>
+                                    <button type="submit" warning="Soll das Rezept wirklich gelöscht werden?" class="btn btn-danger">
+                                        <i class="icon-remove"></i>
+                                        L&ouml;schen
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </footer>
                 </div>
+
             {% endfor %}
         </div>
     </div>

@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
@@ -28,7 +29,7 @@ def add(request, id, pid=None):
                 prescription.dirty = False
                 prescription.save()
 
-                return redirect("show_patient", id=patient.id)
+                return redirect("%s#%s" % (reverse("show_patient", args=(patient.id,)), request.GET.get("forward", "")))
         else:
             if not patient.dirty:
                 return render_to_response("patient/view.html",
@@ -57,7 +58,7 @@ def delete(request, id, pid):
     prescription = get_object_or_404(Prescription, pk=pid)
     prescription.delete()
 
-    return redirect("show_patient", id=id)
+    return redirect("%s#%s" % (reverse("show_patient", args=(id,)), request.GET.get("forward", "")))
 
 
 @require_login
@@ -69,15 +70,17 @@ def edit(request, id, pid):
         form = PrescriptionForm(request.POST)
         doc = DoctorForm(request.POST)
 
-        if form.is_valid() and (form.get("new_doc") == "0" or doc.is_valid()):
+        if form.is_valid() and (form.get("new_doc").value() == "0" or doc.is_valid()):
             prescription = Prescription.from_form(form, patient=patient, prescription=prescription)
 
             prescription.save()
 
-            return redirect("show_patient", id=id)
+            return redirect("%s#%s" % (reverse("show_patient", args=(id,)), request.GET.get("forward", "")))
     else:
         form = PrescriptionForm.from_prescription(prescription, True)
         doc = DoctorForm()
+
+    url_attachment = request.GET.get("forward", None)
 
     return render_to_response("prescription/edit.html",
                               locals(),

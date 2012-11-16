@@ -1,10 +1,9 @@
 from django.conf.urls import patterns, url, include
 
-urlpatterns = patterns('admin.views.patient', 
+urlpatterns = patterns('admin.views.patient',
     url(r'^(?P<id>\d+)/$', 'show', name='show_patient'),
     url(r'^(?P<id>\d+)/complete/$', 'show', { "complete": True }, name='show_patient_complete'),
     url(r'^(?P<id>\d+)/delete/$', 'delete', name='delete_patient'),
-    url(r'^(?P<id>\d+)/delete/redirect/(?P<after>\w+)/$', 'delete', name='delete_patient_redirect'),
     url(r'^(?P<id>\d+)/edit/$', 'edit', name='edit_patient'),
     url(r'^(?P<id>\d+)/save/$', 'save', name='save_patient'),
     url(r'^(?P<id>\d+)/save/prescription/(?P<pid>\d+)/$', 'save', name='save_all'),

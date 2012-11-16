@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
@@ -64,9 +65,14 @@ def edit(request, id):
     doc = get_object_or_404(Doctor, pk=id)
 
     if request.method == "POST":
-        pass
+        form = DoctorForm(request.POST)
+
+        if form.is_valid():
+            return redirect(request.GET.get("forward", reverse("search_docs")))
     else:
         form = DoctorForm.from_doctor(doc)
+
+    url_attachment = request.GET.get("forward", None)
 
     return render_to_response("docs/edit.html",
                               locals(),
