@@ -85,6 +85,16 @@ def show(request, id, pid=None, complete=False):
                               locals(),
                               context_instance=RequestContext(request))
 
+@require_login
+def show_doc(request, id, pid):
+    patient = get_object_or_404(Patient, pk=id)
+    prescription = get_object_or_404(Prescription, pk=pid)
+    doctor = prescription.doctor
+
+    return render_to_response("docs/view.html",
+                              locals(),
+                              context_instance=RequestContext(request))
+
 
 @require_login
 def edit(request, id):

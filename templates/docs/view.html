@@ -1,9 +1,33 @@
 {% extends "base.html" %}
 
+{% block breadcrump_title %}
+    <li>
+        <i class="icon-search"></i>
+        <a rel="abort">Patienten suchen</a>
+        <span class="divider">/</span>
+    </li>
+    <li>
+        <i class="icon-user"></i>
+        <a href="{% url show_patient id=patient.id %}" rel="forward">{{ patient }}</a>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">
+        <i class="icon-user-md"></i>
+        Arzt anzeigen
+    </li>
+{% endblock %}
+
 {% block content %}
 
     <header>
         <h1>{{ doctor.name }}</h1>
+
+        <div class="controls">
+            <a rel="forward" href="{% url show_patient id=patient.id %}" class="btn">
+                <i class="icon-arrow-left"></i>
+                Zur&uuml;ck
+            </a>
+        </div>
     </header>
 
     <table class="table table-bordered table-striped table-hover highlight-first">

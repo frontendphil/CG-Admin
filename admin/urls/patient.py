@@ -10,6 +10,7 @@ urlpatterns = patterns('admin.views.patient',
     url(r'^(?P<id>\d+)/continue/$', 'finish', name='continue_patient'),
 
     url(r'^(?P<id>\d+)/prescription/(?P<pid>\d+)/template/$', 'show', name='prescription_template'),
+    url(r'^(?P<id>\d+)/prescription/(?P<pid>\d+)/doc/$', 'show_doc', name='prescription_doc'),
     url(r'^(?P<id>\d+)/prescription/', include("admin.urls.prescription")),
 
     url(r'^add/$', 'add', name='add_patient'),

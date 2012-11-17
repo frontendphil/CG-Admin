@@ -36,7 +36,7 @@
             <td>Verschreibender Arzt:</td>
             <td>
                 {% if prescription.doctor %}
-                    <a href="{% url show_doc id=prescription.doctor.id %}">{{ prescription.doctor }}</a>
+                    <a href="{% url prescription_doc id=patient.id pid=prescription.id %}" rel="forward">{{ prescription.doctor }}</a>
                 {% endif %}
             </td>
         </tr>
