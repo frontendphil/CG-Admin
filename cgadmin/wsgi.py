@@ -14,8 +14,12 @@ framework.
 
 """
 import os
+import sys
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cgadmin.settings")
+if not '/var/www/cgadmin' in sys.path:
+    sys.path.append('/var/www/cgadmin')
+
+os.environ["DJANGO_SETTINGS_MODULE"] = "cgadmin.settings"
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
