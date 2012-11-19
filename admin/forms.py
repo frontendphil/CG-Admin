@@ -95,7 +95,7 @@ class PatientForm(CGForm):
         if not super(PatientForm, self).is_valid():
             valid = False
 
-        if not self["state"].value() == Patient.STATE_PRIVATE[0]:
+        if not (self["state"].value() in Patient.STATE_PRIVATE or self["state"].value() in Patient.STATE_BG):
             if self["insurance_name"].value() == "":
                 self._errors["insurance_name"] = ErrorList(u"Kassenname fehlt")
 

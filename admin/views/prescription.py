@@ -71,7 +71,7 @@ def edit(request, id, pid):
         doc = DoctorForm(request.POST)
 
         if form.is_valid() and (form.get("new_doc").value() == "0" or doc.is_valid()):
-            prescription = Prescription.from_form(form, patient=patient, prescription=prescription)
+            prescription = Prescription.from_form(form, patient=patient, prescription=prescription, doctor=doc)
 
             prescription.save()
 

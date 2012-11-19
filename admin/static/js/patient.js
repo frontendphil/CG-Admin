@@ -11,7 +11,7 @@
         $("form :radio").each(function(index, radio) {
             radio = $(radio);
 
-            if(radio.val() === "p") {
+            if(radio.val() === "p" || radio.val() === "b") {
                 radio.on("click", function() {
                     insurance.hide("slow");
                 })
