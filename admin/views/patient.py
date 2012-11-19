@@ -45,6 +45,8 @@ def add(request, cont=False):
 def finish(request, id):
     patient = Patient.objects.get(pk=id)
 
+    url_attachment = reverse("index")
+
     return render_to_response("patient/continue.html",
                               locals(),
                               context_instance=RequestContext(request))

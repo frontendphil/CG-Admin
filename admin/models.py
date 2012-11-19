@@ -151,8 +151,10 @@ class Patient(models.Model):
     )
 
     STATE_PRIVATE = ("p", "Privatpatient")
+    STATE_BG = ("b", "BG-Rezept")
 
     STATES = (
+        STATE_BG,
         STATE_PRIVATE,
         ("k", "Kassenpatient")
     )
@@ -225,7 +227,7 @@ class Patient(models.Model):
 
         patient.address = get_address(form)
 
-        if not patient.state == cls.STATE_PRIVATE:
+        if not patient.state in cls.STATE_PRIVATE:
             patient.save()
 
             get_insurance_from_form(form, patient)
@@ -260,7 +262,7 @@ class Patient(models.Model):
         result["phone_private_code"], result["phone_private_nr"] = self.prepare_phone(self.phone_private)
         result["phone_office_code"], result["phone_office_nr"] = self.prepare_phone(self.phone_office)
 
-        if not self.state == self.STATE_PRIVATE:
+        if not self.state in self.STATE_PRIVATE:
             insured = self.insured_set.all()[0]
 
             result["insurance_name"] = insured.insurance.name
@@ -467,7 +469,7 @@ class Doctor(models.Model):
         doctor.name = get(form, "name")
         doctor.key = get(form, "key")
         doctor.address = get_address(form)
-        doctor.phone = "%s/%s" % (get(form, "phone_code"), get(form, "phone_nr"))
+        doctor.phone = "%s/%s" % (get(form, "phone_code", ""), get(form, "phone_nr", ""))
 
         doctor.save()
 

@@ -10,7 +10,7 @@
         <hr />
 
         <div class="centered">
-            <form action="{% url delete_patient_redirect id=patient.id after='index' %}" method="post">
+            <form action="{% url delete_patient id=patient.id %}" rel="forward" method="post">
                 {% csrf_token %}
 
                 <a href="{% url add_prescription id=patient.id %}" class="btn btn-success btn-large">Vervollst&auml;ndigen</a>
