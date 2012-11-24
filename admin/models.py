@@ -234,7 +234,7 @@ class Patient(models.Model):
 
         patient.address = get_address(form)
 
-        if not patient.state in cls.STATE_PRIVATE:
+        if not patient.state in cls.STATE_PRIVATE and not patient.state in cls.STATE_BG:
             patient.save()
 
             get_insurance_from_form(form, patient)
@@ -443,13 +443,22 @@ class Prescription(models.Model):
 
         if full:
             result["appointments"] = self.appointments
-            result["day"] = self.date.day
-            result["month"] = self.date.month
-            result["year"] = self.date.year
+
+            if self.date:
+                result["day"] = self.date.day
+                result["month"] = self.date.month
+                result["year"] = self.date.year
+            else:
+                result["day"] = ""
+                result["month"] = ""
+                result["year"] = ""
 
         return result
 
     def get_date(self):
+        if not self.date:
+            return "Datum nicht bekannt"
+
         return self.date.strftime("%d.%m.%Y")
 
     def get_kind(self):
