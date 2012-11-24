@@ -35,6 +35,11 @@ def get_address(form):
                                       city_code=code,
                                       city=get(form, "city"))
 
+def remove_insurance(patient):
+    for element in patient.insured_set.values():
+        insurance = Insured.objects.get(pk=element["id"])
+        insurance.delete()
+
 def create_insurance(patient, insurance_name, insurance_nr):
     if not insurance_name:
         insurance = Insurance.get_blank_insurance()
@@ -43,6 +48,8 @@ def create_insurance(patient, insurance_name, insurance_nr):
             insurance = Insurance.objects.get(name__iexact=insurance_name)
         except Insurance.DoesNotExist:
             insurance = Insurance.objects.create(name=insurance_name)
+
+    remove_insurance(patient)
 
     return Insured.objects.create(patient=patient,
                                   insurance=insurance,
