@@ -234,7 +234,7 @@ class Patient(models.Model):
 
         patient.address = get_address(form)
 
-        if not patient.state in cls.STATE_PRIVATE and not patient.state in cls.STATE_BG:
+        if patient.has_insurance():
             patient.save()
 
             get_insurance_from_form(form, patient)
@@ -269,7 +269,7 @@ class Patient(models.Model):
         result["phone_private_code"], result["phone_private_nr"] = self.prepare_phone(self.phone_private)
         result["phone_office_code"], result["phone_office_nr"] = self.prepare_phone(self.phone_office)
 
-        if not self.state in self.STATE_PRIVATE:
+        if self.has_insurance():
             insured = self.insured_set.all()[0]
 
             result["insurance_name"] = insured.insurance.name
@@ -277,8 +277,17 @@ class Patient(models.Model):
 
         return result
 
+    def has_insurance(self):
+        if self.state in self.STATE_BG:
+            return False
+
+        if self.state in self.STATE_PRIVATE:
+            return False
+
+        return True
+
     def get_insurance(self):
-        if self.state == self.STATE_PRIVATE:
+        if not self.has_insurance():
             return None
 
         return self.insured_set.all()[0]
@@ -465,6 +474,7 @@ class Prescription(models.Model):
         for key, value in self.KINDS:
             if key == self.kind:
                 return value
+
 
 class Doctor(models.Model):
     name = models.CharField(max_length=255)

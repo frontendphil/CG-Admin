@@ -4,7 +4,7 @@
 
         var insurance = $(".insurance-group");
         var radio = $("form input[type=radio]:checked");
-        if(radio.val() === "p" || radio.length === 0) {
+        if(radio.val() === "p" || radio.val() === "b" || radio.length === 0) {
             insurance.hide();
         }
 
