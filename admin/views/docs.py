@@ -9,6 +9,7 @@ from admin.decorators import require_login
 from admin.templatetags.admin_extras import get_query
 from admin.forms import DoctorForm
 
+
 @require_login
 def search(request):
     query = request.GET.get("query")
@@ -17,6 +18,7 @@ def search(request):
         return redirect("list_docs", query=query, page=1)
 
     return redirect("list_docs_page", page=1)
+
 
 @require_login
 def list(request, query=None, page=1):
@@ -43,6 +45,7 @@ def list(request, query=None, page=1):
                               locals(),
                               context_instance=RequestContext(request))
 
+
 @require_login
 def show(request, id):
     doctor = get_object_or_404(Doctor, pk=id)
@@ -50,6 +53,7 @@ def show(request, id):
     return render_to_response("docs/view.html",
                               locals(),
                               context_instance=RequestContext(request))
+
 
 @require_login
 @require_POST
@@ -68,6 +72,8 @@ def edit(request, id):
         form = DoctorForm(request.POST)
 
         if form.is_valid():
+            Doctor.from_form(form, doc)
+
             return redirect(request.GET.get("forward", reverse("search_docs")))
     else:
         form = DoctorForm.from_doctor(doc)
