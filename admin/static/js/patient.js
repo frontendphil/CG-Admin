@@ -14,17 +14,17 @@
             if(radio.val() === "p" || radio.val() === "b") {
                 radio.on("click", function() {
                     insurance.hide("slow");
-                })
+                });
             } else {
                 radio.on("click", function() {
                     insurance.show("slow");
-                })
+                });
             }
         });
 
         var form = $("form.add-patient");
 
-        form.find(".form-actions input").each(function(i) {
+        form.find(".form-actions input").each(function() {
             $(this).on("click", function(e) {
                 e.preventDefault();
 
