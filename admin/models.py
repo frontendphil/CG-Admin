@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
+import re
+
 from hashlib import sha256
 
 from httplib import HTTPConnection
@@ -481,6 +483,9 @@ class Prescription(models.Model):
                 result["year"] = ""
 
         return result
+
+    def get_official_appointments(self):
+        return re.sub(r"(\((\d|.)+?\))", "", self.appointments)
 
     def get_date(self):
         if not self.date:

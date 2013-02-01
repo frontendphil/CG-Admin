@@ -49,8 +49,9 @@ class PDFWriter(object):
 
         return self.create_pdf(html)
 
-    def pdf_for_prescription(self, patient, prescription):
+    def pdf_for_prescription(self, patient, prescription, official):
         html = self.prepare_html("prescription.tpl", prescription=prescription,
-                                                     patient=patient)
+                                                     patient=patient,
+                                                     official=official)
 
         return self.create_pdf(html)

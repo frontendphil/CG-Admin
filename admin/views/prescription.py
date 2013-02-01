@@ -55,12 +55,12 @@ def add(request, id, pid=None):
 
 
 @require_login
-def pdf(request, id, pid, official=True):
+def pdf(request, id, pid, official=False):
     prescription = get_object_or_404(Prescription, pk=pid)
     patient = get_object_or_404(Patient, pk=id)
 
     writer = PDFWriter()
-    pdf = writer.pdf_for_prescription(patient, prescription)
+    pdf = writer.pdf_for_prescription(patient, prescription, official)
 
     return HttpResponse(pdf, mimetype="application/pdf")
 

@@ -7,5 +7,5 @@ urlpatterns = patterns("admin.views.prescription",
     url(r'^(?P<pid>\d+)/delete/$', 'delete', name='delete_prescription'),
     url(r'^(?P<pid>\d+)/edit/$', 'edit', name='edit_prescription'),
     url(r'^(?P<pid>\d+)/print/$', 'pdf', name='print_prescription'),
-    url(r'^(?P<pid>\d+)/print/inofficial$', 'pdf', {"official": False}, name='print_prescription_inofficial'),
+    url(r'^(?P<pid>\d+)/print/official$', 'pdf', {"official": True}, name='print_prescription_official'),
 )

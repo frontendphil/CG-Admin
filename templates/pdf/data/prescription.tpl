@@ -56,7 +56,13 @@
         </tr>
         <tr>
             <td valign="top">Termine:</td>
-            <td>{{ prescription.appointments }}</td>
+            <td>
+                {% if not official %}
+                    {{ prescription.appointments }}
+                {% else %}
+                    {{ prescription.get_official_appointments() }}
+                {% endif %}
+            </td>
         </tr>
     </tbody>
 </table>
