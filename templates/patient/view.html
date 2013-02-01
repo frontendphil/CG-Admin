@@ -36,7 +36,7 @@
                     Zur&uuml;ck
                 </a>
                 <div class="btn-group">
-                    <button target="" class="btn">
+                    <button rel="print" class="btn" target="{% url print_patient id=patient.id%}">
                         <i class="icon-print"></i>
                         Drucken
                     </button>
@@ -152,7 +152,7 @@
 
                             <div class="controls">
                                 <div class="btn-group">
-                                    <button target="" class="btn">
+                                    <button rel="print" target="{% url print_prescription id=patient.id pid=prescription.id %}" class="btn">
                                         <i class="icon-print"></i>
                                         Drucken
                                     </button>
@@ -161,7 +161,7 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="">Inoffizielle Termine ausblenden</a>
+                                            <a rel="print" href="{% url print_prescription_inofficial id=patient.id pid=prescription.id %}">Inoffizielle Termine ausblenden</a>
                                         </li>
                                     </ul>
                                 </div>

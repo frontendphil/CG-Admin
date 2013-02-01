@@ -2,10 +2,12 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
+from django.http import HttpResponse
 
 from admin.models import Prescription, Patient
 from admin.forms import PrescriptionForm, DoctorForm
 from admin.decorators import require_login
+from admin.utils import PDFWriter
 
 
 @require_login
@@ -50,6 +52,17 @@ def add(request, id, pid=None):
     return render_to_response("prescription/add.html",
                               locals(),
                               context_instance=RequestContext(request))
+
+
+@require_login
+def pdf(request, id, pid, official=True):
+    prescription = get_object_or_404(Prescription, pk=pid)
+    patient = get_object_or_404(Patient, pk=id)
+
+    writer = PDFWriter()
+    pdf = writer.pdf_for_prescription(patient, prescription)
+
+    return HttpResponse(pdf, mimetype="application/pdf")
 
 
 @require_login

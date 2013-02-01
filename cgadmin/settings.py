@@ -10,12 +10,13 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-PROJECT_PATH = dirname(abspath(__file__))
+PROJECT_PATH = "%s/.." % dirname(abspath(__file__))
+PDF_TPL_PATH = "%s/templates/pdf" % PROJECT_PATH
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/var/www/cgadmin/cgphysio.db',                      # Or path to database file if using sqlite3.
+        'NAME': 'cgphysio.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -48,7 +49,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '%s/../media' % PROJECT_PATH
+MEDIA_ROOT = '%s/media' % PROJECT_PATH
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -59,7 +60,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = "%s/../static" % PROJECT_PATH
+STATIC_ROOT = "%s/static" % PROJECT_PATH
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -104,7 +105,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "%s/../templates" % PROJECT_PATH,
+    "%s/templates" % PROJECT_PATH,
 )
 
 INSTALLED_APPS = (

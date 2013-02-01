@@ -3,11 +3,13 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
+from django.http import HttpResponse
 
 from admin.decorators import require_login
 from admin.models import Patient, Prescription
 from admin.forms import PatientForm, PrescriptionForm, DoctorForm
 from admin.templatetags.admin_extras import get_query
+from admin.utils import PDFWriter
 
 
 @require_login
@@ -48,7 +50,10 @@ def finish(request, id):
     url_attachment = reverse("index")
 
     return render_to_response("patient/continue.html",
-                              locals(),
+                              {
+                                "patient": patient,
+                                "url_attachment": url_attachment
+                              },
                               context_instance=RequestContext(request))
 
 
@@ -68,11 +73,20 @@ def save(request, id, pid=None):
 
 
 @require_login
+def pdf(request, id):
+    patient = get_object_or_404(Patient, pk=id)
+
+    writer = PDFWriter()
+
+    return HttpResponse(writer.pdf_for_patient(patient), mimetype="application/pdf")
+
+
+@require_login
 def show(request, id, pid=None, complete=False):
     patient = get_object_or_404(Patient, pk=id)
 
     if patient.state == "k":
-        insurance = patient.insured_set.all()[0]
+        insurance = patient.get_insurance()
 
     if pid:
         prescription = Prescription.objects.get(pk=pid)

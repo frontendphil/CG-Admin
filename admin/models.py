@@ -8,19 +8,23 @@ from django.db import models
 
 from time import strptime, strftime
 
-def get(form, field, default = None):
+
+def get(form, field, default=None):
     return form.get(field).value() or default
+
 
 def get_date_string(form):
     return "%s.%s.%s" % (get(form, "day"),
                          get(form, "month"),
                          get(form, "year"))
 
+
 def get_phone_number(form, kind):
     if get(form, "phone_%s_code" % kind) or get(form, "phone_%s_nr" % kind):
         return "%s/%s" % (get(form, "phone_%s_code" % kind), get(form, "phone_%s_nr" % kind))
 
     return ""
+
 
 def get_address(form):
     street = get(form, "street")
@@ -35,10 +39,12 @@ def get_address(form):
                                       city_code=code,
                                       city=get(form, "city"))
 
+
 def remove_insurance(patient):
     for element in patient.insured_set.values():
         insurance = Insured.objects.get(pk=element["id"])
         insurance.delete()
+
 
 def create_insurance(patient, insurance_name, insurance_nr):
     if not insurance_name:
@@ -55,8 +61,10 @@ def create_insurance(patient, insurance_name, insurance_nr):
                                   insurance=insurance,
                                   nr=insurance_nr)
 
+
 def get_insurance_from_form(form, patient):
     return create_insurance(patient, get(form, "insurance_name"), get(form, "insurance_nr"))
+
 
 def parse_street(data):
     if not data:
@@ -82,6 +90,7 @@ def parse_street(data):
             nr = clean_nr[::-1][0]
 
     return (street, nr)
+
 
 def get_or_create_address(data, clean=False):
     if not clean:
@@ -129,6 +138,7 @@ def get_or_create_address(data, clean=False):
 
     return address
 
+
 class User(models.Model):
     username = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
@@ -145,11 +155,12 @@ class User(models.Model):
     @classmethod
     def login(cls, username, password):
         try:
-            user = cls.objects.get(username=username, password = sha256(password).hexdigest())
+            user = cls.objects.get(username=username, password=sha256(password).hexdigest())
         except cls.DoesNotExist:
             user = None
 
         return user
+
 
 class Patient(models.Model):
     GENDERS = (
@@ -292,6 +303,9 @@ class Patient(models.Model):
 
         return self.insured_set.all()[0]
 
+    def get_prescriptions(self):
+        return self.prescription_set.all().order_by("-date")
+
     def get_birthday(self):
         return self.birthday.strftime("%d.%m.%Y") if self.birthday else ""
 
@@ -301,6 +315,7 @@ class Patient(models.Model):
     def __unicode__(self):
         return u"%s, %s" % (self.surname, self.name)
 
+
 class Insured(models.Model):
     patient = models.ForeignKey("Patient")
     insurance = models.ForeignKey("Insurance")
@@ -309,6 +324,7 @@ class Insured(models.Model):
 
     def __unicode__(self):
         return u"%s (%s)" % (self.insurance, self.nr)
+
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
@@ -327,6 +343,7 @@ class Address(models.Model):
 
         return u"%s %s" % (self.city_code, self.city)
 
+
 class Insurance(models.Model):
     name = models.CharField(max_length=255)
     is_blank = models.BooleanField(default=False)
@@ -341,11 +358,12 @@ class Insurance(models.Model):
     def __unicode__(self):
         return u"%s" % self.name
 
+
 class Prescription(models.Model):
     KINDS = (
-        ("e", "Erstverordnung"),
-        ("f", "Folgeverordnung"),
-        ("v", "Verordnung außerhalb des Regelfalls"),
+        ("e", u"Erstverordnung"),
+        ("f", u"Folgeverordnung"),
+        ("v", u"Verordnung außerhalb des Regelfalls"),
     )
 
     @classmethod

@@ -55,16 +55,29 @@
             }
         });
 
+        $("a[rel=print]").click(function() {
+            var win = window.open($(this).attr("href"));
+            win.print();
+
+            return false;
+        });
+
         $("button").each(function(index, btn) {
             btn = $(btn);
 
             var target = btn.attr("target");
+            var print = btn.attr("rel") === "print";
 
             if(target) {
                 btn.click(function(e) {
                     e.preventDefault();
 
-                    window.location.href = target;
+                    if(!print) {
+                        window.location.href = target;
+                    } else {
+                        var win = window.open(target);
+                        win.print();
+                    }
 
                     return false;
                 });
