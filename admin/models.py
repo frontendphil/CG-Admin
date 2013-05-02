@@ -15,9 +15,21 @@ def get(form, field, default=None):
     return form.get(field).value() or default
 
 
+def get_two_digit_number(number):
+    number = int(number)
+
+    if number < 10:
+        return "0%d" % number
+
+    return number
+
+
 def get_date_string(form):
-    return "%s.%s.%s" % (get(form, "day"),
-                         get(form, "month"),
+    day = get(form, "day")
+    month = get(form, "month")
+
+    return "%s.%s.%s" % (get_two_digit_number(day),
+                         get_two_digit_number(month),
                          get(form, "year"))
 
 
