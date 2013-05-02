@@ -5,18 +5,21 @@ from django.forms.util import ErrorList
 
 from models import Patient, Prescription, Doctor
 
+
 def xor(a, b):
     return (not not a) != (not not b)
+
 
 class CGForm(forms.Form):
     def get(self, field):
         return self[field]
 
+
 class PatientForm(CGForm):
     gender = forms.ChoiceField(widget=forms.Select, choices=Patient.GENDERS)
 
-    name = forms.CharField(widget=forms.TextInput(attrs={'class':'span4'}))
-    surname = forms.CharField(widget=forms.TextInput(attrs={'class':'span4'}))
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'span4'}))
+    surname = forms.CharField(widget=forms.TextInput(attrs={'class': 'span4'}))
 
     day = forms.IntegerField(widget=forms.TextInput(attrs={
         'class':'input-mini',
@@ -112,6 +115,9 @@ class PatientForm(CGForm):
         if xor(self["phone_office_code"].value(), self["phone_office_nr"].value()):
             self._errors["phone_office_code"] = ErrorList(u"Nummer unvollständig")
 
+            valid = False
+
+        if int(self['year'].value()) < 1900:
             valid = False
 
         return valid
