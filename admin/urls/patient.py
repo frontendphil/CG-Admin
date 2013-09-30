@@ -12,7 +12,7 @@ urlpatterns = patterns('admin.views.patient',
 
     url(r'^(?P<id>\d+)/prescription/(?P<pid>\d+)/template/$', 'show', name='prescription_template'),
     url(r'^(?P<id>\d+)/prescription/(?P<pid>\d+)/doc/$', 'show_doc', name='prescription_doc'),
-    url(r'^(?P<id>\d+)/prescription/', include("admin.urls.prescription")),
+    url(r'^(?P<id>\d+)/prescription/', include("admin.urls.prescription", namespace='prescription')),
 
     url(r'^add/$', 'add', name='add_patient'),
     url(r'^add/next/$', 'add', {"cont": True}, name="add_patient_next_step"),

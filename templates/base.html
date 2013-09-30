@@ -24,28 +24,28 @@
 
                 <div class="container">
                     <div class="row">
-                        <a href="{% url add_patient %}">
+                        <a href="{% url 'patient:add_patient' %}">
                             <div class="span3">
                                 <i class="icon icon-asterisk icon-large"></i>
                                 Neuen Patienten eintragen
                             </div>
                         </a>
 
-                        <a href="{% url search_patient %}">
+                        <a href="{% url 'search:search_patient' %}">
                             <div class="span3">
                                 <i class="icon icon-search icon-large"></i>
                                 Patienten suchen
                             </div>
                         </a>
 
-                        <a href="{% url search_docs %}">
+                        <a href="{% url 'search:search_docs' %}">
                             <div class="span3">
                                 <i class="icon icon-user-md icon-large"></i>
                                 &Auml;rzteverzeichnis
                             </div>
                         </a>
 
-                        <a href="{% url logout %}">
+                        <a href="{% url 'logout' %}">
                             <div class="span3">
                                 <i class="icon icon-signout icon-large"></i>
                                 Abmelden
@@ -62,7 +62,7 @@
                 <ul class="breadcrumb">
                     <li>
                         <i class="icon-home"></i>
-                        <a href="{% url index %}">Startseite</a>
+                        <a href="{% url 'index' %}">Startseite</a>
 
                         <span class="divider">/</span>
                     </li>

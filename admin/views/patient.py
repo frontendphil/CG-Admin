@@ -21,7 +21,7 @@ def add(request, cont=False):
             patient = Patient.from_form(form)
 
             if cont:
-                return redirect("add_prescription", id=patient.id)
+                return redirect("patient:add_prescription", id=patient.id)
 
             patient.dirty = False
             patient.save()
@@ -34,7 +34,7 @@ def add(request, cont=False):
             patient = None
 
         if patient:
-            return redirect("continue_patient", id=patient.id)
+            return redirect("patient:continue_patient", id=patient.id)
 
         form = PatientForm()
 
@@ -123,7 +123,7 @@ def edit(request, id):
             patient = Patient.from_form(form, patient=patient)
             patient.save()
 
-            return redirect("%s#%s" % (reverse("show_patient", args=(id,)), request.GET.get("forward", "")))
+            return redirect("%s#%s" % (reverse("patient:show_patient", args=(id,)), request.GET.get("forward", "")))
     else:
         form = PatientForm.from_patient(patient)
 
@@ -140,13 +140,13 @@ def delete(request, id):
     patient = get_object_or_404(Patient, pk=id)
     patient.delete()
 
-    return redirect(request.GET.get("forward", reverse("search_patient")))
+    return redirect(request.GET.get("forward", reverse("search:search_patient")))
 
 
 @require_login
 def list(request, query=None, page=1):
     if query and query == "None":
-        return redirect("list_patients_page", page=page)
+        return redirect("search:list_patients_page", page=page)
 
     if query:
         q = get_query(query, ["name", "surname", "address__street", "address__city", "birthday"])
@@ -171,6 +171,6 @@ def search(request):
     query = request.GET.get("query")
 
     if query:
-        return redirect("list_patients", query=query, page=1)
+        return redirect("search:list_patients", query=query, page=1)
 
-    return redirect("list_patients_page", page=1)
+    return redirect("search:list_patients_page", page=1)

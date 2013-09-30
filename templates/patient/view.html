@@ -27,7 +27,7 @@
     <header>
         <h1><small>{{ patient.get_gender }}</small>{{ patient }}</h1>
 
-        <form action="{% url delete_patient id=patient.id %}" rel="forward" method="post">
+        <form action="{% url 'patient:delete_patient' id=patient.id %}" rel="forward" method="post">
             {% csrf_token %}
 
             <div class="controls">
@@ -36,11 +36,11 @@
                     Zur&uuml;ck
                 </a>
                 <div class="btn-group">
-                    <button rel="print" class="btn" target="{% url print_patient id=patient.id%}">
+                    <button rel="print" class="btn" target="{% url 'patient:print_patient' id=patient.id%}">
                         <i class="icon-print"></i>
                         Drucken
                     </button>
-                    <button rel="forward" target="{% url edit_patient id=patient.id %}" class="btn">
+                    <button rel="forward" target="{% url 'patient:edit_patient' id=patient.id %}" class="btn">
                         <i class="icon-edit"></i>
                         Bearbeiten
                     </button>
@@ -105,7 +105,7 @@
                     </li>
                 {% endfor %}
                     <li>
-                        <a href="{% url show_patient id=patient.id %}" rel="forward">Weniger&hellip;</a>
+                        <a href="{% url 'patient:show_patient' id=patient.id %}" rel="forward">Weniger&hellip;</a>
                     </li>
             {% else %}
                 {% for prescription in patient.prescription_set|chronologic|first5 %}
@@ -115,7 +115,7 @@
                 {% endfor %}
                 {% if patient.prescription_set|count > 5 %}
                     <li>
-                        <a href="{% url show_patient_complete id=patient.id %}" rel="forward">Mehr&hellip;</a>
+                        <a href="{% url 'patient:show_patient_complete' id=patient.id %}" rel="forward">Mehr&hellip;</a>
                     </li>
                 {% endif %}
             {% endif %}
@@ -124,16 +124,16 @@
         <div class="tab-content">
             <div class="tab-pane active" id="new-prescription">
                 {% if prescription %}
-                    <form action="{% url add_prescription_template id=patient.id pid=prescription.id %}" rel="forward" method="post" class="form-horizontal">
+                    <form action="{% url 'patient:prescription:add_prescription_template' id=patient.id pid=prescription.id %}" rel="forward" method="post" class="form-horizontal">
                 {% else %}
-                    <form action="{% url add_prescription id=patient.id %}" rel="forward" method="post" class="form-horizontal">
+                    <form action="{% url 'patient:prescription:add_prescription' id=patient.id %}" rel="forward" method="post" class="form-horizontal">
                 {% endif %}
 
                     {% include "prescription/form.html" %}
 
                     <div class="form-actions">
                         <input type="submit" class="btn btn-success" value="Rezept eintragen" />
-                        <a href="{% url show_patient id=patient.id %}" rel="abort" class="btn" />Abbrechen</a>
+                        <a href="{% url 'patient:show_patient' id=patient.id %}" rel="abort" class="btn" />Abbrechen</a>
                     </div>
                 </form>
             </div>
@@ -147,12 +147,12 @@
                     <hr />
 
                     <footer>
-                        <form action="{% url delete_prescription id=patient.id pid=prescription.id %}" rel="forward" method="post">
+                        <form action="{% url 'patient:prescription:delete_prescription' id=patient.id pid=prescription.id %}" rel="forward" method="post">
                             {% csrf_token %}
 
                             <div class="controls">
                                 <div class="btn-group">
-                                    <button rel="print" target="{% url print_prescription id=patient.id pid=prescription.id %}" class="btn">
+                                    <button rel="print" target="{% url 'patient:prescription:print_prescription' id=patient.id pid=prescription.id %}" class="btn">
                                         <i class="icon-print"></i>
                                         Drucken
                                     </button>
@@ -161,16 +161,16 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a rel="print" href="{% url print_prescription_official id=patient.id pid=prescription.id %}">Inoffizielle Termine ausblenden</a>
+                                            <a rel="print" href="{% url 'patient:prescription:print_prescription_official' id=patient.id pid=prescription.id %}">Inoffizielle Termine ausblenden</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="btn-group">
-                                    <button target="{% url prescription_template id=patient.id pid=prescription.id %}" rel="abort" class="btn">
+                                    <button target="{% url 'patient:prescription_template' id=patient.id pid=prescription.id %}" rel="abort" class="btn">
                                         <i class="icon-file"></i>
                                         Als Vorlage verwenden
                                     </button>
-                                    <button target="{% url edit_prescription id=patient.id pid=prescription.id %}" rel="forward" class="btn">
+                                    <button target="{% url 'patient:prescription:edit_prescription' id=patient.id pid=prescription.id %}" rel="forward" class="btn">
                                         <i class="icon-edit"></i>
                                         Bearbeiten
                                     </button>

@@ -12,8 +12,8 @@ def index(request):
     now = date.today()
     patients = Patient.objects.filter(birthday__day=now.day, birthday__month=now.month)
 
-    return render_to_response("index.html", 
-                              locals(), 
+    return render_to_response("index.html",
+                              locals(),
                               context_instance=RequestContext(request))
 
 
@@ -22,8 +22,8 @@ def verify(request, patient, prescription=0):
     try:
         patient = Patient.objects.get(pk=patient)
     except Patient.DoesNotExist:
-        return redirect("add_patient")
-    
+        return redirect("patient:add_patient")
+
     try:
         prescription = Prescription.objects.get(pk=prescription)
     except Prescription.DoesNotExist:

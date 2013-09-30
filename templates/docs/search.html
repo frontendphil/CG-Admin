@@ -15,7 +15,7 @@
 
 {% block content %}
 
-    <form action="{% url search_docs %}" method="get" class="form-search">
+    <form action="{% url 'search:search_docs' %}" method="get" class="form-search">
         <div class="input-append centered">
             <input type="text" name="query" class="input-xxlarge search-query" value="{{ query|default:"" }}" placeholder="Suchen Sie hier nach &Auml;rzten im Verzeichnis..." />
             <button type="submit" class="btn">Suchen</button>
@@ -27,17 +27,31 @@
     {% if paginator.num_pages > 1 %}
         <div class="pagination pagination-centered">
             <ul>
-                <li {% if not docs.has_previous %}class="disabled"{% endif %}>
-                    <a href="{% url list_docs query=query page=docs.previous_page_number %}">&laquo;</a>
-                </li>
+                {% if docs.has_previous %}
+                    <li>
+                        <a href="{% url 'search:list_docs' query=query page=docs.previous_page_number %}">&laquo;</a>
+                    </li>
+                {% else %}
+                    <li class="disabled">
+                        <a href="#">&laquo;</a>
+                    </li>
+                {% endif %}
+
                 {% for i in paginator.num_pages|get_natural_range %}
                     <li {% if i == docs.number %}class="active"{% endif %}>
-                        <a href="{% url list_docs query=query page=i %}">{{ i }}</a>
+                        <a href="{% url 'search:list_docs' query=query page=i %}">{{ i }}</a>
                     </li>
                 {% endfor %}
-                <li {% if not docs.has_next %}class="disabled"{% endif %}>
-                    <a href="{% url list_docs query=query page=docs.next_page_number %}">&raquo;</a>
-                </li>
+
+                {% if docs.has_next %}
+                    <li>
+                        <a href="{% url 'search:list_docs' query=query page=docs.next_page_number %}">&raquo;</a>
+                    </li>
+                {% else %}
+                    <li class="disabled">
+                        <a href="#">&raquo;</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     {% endif %}
@@ -57,7 +71,7 @@
                 <tr {% if doc.is_incomplete %}class="warning"{% endif %}>
                     <td>
                         <i class="icon-edit"></i>
-                        <a href="{% url edit_doc doc.id %}#{% url list_docs query=query page=page %}">
+                        <a href="{% url 'docs:edit_doc' doc.id %}#{% url 'search:list_docs' query=query page=page %}">
                             {{ doc.name }}
                         </a>
                     </td>
@@ -65,7 +79,7 @@
                     <td>{{ doc.phone }}</td>
                     <td>{{ doc.address }}</td>
                     <td>
-                        <form action="{% url delete_doc id=doc.id %}" method="post">
+                        <form action="{% url 'docs:delete_doc' id=doc.id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" warning="Soll der Arzt {{ doctor }} wirklich gelöscht werden?" class="btn btn-link">
                                 <i class="icon-remove"></i>
@@ -81,17 +95,31 @@
     {% if paginator.num_pages > 1 %}
         <div class="pagination pagination-centered">
             <ul>
-                <li {% if not docs.has_previous %}class="disabled"{% endif %}>
-                    <a href="{% url list_docs query=query page=docs.previous_page_number %}">&laquo;</a>
-                </li>
+                {% if docs.has_previous %}
+                    <li>
+                        <a href="{% url 'search:list_docs' query=query page=docs.previous_page_number %}">&laquo;</a>
+                    </li>
+                {% else %}
+                    <li class="disabled">
+                        <a href="#">&laquo;</a>
+                    </li>
+                {% endif %}
+
                 {% for i in paginator.num_pages|get_natural_range %}
                     <li {% if i == docs.number %}class="active"{% endif %}>
-                        <a href="{% url list_docs query=query page=i %}">{{ i }}</a>
+                        <a href="{% url 'search:list_docs' query=query page=i %}">{{ i }}</a>
                     </li>
                 {% endfor %}
-                <li {% if not docs.has_next %}class="disabled"{% endif %}>
-                    <a href="{% url list_docs query=query page=docs.next_page_number %}">&raquo;</a>
-                </li>
+
+                {% if docs.has_next %}
+                    <li>
+                        <a href="{% url 'search:list_docs' query=query page=docs.next_page_number %}">&raquo;</a>
+                    </li>
+                {% else %}
+                    <li class="disabled">
+                        <a href="#">&raquo;</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     {% endif %}

@@ -15,15 +15,15 @@ def search(request):
     query = request.GET.get("query")
 
     if query:
-        return redirect("list_docs", query=query, page=1)
+        return redirect("search:list_docs", query=query, page=1)
 
-    return redirect("list_docs_page", page=1)
+    return redirect("search:list_docs_page", page=1)
 
 
 @require_login
 def list(request, query=None, page=1):
     if query and query == "None":
-        return redirect("list_docs_page", page=page)
+        return redirect("search:list_docs_page", page=page)
 
     if query:
         q = get_query(query, ["name", "key", "address__street", "address__city"])
@@ -61,7 +61,7 @@ def delete(request, id):
     doctor = get_object_or_404(Doctor, pk=id)
     doctor.delete()
 
-    return redirect("search_docs")
+    return redirect("search:search_docs")
 
 
 @require_login
@@ -74,7 +74,7 @@ def edit(request, id):
         if form.is_valid():
             Doctor.from_form(form, doc)
 
-            return redirect(request.GET.get("forward", reverse("search_docs")))
+            return redirect(request.GET.get("forward", reverse("search:search_docs")))
     else:
         form = DoctorForm.from_doctor(doc)
 

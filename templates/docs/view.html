@@ -8,7 +8,7 @@
     </li>
     <li>
         <i class="icon-user"></i>
-        <a href="{% url show_patient id=patient.id %}" rel="forward">{{ patient }}</a>
+        <a href="{% url 'patient:show_patient' id=patient.id %}" rel="forward">{{ patient }}</a>
         <span class="divider">/</span>
     </li>
     <li class="active">
@@ -23,7 +23,7 @@
         <h1>{{ doctor.name }}</h1>
 
         <div class="controls">
-            <a rel="forward" href="{% url show_patient id=patient.id %}" class="btn">
+            <a rel="forward" href="{% url 'patient:show_patient' id=patient.id %}" class="btn">
                 <i class="icon-arrow-left"></i>
                 Zur&uuml;ck
             </a>

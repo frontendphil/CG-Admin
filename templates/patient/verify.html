@@ -76,9 +76,9 @@
     <hr />
 
     {% if prescription %}
-        <form action="{% url save_all id=patient.id pid=prescription.id %}" method="post">
+        <form action="{% url 'patient:save_all' id=patient.id pid=prescription.id %}" method="post">
     {% else %}
-        <form action="{% url save_patient id=patient.id %}" method="post">
+        <form action="{% url 'patient:save_patient' id=patient.id %}" method="post">
     {% endif %}
 
         {% csrf_token %}

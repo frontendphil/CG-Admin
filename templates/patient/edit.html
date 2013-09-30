@@ -8,7 +8,7 @@
     </li>
     <li>
         <i class="icon-user"></i>
-        <a rel="forward" href="{% url show_patient id=patient.id %}">{{ patient }}</a>
+        <a rel="forward" href="{% url 'patient:show_patient' id=patient.id %}">{{ patient }}</a>
         <span class="divider">/</span>
     </li>
     <li class="active">
@@ -27,13 +27,13 @@
 
 {% block content %}
 
-    <form action="{% url edit_patient id=patient.id %}" rel="forward" method="post" class="form-horizontal">
+    <form action="{% url 'patient:edit_patient' id=patient.id %}" rel="forward" method="post" class="form-horizontal">
 
         {% include "patient/form.html" %}
 
         <div class="form-actions">
             <input type="submit" class="btn btn-success" value="Speichern" />
-            <a rel="abort" href="{% url show_patient id=patient.id %}" class="btn">Abbrechen</a>
+            <a rel="abort" href="{% url 'patient:show_patient' id=patient.id %}" class="btn">Abbrechen</a>
         </div>
 
     </form>

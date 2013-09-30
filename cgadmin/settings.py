@@ -16,7 +16,7 @@ PDF_TPL_PATH = "%s/templates/pdf" % PROJECT_PATH
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'cgphysio.db',                      # Or path to database file if using sqlite3.
+        'NAME': '%s/cgphysio.db' % PROJECT_PATH,                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -64,7 +64,7 @@ STATIC_ROOT = "%s/static" % PROJECT_PATH
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static'
+STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -152,6 +152,6 @@ LOGGING = {
 }
 
 try:
-    import local_settings
+    from local_settings import *
 except ImportError:
     pass

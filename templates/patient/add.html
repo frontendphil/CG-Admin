@@ -35,8 +35,8 @@
         {% include "patient/form.html" %}
 
         <div class="form-actions">
-            <input type="submit" target="{% url add_patient_next_step %}" class="btn btn-success" value="Speichern und weiter..." />
-            <input type="button" target="{% url add_patient %}" class="btn" value="Nur speichern" />
+            <input type="submit" target="{% url 'patient:add_patient_next_step' %}" class="btn btn-success" value="Speichern und weiter..." />
+            <input type="button" target="{% url 'patient:add_patient' %}" class="btn" value="Nur speichern" />
         </div>
 
     </form>

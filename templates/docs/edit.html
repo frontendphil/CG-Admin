@@ -18,7 +18,7 @@
 
 {% block content %}
 
-    <form action="{% url edit_doc id=doc.id %}" rel="forward" method="post" class="form-horizontal">
+    <form action="{% url 'docs:edit_doc' id=doc.id %}" rel="forward" method="post" class="form-horizontal">
         {% include "docs/form.html" %}
 
         <div class="form-actions">

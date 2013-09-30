@@ -18,7 +18,7 @@
                     <h3>Neuer Patient</h3>
                     <p>Tragen Sie einen neuen Patienten oder ein neues Rezept ein.</p>
                     <p>
-                        <a class="btn btn-success" href="{% url add_patient %}">Patienten eintragen</a>
+                        <a class="btn btn-success" href="{% url 'patient:add_patient' %}">Patienten eintragen</a>
                     </p>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                     <h3>Patienten suchen</h3>
                     <p>Finden Sie schnell und einfach einen Patienten.</p>
                     <p>
-                        <a class="btn" href="{% url search_patient %}">
+                        <a class="btn" href="{% url 'search:search_patient' %}">
                             <i class="icon-search"></i>
                             Suchen
                         </a>
@@ -45,7 +45,7 @@
                     <h3>&Auml;rzteverzeichnis</h3>
                     <p>Suchen und verwalten Sie die Liste aller &Auml;rzte Ihrer Patienten.</p>
                     <p>
-                        <a class="btn" href="{% url search_docs %}">&Auml;rzte verwalten</a>
+                        <a class="btn" href="{% url 'search:search_docs' %}">&Auml;rzte verwalten</a>
                     </p>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                 <hr />
                 <div class="patients">
                     {% for patient in patients %}
-                        <p class="patient"><a href="{% url show_patient id=patient.id %}#{% url index %}">{{ patient }}</a> <small>({{ patient.get_birthday }})</smalL></p>
+                        <p class="patient"><a href="{% url 'patient:show_patient' id=patient.id %}#{% url 'index' %}">{{ patient }}</a> <small>({{ patient.get_birthday }})</smalL></p>
                     {% endfor %}
                 </div>
             </div>
