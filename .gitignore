@@ -3,8 +3,5 @@
 *.pyc
 local_settings.py
 .DS_Store
-*.css
-static/
-!admin/static/
 *.db
 *.json

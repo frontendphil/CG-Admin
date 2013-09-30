@@ -96,7 +96,7 @@ class PatientForm(CGForm):
         valid = True
 
         if not super(PatientForm, self).is_valid():
-            valid = False
+            return False
 
         if not (self["state"].value() in Patient.STATE_PRIVATE or self["state"].value() in Patient.STATE_BG):
             if self["insurance_name"].value() == "":
@@ -110,15 +110,15 @@ class PatientForm(CGForm):
         if xor(self["phone_private_code"].value(), self["phone_private_nr"].value()):
             self._errors["phone_private_code"] = ErrorList(u"Nummer unvollständig")
 
-            valid = False
+            return False
 
         if xor(self["phone_office_code"].value(), self["phone_office_nr"].value()):
             self._errors["phone_office_code"] = ErrorList(u"Nummer unvollständig")
 
-            valid = False
+            return False
 
         if int(self['year'].value()) < 1900:
-            valid = False
+            return False
 
         return valid
 
